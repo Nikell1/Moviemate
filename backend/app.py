@@ -5,7 +5,7 @@ import os
 app = FastAPI()
 
 
-app.include_router(authorization_router, prefix="/clients", tags=["Clients"])
+app.include_router(authorization_router, prefix="/auth", tags=["Auth"])
 
 
 if __name__ == "__main__":

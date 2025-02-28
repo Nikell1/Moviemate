@@ -22,13 +22,12 @@ class DatabaseAdapter:
             raise
     def initialize_tables(self) -> None:
         table_definitions = {
-            "clients": """
-                CREATE TABLE IF NOT EXISTS clients (
-                    client_id VARCHAR(100) UNIQUE NOT NULL,
-                    login VARCHAR(100) NOT NULL,
-                    age INT NOT NULL,
-                    location VARCHAR(255) NOT NULL,
-                    gender VARCHAR(10) NOT NULL 
+            "users": """
+                CREATE TABLE IF NOT EXISTS users (
+                    email VARCHAR(200) UNIQUE NOT NULL,
+                    login VARCHAR(100) UNIQUE NOT NULL,
+                    password VARCHAR(255) NOT NULL,
+                    token VARCHAR(255)
                 );
             """
         }
