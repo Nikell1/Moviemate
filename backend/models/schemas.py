@@ -13,9 +13,10 @@ class Register(BaseModel):
     login: str
 
 class Film(BaseModel):
-    name: str
+    title: str
     description: str
-    year: int
+    date: str
+    image_url:str
 
 class Film_to_front(BaseModel):
     title:str
