@@ -16,9 +16,10 @@ build_back:
   stage: build_back
   image: docker:latest
   services:
-    - docker:dind
+    - name: docker:dind
+      alias: docker
   variables:
-    DOCKER_HOST: tcp://thedockerhost:2375/
+    DOCKER_HOST: "tcp://docker:2375"
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
   script:
@@ -39,9 +40,10 @@ build_front:
   stage: build_front
   image: docker:latest
   services:
-    - docker:dind
+    - name: docker:dind
+      alias: docker
   variables:
-    DOCKER_HOST: tcp://thedockerhost:2375/
+    DOCKER_HOST: "tcp://docker:2375"
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
   script:
