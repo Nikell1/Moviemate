@@ -1,0 +1,18 @@
+- name: Pull repo and recreate docker container
+  hosts: all
+  tasks:
+    - name: Pull changes from git repository
+      git:
+        repo: https://gitlab.prodcontest.ru/team-24/films.git
+        dest: /home/ubuntu/projects/films
+        version: master
+
+    - name: Build Docker image
+      command: docker build -t backend_films_project:master /home/ubuntu/films/backend
+
+    - name: Stop old container
+      command: docker compose -f /home/ubuntu/films down --remove-orphans
+
+    - name: Run docker-compose up
+      command: docker compose -f /home/ubuntu/films/docker-compose.yml up -d --force-recreate
+

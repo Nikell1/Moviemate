@@ -12,9 +12,7 @@ services:
       - POSTGRES_PASSWORD=1234
 
   app_api:
-    build:
-        context: .
-        dockerfile: Dockerfile
+    image: backend_films_project:master
     container_name: app_api
     environment:
       - FASTAPI_HOST=0.0.0.0
@@ -32,6 +30,3 @@ services:
       - 8000:8000
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    depends_on:
-      - postgresql
-      - redis
