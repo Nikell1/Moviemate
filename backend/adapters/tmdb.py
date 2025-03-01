@@ -26,19 +26,18 @@ async def search_multi(query:str, include_adult:bool=False, language:str="ru-RU"
 
     if limit >= response["total_results"] or limit == -1:
         limit = response["total_results"]
-
+    
     new_results = []
-
     for i in range(limit):
         c_res = response["results"][i]
-        print(c_res)
+        # print(c_res)
         none_keys = []
         for param in c_res.keys():
             if c_res[param] == None:
                 none_keys.append(param)
         for i in none_keys:
             del c_res[i]
-        print(c_res)
+        # print(c_res)
         if c_res["media_type"] == "tv":
             new_results.append(TMDB.TMDBobject_TV(**c_res))
         elif c_res["media_type"] == "movie":

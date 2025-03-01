@@ -51,7 +51,7 @@ async def get_movie_by_screenshot(file: UploadFile):
     }],
         
 
-        timeout=120, # in secs
+        timeout=10, # in secs
     )
     os.remove(file_location)
 

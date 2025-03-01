@@ -22,7 +22,6 @@ async def get_films(token:str = Security(Bear)):
         raise HTTPException(status_code=404, detail="User with this email does not exists")
     films = adapter.get_by_value('films_to_users', 'email', user["email"])
     result = []
-    print(await get_by_id(2))
     for i in range(len(films)):
         print(films[i]["media_id"])
         film =  await get_by_id(films[i]["media_id"],films[i]["media_type"] )

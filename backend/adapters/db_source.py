@@ -48,6 +48,13 @@ class DatabaseAdapter:
                     media_type VARCHAR(200),
                     watched BOOLEAN DEFAULT false
                 );
+            """,
+            "collections": """
+                CREATE TABLE IF NOT EXISTS collections (
+                    id SERIAL PRIMARY KEY,
+                    email VARCHAR(200) NOT NULL,
+                    collection_name VARCHAR(200)
+                );
             """
         }
 
