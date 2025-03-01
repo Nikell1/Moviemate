@@ -61,8 +61,7 @@ build-send_front:
     - docker info
     - docker build -t $FRONT_DOCKER_IMAGE ./frontend
     - docker save -o $FRONT_DOCKER_TAR $FRONT_DOCKER_IMAGE
-    - gzip $FRONT_DOCKER_TAR
-    - rsync -avz -e "ssh -p $SSH_PORT -o StrictHostKeyChecking=no" $FRONT_DOCKER_TAR.gz $ENV_SSH_USER@$ENV_SSH_HOST:$REMOTE_DIR/
+    - rsync -avz -e "ssh -p $SSH_PORT -o StrictHostKeyChecking=no" $FRONT_DOCKER_TAR $ENV_SSH_USER@$ENV_SSH_HOST:$REMOTE_DIR/
   only:
     - master
 
@@ -78,7 +77,6 @@ deploy:
     - chmod 600 ~/.ssh/id_rsa
     - ssh-keyscan -H $ENV_SSH_HOST >> ~/.ssh/known_hosts
   script:
-
     - rsync -avz -e "ssh -p $SSH_PORT -o StrictHostKeyChecking=no" docker-compose.yml $ENV_SSH_USER@$ENV_SSH_HOST:$REMOTE_DIR/
     - ssh -p $SSH_PORT -o StrictHostKeyChecking=no $ENV_SSH_USER@$ENV_SSH_HOST "cd $REMOTE_DIR && docker load -i backend.tar && docker load -i frontend.tar && docker compose down && docker compose up -d --force-recreate"
   only:
