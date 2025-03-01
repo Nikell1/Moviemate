@@ -29,6 +29,21 @@ class DatabaseAdapter:
                     password VARCHAR(255) NOT NULL,
                     token VARCHAR(255)
                 );
+            """,
+            "films": """
+                CREATE TABLE IF NOT EXISTS films (
+                    id SERIAL PRIMARY KEY,
+                    name VARCHAR(200) UNIQUE NOT NULL,
+                    description VARCHAR(500) UNIQUE,
+                    year INTEGER
+                );
+            """,
+            "films_to_users": """
+                CREATE TABLE IF NOT EXISTS films_to_users (
+                    id SERIAL PRIMARY KEY,
+                    email VARCHAR(200) UNIQUE NOT NULL,
+                    film_id INTEGER NOT NULL
+                );
             """
         }
 
