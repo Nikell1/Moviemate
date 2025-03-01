@@ -12,3 +12,7 @@ class Register(BaseModel):
     password: str
     login: str
 
+class Film(BaseModel):
+    name: str
+    description: str
+    year: int

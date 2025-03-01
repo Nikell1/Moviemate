@@ -1,0 +1,4 @@
+fastapi
+uvicorn
+pydantic
+bcrypt-4.3.0
