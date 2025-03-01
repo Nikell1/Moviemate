@@ -17,7 +17,7 @@ export function signupHtml() {
             </div>
             <p id="message"></p>
             <button type="submit" class="login__button" id="submitBtn">Sign up</button>
-            <p class="message">Already have an account <button type="reset" id="signupBtn1">log in</button></p>
+            <p class="message">Already have an account <button type="reset" id="loginBtn">log in</button></p>
         </form>
     </div>
     <button class="login__close" id="close"></button>
