@@ -18,17 +18,18 @@ deploy:
     - apt install -y ansible openssh-client
     # Set up SSH
     - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - echo "$ENV_PRIVATE_KEY_BASE64" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
     # Create inventory file
-    - echo "prod-team-24-jhaklm26.final.prodcontest.ru:22" > inventory.ini
+    - echo "ENV_SSH_HOST:22" > inventory.ini
   script:
     - export ANSIBLE_HOST_KEY_CHECKING=False
-    - ansible-playbook -i inventory.ini playbooks/deploy_playbook.yml -u $ANSIBLE_USER
+    - ansible-playbook -i inventory.ini playbooks/deploy_playbook.yml -u $ENV_SSH_USER
   variables:
     # Define your variables in GitLab CI/CD Settings > Variables
-    SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY
-    SSH_HOST: prod-team-24-jhaklm26.final.prodcontest.ru
+    SSH_PRIVATE_KEY: $ENV_PRIVATE_KEY_BASE64
+    SSH_HOST: $ENV_SSH_HOST
     SSH_PORT: 22
-    ANSIBLE_USER: ubuntu
+    ANSIBLE_USER: $ENV_SSH_USER
+
