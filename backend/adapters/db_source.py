@@ -42,8 +42,10 @@ class DatabaseAdapter:
             "films_to_users": """
                 CREATE TABLE IF NOT EXISTS films_to_users (
                     id SERIAL PRIMARY KEY,
-                    email VARCHAR(200) UNIQUE NOT NULL,
-                    film_id INTEGER NOT NULL
+                    email VARCHAR(200) NOT NULL,
+                    media_id INTEGER NOT NULL,
+                    collection VARCHAR(200),
+                    media_type VARCHAR(200)
                 );
             """
         }
