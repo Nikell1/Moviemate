@@ -12,7 +12,7 @@ import httpx
 load_dotenv()
 proxies = {
     "http://": "socks5://77.81.138.114:6000",
-    "https://": "socks5://77.81.138.114:6000"
+    "https://": "socks5://77.81.138.114:6000",
 }
 
 headers = {
