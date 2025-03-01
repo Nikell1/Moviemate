@@ -6,7 +6,7 @@ export function renderHomeBtn() {
     const signupBtn1 = document.getElementById('signupBtn1')
     const signupBtn2 = document.getElementById('signupBtn2')
 
-    loginBtn.onclick = () => functions.transition(consts.loginHash)
-    signupBtn1.onclick = () => functions.transition(consts.regHash)
-    signupBtn2.onclick = () => functions.transition(consts.regHash)
+    loginBtn.onclick = () => functions.transition(consts.loginSearch)
+    signupBtn1.onclick = () => functions.transition(consts.regSearch)
+    signupBtn2.onclick = () => functions.transition(consts.regSearch)
 }

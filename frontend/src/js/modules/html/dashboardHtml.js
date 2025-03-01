@@ -9,12 +9,6 @@ export function dashboardHtml() {
             </button>
         </nav> 
         <div id="dashboardContent">
-            <div class="dashboard__botBtns">
-                <button id="movies">Your movies</button>
-                <button id="collections">Collections</button>
-                <button id="friends">Friends</button>
-                <button id="search">Search</button>
-            </div>
         </div>
     </div>
     <div class="sidebar" id="sidebar"></div>
@@ -39,16 +33,25 @@ export function renderMoviesHtml(element) {
 
 export function showMoviesHtml() {
     const dashboardContent = document.getElementById('dashboardContent')
-    dashboardContent.insertAdjacentHTML('beforebegin',`
+    dashboardContent.innerHTML = `
         <div class="dashboard__block">
             <h1>Your movie <span>dashboard</span></h1>
             <div class="dashboard__rightBtns">
                 <button>Add movie</button>
                 <button>New collection</button>
             </div>
-        </div>`)
-    
-    dashboardContent.insertAdjacentHTML('beforeend', `
+        </div>
+        <div class="dashboard__botBtns">
+            <button id="movies">Your movies</button>
+            <button id="collections">Collections</button>
+            <button id="friends">Friends</button>
+            <button id="search">Search</button>
+        </div>
         <ul class="movies-list" id="moviesList"></ul>
-        <button class="fixBtn">GET A MOVIE</button>`)
+        <button class="fixBtn">GET A MOVIE</button>`
+
+}
+
+export function showCollectionsHtml() {
+    
 }
