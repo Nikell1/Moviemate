@@ -1,13 +1,25 @@
 .dashboard {
     font-family: $text-font;
     max-width: 1920px;
-    padding:50px 100px; 
+    padding:30px 100px; 
     margin: auto;
     &__profile {
-        border-radius:50%;
-        width:50px;
-        height:50px;
-        background: #fff;
+        cursor:pointer;
+        background: none;
+        display:flex;
+        flex-direction: column;
+        div {
+            border-radius:50%;
+            width:50px;
+            height:50px;
+            background: #fff;
+            display:flex;
+            margin:auto;
+        }
+        span {
+            display:inline-block;
+            margin-top:5px;
+        }
     }
     &__block {
         display:flex;
@@ -18,13 +30,19 @@
         h1 {
             font-family: $accent-font;
         }
+        span {
+            color: $main-color;
+        }
     }
     &__nav {
-        margin-bottom:100px;
+        margin-bottom:70px;
         display:flex;
         justify-content: space-between;
         font-family: $text-font;
         font-size:2rem;
+        .logo {
+            transform: translateY(20px)
+        }
     }
     &__rightBtns {
         display:flex;
@@ -48,6 +66,10 @@
             background: none;
             border-bottom: 1px solid rgba(0, 0, 0, 0);
             font-size:2rem;
+            transition: all 0.3s;
+        }
+        button:hover {
+            border-bottom: 1px solid #fff;
         }
     }
 }
@@ -134,5 +156,6 @@
     position:fixed;
     right:0;
     top:0;
-    transform: translateX(400px)
+    transform: translateX(400px);
+    transition: all 0.3s;
 }
