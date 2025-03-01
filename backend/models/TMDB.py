@@ -37,4 +37,5 @@ class TMDBobject_Short(BaseModel):
     poster_path:str
     overview:str
     release_date:str
+    id:int
     media_type:str
