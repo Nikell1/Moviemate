@@ -54,6 +54,7 @@ async def search_multi_short(query:str, include_adult:bool=False, language:str="
         if c_res["media_type"] == "tv":
             cooked = {
                 "title": c_res["name"],
+                "poster_path": c_res["poster_path"],
                 "overview": c_res["overview"],
                 "release_date": c_res["first_air_date"],
                 "media_type": "tv"
@@ -63,6 +64,7 @@ async def search_multi_short(query:str, include_adult:bool=False, language:str="
         elif c_res["media_type"] == "movie":
             cooked = {
                 "title": c_res["title"],
+                "poster_path": c_res["poster_path"],
                 "overview": c_res["overview"],
                 "release_date": c_res["release_date"],
                 "media_type": "movie"
@@ -78,7 +80,7 @@ async def search_multi_short(query:str, include_adult:bool=False, language:str="
     return response
 
 
-sigma = asyncio.run(search_multi_short("Интерстелар"))
+sigma = asyncio.run(search_multi_short("Чбд"))
 print(sigma)
 
 
