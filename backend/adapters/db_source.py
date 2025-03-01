@@ -45,7 +45,8 @@ class DatabaseAdapter:
                     email VARCHAR(200) NOT NULL,
                     media_id INTEGER NOT NULL,
                     collection VARCHAR(200),
-                    media_type VARCHAR(200)
+                    media_type VARCHAR(200),
+                    watched BOOLEAN DEAFULT False
                 );
             """
         }
