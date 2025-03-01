@@ -26,5 +26,13 @@ async def create_media(body: Film,token:str = Security(Bear)):
         "date": body.date,
         "image_url": body.image_url
     })
+    films = adapter.get_by_value('films', 'title', body.title)[0]
+    film_id = -1 * films["id"]
+    adapter.insert('films_to_users', {
+        'email': user["email"],
+        'media_id':  film_id,
+        "collection": None,
+        "media_type": "movie"
+    })
     return {"success": True}
 

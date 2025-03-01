@@ -39,7 +39,7 @@ class DatabaseAdapter:
                     id SERIAL PRIMARY KEY,
                     title VARCHAR(200) UNIQUE NOT NULL,
                     description VARCHAR(500) UNIQUE,
-                    year INTEGER,
+                    date VARCHAR(200),
                     image_url VARCHAR(200)
                 );
             """,
