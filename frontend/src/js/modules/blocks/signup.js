@@ -4,12 +4,14 @@ import * as consts from "../consts.js"
 
 export function renderSignup() {
     const closeBtn = document.getElementById('close')
-    closeBtn.onclick = () => transition(consts.homeHash)
     const signForm = document.getElementById('signForm')
+    const loginBtn = document.getElementById('loginBtn')
     const login = document.getElementById('login')
     const password = document.getElementById('password')
     const email = document.getElementById('email')
 
+    closeBtn.onclick = () => transition(consts.homeHash)
+    loginBtn.onclick = () => transition(consts.loginHash)
     signForm.addEventListener('submit', (event) => {
         event.preventDefault();
         console.log('считывание данных рега')
@@ -38,6 +40,7 @@ export function renderSignup() {
                 const data = await response.json();
                 console.log(data)
                 console.log('Токен:', data.token); // Предполагается, что сервер возвращает токен в поле "token"
+                localStorage.setItem("token", data.token)
                 return data.token;
             } catch (error) {
                 console.error('Ошибка при авторизации пользователя:', error);
@@ -45,8 +48,8 @@ export function renderSignup() {
         }
         
         // Пример вызова функции
-        console.log(login.textContent, password.textContent)
-        logInUser(email.textContent, password.textContent, login.textContent);
+        console.log(login.value, 1, password.innerText)
+        logInUser(email.value, password.value, login.value);
         
     })
     
