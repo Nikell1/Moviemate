@@ -33,7 +33,9 @@ class TMDBobject_Movie(BaseModel):
     vote_count:int = 0.0
 
 class TMDBobject_Short(BaseModel):
-    title:str = ""
+    title:str
+    poster_path:str
     overview:str
     release_date:str
+    id:int
     media_type:str

@@ -1,27 +1,25 @@
 import { transition } from "../functions.js"
 import * as consts from "../consts.js"
-import * as functions from "../functions.js"
 
 
-export function renderLogin() {
+export function renderSignup() {
     const closeBtn = document.getElementById('close')
-    const signupBtn1 = document.getElementById('signupBtn1')
+    closeBtn.onclick = () => transition(consts.homeHash)
     const signForm = document.getElementById('signForm')
     const login = document.getElementById('login')
     const password = document.getElementById('password')
+    const email = document.getElementById('email')
 
-    closeBtn.onclick = () => transition(consts.homeHash)
-    signupBtn1.onclick = () => functions.transition(consts.regHash)
     signForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        console.log('считывание данных логина')
-
-        async function logInUser(email, password) {
-            const url = 'http://localhost:8000/auth/login'; // Замените на ваш URL FastAPI сервера
+        console.log('считывание данных рега')
+        async function logInUser(email, password, login) {
+            const url = 'http://localhost:8000/auth/register'; // Замените на ваш URL FastAPI сервера
         
             const requestBody = {
                 email: email,
-                password: password
+                password: password,
+                login: login
             };
         
             try {
@@ -48,7 +46,8 @@ export function renderLogin() {
         
         // Пример вызова функции
         console.log(login.textContent, password.textContent)
-        logInUser(login.textContent, password.textContent,);
+        logInUser(email.textContent, password.textContent, login.textContent);
         
     })
+    
 }
