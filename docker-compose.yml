@@ -12,21 +12,21 @@ services:
       - POSTGRES_PASSWORD=1234
 
   app_api:
-    image: backend_films_project:master
-    container_name: app_api
+    image: backend:master
+    container_name: backend_container
     environment:
-      - FASTAPI_HOST=0.0.0.0
-      - FASTAPI_PORT=8000
-      
-      - POSTGRES_HOST=host.docker.internal
-      - POSTGRES_PORT=5432 #!
-      - POSTGRES_DATABASE=db
-      - POSTGRES_USERNAME=admin
-      - POSTGRES_PASSWORD=supersecret_password
-      
-      - REDIS_HOST=host.docker.internal
-      - REDIS_PORT=6379 #!
+      - TESTENV = "proood"
     ports:
       - 8000:8000
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  app_frontend:
+    image: frontend:master
+    container_name: frontend_container
+    environment:
+      - TESTENV = "proood"
+    ports:
+      - 3000:3000
     extra_hosts:
       - "host.docker.internal:host-gateway"
