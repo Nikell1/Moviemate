@@ -35,8 +35,8 @@ function showDashboard() {
 export function showBlocks() {
     let url = new URL(window.location.href)
 
-    if (url.hash == `#${consts.homeHash}`) {showHome()}
-    if(url.hash == `#${consts.loginHash}`) {showLogin()}
-    if(url.hash == `#${consts.regHash}`) {showSignUp()}
-    if (url.hash == `#${consts.dashboardHash}`) {showDashboard()}
+    if (url.search == `?${consts.homeSearch}`) {showHome()}
+    if(url.search == `?${consts.loginSearch}`) {showLogin()}
+    if(url.search == `?${consts.regSearch}`) {showSignUp()}
+    if (url.search == `?${consts.dashboardSearch}`) {showDashboard()}
 }

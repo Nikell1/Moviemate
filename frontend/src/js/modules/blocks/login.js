@@ -10,8 +10,8 @@ export function renderLogin() {
     const login = document.getElementById('login')
     const password = document.getElementById('password')
 
-    closeBtn.onclick = () => transition(consts.homeHash)
-    signupBtn1.onclick = () => functions.transition(consts.regHash)
+    closeBtn.onclick = () => transition(consts.homeSearch)
+    signupBtn1.onclick = () => functions.transition(consts.regSearch)
     signForm.addEventListener('submit', (event) => {
         event.preventDefault();
         console.log('считывание данных логина')
