@@ -29,11 +29,7 @@ async def get_short_film():
 
 @app.get("/api/user/collection")
 async def collection():
-
-    return
     return ""
-
-    return
 
 if __name__ == "__main__":
     host, port = 'localhost', '8000'
