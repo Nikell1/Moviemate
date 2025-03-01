@@ -11,10 +11,15 @@ variables:
   SSH_PORT: "22"
   REMOTE_DIR: "/home/ubuntu/projects/films"
 
-# Сборка Docker-образа для бэкенда
-build_back:
+build-send_back:
   stage: build_back
   image: docker:latest
+  before_script:
+    - apk add --no-cache openssh-client rsync
+    - mkdir -p ~/.ssh
+    - echo "$ENV_PRIVATE_KEY_BASE64" | base64 -d > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan -H $ENV_SSH_HOST >> ~/.ssh/known_hosts
   services:
     - name: docker:dind
       alias: docker
@@ -24,22 +29,25 @@ build_back:
     DOCKER_TLS_CERTDIR: ""
   script:
     - echo "Waiting for Docker daemon to start..."
-    - sleep 10 # Даем Docker-демону время на запуск
+    - sleep 10 
     - docker info
     - docker build -t $BACK_DOCKER_IMAGE ./backend
     - docker save -o $BACK_DOCKER_TAR $BACK_DOCKER_IMAGE
-    - gzip $BACK_DOCKER_TAR
-  artifacts:
-    paths:
-      - $BACK_DOCKER_TAR.gz
+    - rsync -avz -e "ssh -p $SSH_PORT -o StrictHostKeyChecking=no" $BACK_DOCKER_TAR $ENV_SSH_USER@$ENV_SSH_HOST:$REMOTE_DIR/
   only:
     - master
 
 
-# Сборка Docker-образа для фронтенда
-build_front:
+
+build-send_front:
   stage: build_front
   image: docker:latest
+  before_script:
+    - apk add --no-cache openssh-client rsync
+    - mkdir -p ~/.ssh
+    - echo "$ENV_PRIVATE_KEY_BASE64" | base64 -d > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan -H $ENV_SSH_HOST >> ~/.ssh/known_hosts
   services:
     - name: docker:dind
       alias: docker
@@ -49,19 +57,17 @@ build_front:
     DOCKER_TLS_CERTDIR: ""
   script:
     - echo "Waiting for Docker daemon to start..."
-    - sleep 10 # Даем Docker-демону время на запуск
+    - sleep 10 
     - docker info
     - docker build -t $FRONT_DOCKER_IMAGE ./frontend
     - docker save -o $FRONT_DOCKER_TAR $FRONT_DOCKER_IMAGE
     - gzip $FRONT_DOCKER_TAR
-  artifacts:
-    paths:
-      - $FRONT_DOCKER_TAR.gz
+    - rsync -avz -e "ssh -p $SSH_PORT -o StrictHostKeyChecking=no" $FRONT_DOCKER_TAR.gz $ENV_SSH_USER@$ENV_SSH_HOST:$REMOTE_DIR/
   only:
     - master
 
 
-# Деплой на сервер
+
 deploy:
   stage: deploy
   image: alpine:latest
@@ -72,15 +78,8 @@ deploy:
     - chmod 600 ~/.ssh/id_rsa
     - ssh-keyscan -H $ENV_SSH_HOST >> ~/.ssh/known_hosts
   script:
-    # Распаковываем .tar.gz файлы
-    - gunzip $FRONT_DOCKER_TAR.gz
-    - gunzip $BACK_DOCKER_TAR.gz
-    # Копируем .tar файлы на сервер
-    - rsync -avz -e "ssh -p $SSH_PORT -o StrictHostKeyChecking=no" $BACK_DOCKER_TAR.gz $ENV_SSH_USER@$ENV_SSH_HOST:$REMOTE_DIR/
-    - rsync -avz -e "ssh -p $SSH_PORT -o StrictHostKeyChecking=no" $FRONT_DOCKER_TAR.gz $ENV_SSH_USER@$ENV_SSH_HOST:$REMOTE_DIR/
-    # Копируем docker-compose.yml на сервер
+
     - rsync -avz -e "ssh -p $SSH_PORT -o StrictHostKeyChecking=no" docker-compose.yml $ENV_SSH_USER@$ENV_SSH_HOST:$REMOTE_DIR/
-    # Загружаем Docker-образы и запускаем Docker Compose
     - ssh -p $SSH_PORT -o StrictHostKeyChecking=no $ENV_SSH_USER@$ENV_SSH_HOST "cd $REMOTE_DIR && docker load -i backend.tar && docker load -i frontend.tar && docker compose down && docker compose up -d --force-recreate"
   only:
     - master
