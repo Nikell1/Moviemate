@@ -10,7 +10,7 @@ class DatabaseAdapter:
     def connect(self) -> None:
         try:
             self.connection = psycopg2.connect(
-                dbname="postgres",
+                dbname="prodb",
                 user="postgres",
                 password="1234",
                 host="localhost",

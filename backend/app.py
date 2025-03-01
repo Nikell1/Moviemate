@@ -5,8 +5,8 @@ from fastapi_server.auth import router as authorization_router
 from fastapi_server.images import router as images_router
 from fastapi_server.screenshots import router as screenshots_router
 import os
-
 from adapters import db_source
+
 app = FastAPI()
 
 app.add_middleware(
