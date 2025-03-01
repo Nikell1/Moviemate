@@ -1,7 +1,0 @@
-fastapi
-uvicorn
-pydantic
-httpx
-https[socks5]
-urllib
-urllib3
