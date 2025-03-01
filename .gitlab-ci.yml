@@ -10,6 +10,8 @@ variables:
   FRONT_DOCKER_TAR: "frontend.tar"
   SSH_PORT: "22"
   REMOTE_DIR: "/home/ubuntu/projects/films"
+  DOCKER_HOST: "tcp://docker:2375"  # Указываем Docker на использование Docker-in-Docker
+  DOCKER_DRIVER: "overlay2"
 
 # Сборка Docker-образа для бэкенда
 build_back:
