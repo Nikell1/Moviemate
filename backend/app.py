@@ -20,14 +20,6 @@ app.include_router(authorization_router, prefix="/api/auth", tags=["Auth"])
 app.include_router(screenshots_router, prefix="/api/screenshots", tags=["Screenshots"])
 app.include_router(films_router, prefix="/api/films", tags=["Films"])
 
-@app.get("/api/user/tmdb/")
-async def get_short_film():
-    return "No Redirections"
-
-@app.get("/api/user/collection")
-async def collection():
-    return ""
-
 if __name__ == "__main__":
     host, port = 'localhost', '8000'
     uvicorn.run(app, host=host, port=int(port))
