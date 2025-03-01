@@ -40,6 +40,8 @@ export function renderSignup() {
                 console.log(data)
                 console.log('Токен:', data.token); // Предполагается, что сервер возвращает токен в поле "token"
                 localStorage.setItem("token", data.token)
+                localStorage.setItem("password", password)
+                localStorage.setItem("login", login)
                 transition(consts.dashboardHash)
                 return data.token;
             } catch (error) {
