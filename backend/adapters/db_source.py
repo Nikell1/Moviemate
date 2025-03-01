@@ -37,9 +37,10 @@ class DatabaseAdapter:
             "films": """
                 CREATE TABLE IF NOT EXISTS films (
                     id SERIAL PRIMARY KEY,
-                    name VARCHAR(200) UNIQUE NOT NULL,
+                    title VARCHAR(200) UNIQUE NOT NULL,
                     description VARCHAR(500) UNIQUE,
-                    year INTEGER
+                    year INTEGER,
+                    image_url VARCHAR(200)
                 );
             """,
             "films_to_users": """
