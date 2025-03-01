@@ -2,7 +2,7 @@ import requests
 import asyncio
 import json
 import urllib.parse
-from models import schemas
+from models import TMDB
 
 API_KEY ="47f44a43e300fb87ed23a98e0209f1ba"
 headers = {
@@ -26,9 +26,9 @@ async def search_multi(query:str, include_adult:bool=False, language:str="ru-RU"
     for i in range(limit):
         c_res = response["results"][i]
         if c_res["media_type"] == "tv":
-            new_results.append(schemas.TMDBobject_TV(**c_res))
+            new_results.append(TMDB.TMDBobject_TV(**c_res))
         elif c_res["media_type"] == "movie":
-            new_results.append(schemas.TMDBobject_Movie(**c_res))
+            new_results.append(TMDB.TMDBobject_Movie(**c_res))
         else:
             pass
 
@@ -36,8 +36,49 @@ async def search_multi(query:str, include_adult:bool=False, language:str="ru-RU"
 
     return response
 
+async def search_multi_short(query:str, include_adult:bool=False, language:str="ru-RU", page:int=1, limit=-1):
+    encoded_query = urllib.parse.quote(query)
+    url = f"https://api.themoviedb.org/3/search/multi?query={encoded_query}&include_adult={str(include_adult).lower()}&language={language}&page={page}"
+    request = requests.get(url=url, headers=headers)
+    response = json.loads(request.text)
 
-sigma = asyncio.run(search_multi("чбд"))
+    if limit >= response["total_results"] or limit == -1:
+        limit = response["total_results"]
+
+    new_results = []
+
+    for i in range(limit):
+        c_res = response["results"][i]
+        cooked = {}
+
+        if c_res["media_type"] == "tv":
+            cooked = {
+                "title": c_res["name"],
+                "overview": c_res["overview"],
+                "release_date": c_res["first_air_date"],
+                "media_type": "tv"
+            }
+            new_results.append(TMDB.TMDBobject_Short(**cooked))
+
+        elif c_res["media_type"] == "movie":
+            cooked = {
+                "title": c_res["title"],
+                "overview": c_res["overview"],
+                "release_date": c_res["release_date"],
+                "media_type": "movie"
+            }
+            new_results.append(TMDB.TMDBobject_Short(**cooked))
+        else:
+            pass
+
+
+
+    response["results"] = new_results
+
+    return response
+
+
+sigma = asyncio.run(search_multi_short("Интерстелар"))
 print(sigma)
 
 

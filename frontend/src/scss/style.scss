@@ -1,2 +1,18 @@
-// @import "fonts";
 @import "start-settings";
+
+@import "fonts";
+
+@import "variables";
+
+@import "blocks/header";
+
+@import "blocks/login";
+
+body {
+    background: #000;
+}
+
+.wrapper {
+    width:100vw;
+    height:100vh;
+}
