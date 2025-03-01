@@ -5,6 +5,7 @@ import { renderLogin } from "./blocks/login.js"
 import { renderSignup } from "./blocks/signup.js"
 import { loginHtml } from "./html/login.js"
 import { signupHtml } from "./html/signup.js"
+import { dashboardHtml } from "./html/dashboardHtml.js"
 
 
 const wpapper = document.getElementById('wrapper')
