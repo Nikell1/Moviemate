@@ -5,13 +5,10 @@ import * as consts from "../consts.js"
 export function renderSignup() {
     const closeBtn = document.getElementById('close')
     const signForm = document.getElementById('signForm')
-<<<<<<< HEAD
     const loginBtn = document.getElementById('loginBtn')
-=======
     const login = document.getElementById('login')
     const password = document.getElementById('password')
     const email = document.getElementById('email')
->>>>>>> 3ca20cabcf57b6fb72578a6edcfa3955945a14e3
 
     closeBtn.onclick = () => transition(consts.homeHash)
     loginBtn.onclick = () => transition(consts.loginHash)
