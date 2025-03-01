@@ -1,7 +1,10 @@
+import os
 import psycopg2
+from dotenv import load_dotenv
 from psycopg2.extras import RealDictCursor
 from typing import List, Any
 
+load_dotenv()
 
 class DatabaseAdapter:
     def __init__(self) -> None:
@@ -12,9 +15,9 @@ class DatabaseAdapter:
             self.connection = psycopg2.connect(
                 dbname="postgres",
                 user="postgres",
-                password="timofey08",
-                host="localhost",
-                port="5432"
+                password=os.getenv("DB_PASSWORD"),
+                host=os.getenv("DB_HOST"),
+                port=os.getenv("DB_PORT")
             )
             print("Соединение с базой данных установлено.")
         except psycopg2.Error as e:
@@ -46,7 +49,7 @@ class DatabaseAdapter:
                     media_id INTEGER NOT NULL,
                     collection VARCHAR(200),
                     media_type VARCHAR(200),
-                    watched BOOLEAN DEFAULT false
+                    watched BOOLEAN DEFAULT False
                 );
             """,
             "collections": """

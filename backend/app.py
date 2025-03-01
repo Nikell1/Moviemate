@@ -1,3 +1,4 @@
+from dotenv import load_dotenv
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -5,7 +6,7 @@ from fastapi_server.auth import router as authorization_router
 from fastapi_server.screenshots import router as screenshots_router
 from fastapi_server.films import router as films_router
 import os
-
+load_dotenv()
 app = FastAPI()
 
 app.add_middleware(
@@ -20,5 +21,5 @@ app.include_router(authorization_router, prefix="/api/auth", tags=["Auth"])
 app.include_router(screenshots_router, prefix="/api/screenshots", tags=["Screenshots"])
 app.include_router(films_router, prefix="/api/films", tags=["Films"])
 if __name__ == "__main__":
-    host, port = 'localhost', '8000'
+    host, port = os.getenv("FAST_API_HOST"), os.getenv("FAST_API_PORT")
     uvicorn.run(app, host=host, port=int(port))

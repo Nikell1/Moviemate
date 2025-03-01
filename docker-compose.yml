@@ -7,15 +7,21 @@ services:
     ports:
       - 5432:5432  #!
     environment:
-      - POSTGRES_DB=db
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=${DBNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
 
   app_api:
     image: backend:master
     container_name: backend_container
     environment:
-      - TESTENV = "proood"
+      - FAST_API_HOST = ${FAST_API_HOST}
+      - FAST_API_PORT = ${FAST_API_PORT}
+      - DBNAME = ${DBNAME}
+      - DB_PASSWORD = ${DB_PASSWORD}
+      - DB_HOST = ${DB_HOST}
+      - DB_PORT = ${DB_PORT}
+      - RANDOM_SECRET = ${RANDOM_SECRET}
+      - TMDB_KEY = ${TMDB_KEY}
     ports:
       - 8000:8000
     extra_hosts:

@@ -41,6 +41,7 @@ export function renderLogin() {
                 console.log(data)
                 console.log('Токен:', data.token); // Предполагается, что сервер возвращает токен в поле "token"
                 localStorage.setItem("token", data.token)
+                transition(consts.dashboardHash)
                 return data.token;
             } catch (error) {
                 console.error('Ошибка при авторизации пользователя:', error);
@@ -48,8 +49,8 @@ export function renderLogin() {
         }
         
         // Пример вызова функции
-        console.log(login.textContent, password.textContent)
-        logInUser(login.textContent, password.textContent,);
+        console.log(login.value, password.value)
+        logInUser(login.value, password.value);
         
     })
 }
