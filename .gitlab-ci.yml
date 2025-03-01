@@ -29,7 +29,6 @@ build_back:
       - $BACK_DOCKER_TAR
   only:
     - main
-    - development
 
 # Сборка Docker-образа для фронтенда
 build_front:
@@ -47,7 +46,6 @@ build_front:
       - $FRONT_DOCKER_TAR
   only:
     - main
-    - development
 
 # Деплой на сервер
 deploy:
@@ -69,4 +67,3 @@ deploy:
     - ssh -p $SSH_PORT -o StrictHostKeyChecking=no $ENV_SSH_USER@$ENV_SSH_HOST "cd $REMOTE_DIR && docker load -i backend.tar && docker load -i frontend.tar && docker compose down && docker compose up -d --force-recreate"
   only:
       - main
-      - development
