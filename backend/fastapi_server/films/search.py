@@ -7,6 +7,7 @@ from adapters.tmdb import search_multi
 router = APIRouter()
 Bear = HTTPBearer(auto_error=False)
 
+
 @router.get("/search_film", status_code=status.HTTP_200_OK)
 async def search_film(search: str,token:str = Security(Bear)):
     user = get_user(token.credentials)
