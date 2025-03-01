@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from .add_media import router as add_media_router
+from .media import router as add_media_router
 from .search import router as search_router
 from .get_media_by_user import router as get_media_by_user_router
 from .mark_as_watched import router as mark_watched
