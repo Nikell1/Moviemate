@@ -9,7 +9,7 @@ services:
     environment:
       POSTGRES_DB: ${DBNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-      DB_PORT: ${DB_PORT}
+    command: -p ${DB_PORT}
 
   app_api:
     image: backend:master

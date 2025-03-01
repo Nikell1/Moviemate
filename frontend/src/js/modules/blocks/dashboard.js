@@ -10,63 +10,89 @@ function showSidebar(a, b, c) {
     sidebar.style = `transform:translateX(${a}px);`
     dark.style = `opacity: ${b}; pointer-events: ${c}`
 }
-function showMovies(moviesBtn) {
-    moviesBtn.style.color = consts.accentColor
-    showMoviesHtml()
+
+function clearColor() {
+    const moviesBtn = document.getElementById('movies')
+    const collectionsBtn = document.getElementById('collections')
+    const friendsBtn = document.getElementById('friends')
+    const searchBtn = document.getElementById('search')
+
+    friendsBtn.style.color = '#fff'
+    searchBtn.style.color = '#fff'
+    collectionsBtn.style.color = '#fff'
+    moviesBtn.style.color = '#fff'
 }
 
-function showCollections(collectionsBtn) {
+function showMovies() {
+    showMoviesHtml()
+    clearColor()
+    const moviesBtn = document.getElementById('movies')
+    moviesBtn.style.color = consts.accentColor
+
+}
+
+function showCollections() {
+    showCollectionsHtml()
+    clearColor()
+    const collectionsBtn = document.getElementById('collections')
     collectionsBtn.style.color = consts.accentColor
 }
 
-function showFriends(friendsBtn) {
+function showFriends() {
+    clearColor()
+    const friendsBtn = document.getElementById('friends')
     friendsBtn.style.color = consts.accentColor
 }
 
-function showSearch(searchBtn) {
+function showSearch() {
+    clearColor()
+    const searchBtn = document.getElementById('search')
     searchBtn.style.color = consts.accentColor
 }
 
-function showDashboardBlocks() {
+function updateHash(req) {
     let url = new URL(window.location.href)
+    url.hash = req
+    window.location.href = url
+}
+
+function showDashboardBlocks() {
+    let url = new URL(window.location.href) 
+
+    if (url.hash == '') {
+        updateHash(consts.moviesHash)
+    }
+    let url2 = new URL(window.location.href) 
+
+    if (url2.hash == `#${consts.moviesHash}`) {showMovies()}
+    if (url2.hash == `#${consts.collectionsHash}`) {showCollections()}
+    if (url2.hash == `#${consts.friendsHash}`) {showFriends()}
+    if (url2.hash == `#${consts.searchHash}`) {showSearch()}
+
     const moviesBtn = document.getElementById('movies')
     const collectionsBtn = document.getElementById('collections')
     const friendsBtn = document.getElementById('friends')
     const searchBtn = document.getElementById('search')
 
     moviesBtn.onclick = () => {
-        url.search = consts.moviesSearch
-        window.location.href = url
+        updateHash(consts.moviesHash)
+        showDashboardBlocks()
     }
 
     collectionsBtn.onclick = () => {
-        url.search = consts.collectionsSearch
-        window.location.href = url
+        updateHash(consts.collectionsHash)
+        showDashboardBlocks()
     }
 
     friendsBtn.onclick = () => {
-        url.search = consts.friendsSearch
-        window.location.href = url
+        updateHash(consts.friendsHash)
+        showDashboardBlocks()
     }
 
     searchBtn.onclick = () => {
-        url.search = consts.searchSearch
-        window.location.href = url
+        updateHash(consts.searchHash)
+        showDashboardBlocks()
     }
-
-    friendsBtn.style.color = '#fff'
-    searchBtn.style.color = '#fff'
-    collectionsBtn.style.color = '#fff'
-    moviesBtn.style.color = '#fff'
-
-    if (url.search == '') {
-        url.search = consts.moviesSearch
-        window.location.href = url
-    }
-    if (url.search == `?${consts.moviesSearch}`) {showMovies(moviesBtn)}
-    if (url.search == `?${consts.collectionsSearch}`) {showCollections(collectionsBtn)}
-    if (url.search == `?${consts.friendsSearch}`) {showFriends(friendsBtn)}
-    if (url.search == `?${consts.searchSearch}`) {showSearch(searchBtn)}
 }
 
 export function renderDashboard() {

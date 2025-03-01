@@ -14,14 +14,13 @@ export function isWebp() {
     })
 }
 
-export function hashUpdate(req, req2 = '') {
+export function searchUpdate(req) {
     let url = new URL (window.location.href)
-    url.hash = req
-    url.search = req2
+    url.search = req
     window.location.href = url
 }
 
-export function transition(hash) {
-    hashUpdate(hash)
+export function transition(search) {
+    searchUpdate(search)
     showBlocks()
 }
