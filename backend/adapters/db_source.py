@@ -27,7 +27,8 @@ class DatabaseAdapter:
                     email VARCHAR(200) UNIQUE NOT NULL,
                     login VARCHAR(100) UNIQUE NOT NULL,
                     password VARCHAR(255) NOT NULL,
-                    token VARCHAR(255)
+                    token VARCHAR(255),
+                    profile_image INT
                 );
             """,
             "films": """
