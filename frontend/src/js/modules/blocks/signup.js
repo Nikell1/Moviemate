@@ -38,6 +38,7 @@ export function renderSignup() {
                 const data = await response.json();
                 console.log(data)
                 console.log('Токен:', data.token); // Предполагается, что сервер возвращает токен в поле "token"
+                localStorage.setItem("token", data.token)
                 return data.token;
             } catch (error) {
                 console.error('Ошибка при авторизации пользователя:', error);
@@ -45,8 +46,8 @@ export function renderSignup() {
         }
         
         // Пример вызова функции
-        console.log(login.textContent, password.textContent)
-        logInUser(email.textContent, password.textContent, login.textContent);
+        console.log(login.value, 1, password.innerText)
+        logInUser(email.value, password.value, login.value);
         
     })
     

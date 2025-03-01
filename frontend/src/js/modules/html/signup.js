@@ -5,15 +5,15 @@ export function signupHtml() {
             <h2>Sign up your account</h2>
             <div class="login__input-group">
                 <label for="login">Enter your email</label>
-                <input type="text" placeholder="email" id="email" required >
+                <input type="text" id="email" placeholder="email" required >
             </div>
             <div class="login__input-group">
                 <label for="login">Enter your username</label>
-                <input type="text" placeholder="username" id="login" required>
+                <input type="text" id="login" placeholder="username" required>
             </div>
             <div class="login__input-group">
                 <label for="password">Enter your password</label>
-                <input type="password" placeholder="password" id="password" required>
+                <input type="password" id="password" placeholder="password" required>
             </div>
             <p id="message"></p>
             <button type="submit" class="login__button" id="submitBtn">Sign up</button>
