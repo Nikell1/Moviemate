@@ -128,7 +128,7 @@ async def get_by_id(id:int, media_type:str="movie", short:bool=True):
         
 
     found["media_type"] = media_type
-
+    print(found)
     if short:
         found = TMDB.TMDBobject_Short(**found)
     else:

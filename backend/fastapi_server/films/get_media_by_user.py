@@ -26,14 +26,17 @@ async def get_films(token:str = Security(Bear)):
         raise HTTPException(status_code=404, detail="User with this email does not exist")
     films = adapter.get_by_value('films_to_users', 'email', user["email"])
     result = []
+    print(films)
     for i in range(len(films)):
-        film =  await get_by_id(films[i]["media_id"],films[i]["media_type"] )
+        print(films[i])
+        print(films[i]["media_id"])
+        
         if films[i]["media_id"] >= 0:
             film =  await get_by_id(films[i]["media_id"],films[i]["media_type"])
             new_film = Film_to_front(title=film.title,poster_path=film.poster_path,overview=film.overview,release_date=film.release_date,id=films[i]["media_id"],watched=films[i]["watched"])
         else:
             film = adapter.get_by_value('films', 'id',-1*films[i]["media_id"])[0]
-            new_film = Film_to_front(title=film["title"],poster_path=film["poster_path"],overview=film["overview"],release_date=film["release_date"],id=films[i]["media_id"],watched=films[i]["watched"])
+            new_film = Film_to_front(title=film["title"],poster_path=film["image_url"],overview=film["description"],release_date=film["date"],id=films[i]["media_id"],watched=films[i]["watched"])
         result.append(new_film)
     #возвращает список айдишников фильмов
     return result
@@ -59,6 +62,7 @@ async def add_media(token:str = Security(Bear)):
             new_film = Film_to_front(title=film.title,poster_path=film.poster_path,overview=film.overview,release_date=film.release_date,id=films[i]["media_id"],watched=films[i]["watched"])
         else:
             film = db.get_by_value('films', 'id',-1*films[i]["media_id"])[0]
+            print(film)
             new_film = Film_to_front(title=film["title"],poster_path=film["poster_path"],overview=film["overview"],release_date=film["release_date"],id=films[i]["media_id"],watched=films[i]["watched"])
 
         result.append(new_film)
