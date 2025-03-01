@@ -8,7 +8,7 @@ from models.TMDB import TMDBobject_Short
 router = APIRouter()
 Bear = HTTPBearer(auto_error=False)
 
-@router.put("/switch_film/{id}", status_code=201)
+@router.put("/switch_film/{id}", status_code=200)
 async def switch_film(id:int, token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:
@@ -22,11 +22,14 @@ async def switch_film(id:int, token:str = Security(Bear)):
     if len(email_check) == 0:
         raise HTTPException(status_code=404, detail="User with this email does not exists")
 
-    request = f"""FROM films_to_users SELECT * WHERE email="{email_check}" and media_id={id}"""
-    ftu = db.execute_with_request(request)
-    print(ftu)
+    request = f"""SELECT * FROM films_to_users WHERE email='{email_check[0]["email"]}' and media_id={id}"""
+    ftu = db.execute_with_request(request)[0]
+    ftu["watched"] = not ftu["watched"]
 
-    return False
+    request = f"""UPDATE films_to_users SET watched={ftu["watched"]} WHERE email='{email_check[0]["email"]}' and media_id={id}"""
+    db.execute_with_request(request)
+
+    return ftu["watched"]
 
 
 
