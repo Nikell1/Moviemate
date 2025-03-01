@@ -18,7 +18,7 @@ class TMDBobject_TV(BaseModel):
 
 class TMDBobject_Movie(BaseModel):
     adult:bool = True
-    backdrop_path:str
+    backdrop_path:str = None
     genre_ids:list[int] = []
     id: int = 0
     title:str
