@@ -52,9 +52,6 @@ build_front:
     - docker info
     - docker build -t $FRONT_DOCKER_IMAGE ./frontend
     - docker save -o $FRONT_DOCKER_TAR $FRONT_DOCKER_IMAGE
-  artifacts:
-    paths:
-      - $FRONT_DOCKER_TAR
   only:
     - master
 
