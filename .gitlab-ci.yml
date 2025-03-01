@@ -28,7 +28,7 @@ build_back:
     paths:
       - $BACK_DOCKER_TAR
   only:
-    - main
+    - master
 
 
 # Сборка Docker-образа для фронтенда
@@ -46,7 +46,7 @@ build_front:
     paths:
       - $FRONT_DOCKER_TAR
   only:
-    - main
+    - master
 
 
 # Деплой на сервер
@@ -68,4 +68,4 @@ deploy:
     # Загружаем Docker-образы и запускаем Docker Compose
     - ssh -p $SSH_PORT -o StrictHostKeyChecking=no $ENV_SSH_USER@$ENV_SSH_HOST "cd $REMOTE_DIR && docker load -i backend.tar && docker load -i frontend.tar && docker compose down && docker compose up -d --force-recreate"
   only:
-      - main
+    - master
