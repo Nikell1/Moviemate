@@ -1,19 +1,23 @@
 import asyncio
 import json
+import os
 import urllib.parse
 from http.client import responses
+
+from dotenv import load_dotenv
 from fastapi import APIRouter, HTTPException
 from models import TMDB
 import httpx
 
+load_dotenv()
 proxies = {
     "http://": "socks5://77.81.138.114:6000",
-    "https://": "socks5://77.81.138.114:6000"
+    "https://": "socks5://77.81.138.114:6000",
 }
 
 headers = {
     "accept": "application/json",
-    "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMzc5YmVhZjI2ZWM2ZmM1NTU4ZDNkMWJjOGFhZGY4MSIsIm5iZiI6MTc0MDc2NDQ2Ny45OSwic3ViIjoiNjdjMWY1MzM3NmEzNjhmNzA2ZGJkMGM2Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.FHzVvtxp7cHYD3x3pX0qb-aCuoYe5ZCg_AJ85U1GXsQ"
+    "Authorization": "Bearer " + os.getenv("TMDB_KEY")
 }
 
 requests = httpx.Client(proxy="socks5://77.81.138.114:6000", headers=headers)
