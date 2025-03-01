@@ -15,7 +15,7 @@ export function renderSignup() {
     signForm.addEventListener('submit', (event) => {
         event.preventDefault();
         async function logInUser(email, password, login) {
-            const url = 'http://localhost:8000/auth/register'; // Замените на ваш URL FastAPI сервера
+            const url = 'http://localhost:8000/api/auth/register'; // Замените на ваш URL FastAPI сервера
         
             const requestBody = {
                 email: email,
