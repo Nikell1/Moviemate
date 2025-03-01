@@ -6,8 +6,29 @@
 # Note that environment variables can be set in several places
 # See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
 stages:
-- test
-sast:
-  stage: test
-include:
-- template: Security/SAST.gitlab-ci.yml
+  - deploy
+
+deploy:
+  stage: deploy
+  image: ubuntu:latest
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+  before_script:
+    - apt update
+    - apt install -y ansible openssh-client
+    # Set up SSH
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    # Create inventory file
+    - echo "prod-team-24-jhaklm26.final.prodcontest.ru:22" > inventory.ini
+  script:
+    - export ANSIBLE_HOST_KEY_CHECKING=False
+    - ansible-playbook -i inventory.ini playbooks/deploy_playbook.yml -u $ANSIBLE_USER
+  variables:
+    # Define your variables in GitLab CI/CD Settings > Variables
+    SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY
+    SSH_HOST: prod-team-24-jhaklm26.final.prodcontest.ru
+    SSH_PORT: 22
+    ANSIBLE_USER: ubuntu
