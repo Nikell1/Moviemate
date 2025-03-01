@@ -6,6 +6,8 @@ from fastapi_server.images import router as images_router
 from fastapi_server.screenshots import router as screenshots_router
 from fastapi_server.films import router as films_router
 import os
+
+from adapters import db_source
 app = FastAPI()
 
 app.add_middleware(
@@ -23,10 +25,16 @@ app.include_router(films_router, prefix="/films", tags=["Films"])
 
 @app.get("/api/user/tmdb/")
 async def get_short_film():
+    return "No Redirections"
+
+@app.get("/api/user/collection")
+async def collection():
+
+    return
     return ""
 
+    return
 
 if __name__ == "__main__":
-    
     host, port = 'localhost', '8000'
     uvicorn.run(app, host=host, port=int(port))
