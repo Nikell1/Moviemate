@@ -1,48 +1,106 @@
-import { renderMoviehHtml } from "../html/dashboardHtml.js";
+import { renderMoviesHtml } from "../html/dashboardHtml.js";
 import * as consts from "../consts.js"
-import { transition } from "../functions.js"
+import { showMoviesHtml } from "../html/dashboardHtml.js";
+
 export function renderMoviesList() {
     
 }
 
-export function renderDashboard() {
-    let token = ''
-    try{
-        token = localStorage.getItem("token")
-    } catch (error) {
-        console.log(error)
-        transition(consts.homeHash)
+function showSidebar(a, b, c) {
+    sidebar.style = `transform:translateX(${a}px);`
+    dark.style = `opacity: ${b}; pointer-events: ${c}`
+}
+
+function clearColor() {
+    const moviesBtn = document.getElementById('movies')
+    const collectionsBtn = document.getElementById('collections')
+    const friendsBtn = document.getElementById('friends')
+    const searchBtn = document.getElementById('search')
+
+    friendsBtn.style.color = '#fff'
+    searchBtn.style.color = '#fff'
+    collectionsBtn.style.color = '#fff'
+    moviesBtn.style.color = '#fff'
+}
+
+function showMovies() {
+    showMoviesHtml()
+    clearColor()
+    const moviesBtn = document.getElementById('movies')
+    moviesBtn.style.color = consts.accentColor
+
+}
+
+function showCollections() {
+    clearColor()
+    const collectionsBtn = document.getElementById('collections')
+    collectionsBtn.style.color = consts.accentColor
+}
+
+function showFriends() {
+    clearColor()
+    const friendsBtn = document.getElementById('friends')
+    friendsBtn.style.color = consts.accentColor
+}
+
+function showSearch() {
+    clearColor()
+    const searchBtn = document.getElementById('search')
+    searchBtn.style.color = consts.accentColor
+}
+
+function updateHash(req) {
+    let url = new URL(window.location.href)
+    url.hash = req
+    window.location.href = url
+}
+
+function showDashboardBlocks() {
+    let url = new URL(window.location.href)
+
+
+    if (url.hash == '') {
+        updateHash(consts.moviesHash)
     }
-    const url = 'http://localhost:8000/api/films/get_films'; // Замените на ваш URL FastAPI сервера
 
-    
+    if (url.hash == `#${consts.moviesHash}`) {showMovies()}
+    if (url.hash == `#${consts.collectionsHash}`) {showCollections()}
+    if (url.hash == `#${consts.friendsHash}`) {showFriends()}
+    if (url.hash == `#${consts.searchHash}`) {showSearch()}
 
-    const requestBody = {
-        token: token,
-    };
-    console.log(token)
-    try {
-        const response = fetch(url, {
-            method: 'GET',
-            headers: {
-                "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
-                "Content-Type": "application/json" // Указываем тип содержимого
-            }
-        }).then(response => {
-            if (!response.ok) {
-              throw new Error(`Ошибка: ${response.status}`);
-            }
-            return response.json();
-          })
-          .then(data => {
-            console.log("Данные:", data);
-          })
-          .catch(error => {
-            console.error("Ошибка:", error);
-          });
+    const moviesBtn = document.getElementById('movies')
+    const collectionsBtn = document.getElementById('collections')
+    const friendsBtn = document.getElementById('friends')
+    const searchBtn = document.getElementById('search')
 
-    } catch (error) {
-        console.error('Ошибка при авторизации пользователя:', error);
+    moviesBtn.onclick = () => {
+        updateHash(consts.moviesHash)
+        showDashboardBlocks()
+    }
+
+    collectionsBtn.onclick = () => {
+        updateHash(consts.collectionsHash)
+        showDashboardBlocks()
+    }
+
+    friendsBtn.onclick = () => {
+        updateHash(consts.friendsHash)
+        showDashboardBlocks()
+    }
+
+    searchBtn.onclick = () => {
+        updateHash(consts.searchHash)
+        showDashboardBlocks()
     }
 }
- 
+
+export function renderDashboard() {
+    const profileBtn = document.getElementById('profileBtn')
+    const sidebar = document.getElementById('sidebar')
+    const dark = document.getElementById('dark')
+
+    dark.onclick = () => showSidebar(400, 0, 'none')
+    profileBtn.onclick = () => showSidebar(0, 0.3, 'visible')
+
+    showDashboardBlocks()
+}

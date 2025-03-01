@@ -10,8 +10,8 @@ export function renderSignup() {
     const password = document.getElementById('password')
     const email = document.getElementById('email')
 
-    closeBtn.onclick = () => transition(consts.homeHash)
-    loginBtn.onclick = () => transition(consts.loginHash)
+    closeBtn.onclick = () => transition(consts.homeSearch)
+    loginBtn.onclick = () => transition(consts.loginSearch)
     signForm.addEventListener('submit', (event) => {
         event.preventDefault();
         async function registerUser(email, password, login) {
