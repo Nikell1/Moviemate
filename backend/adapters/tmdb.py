@@ -1,6 +1,8 @@
 import asyncio
 import json
 import urllib.parse
+from http.client import responses
+
 from models import TMDB
 import httpx
 
@@ -95,9 +97,27 @@ async def get_movie_by_id(id:int):
     response = json.loads(request.text)
     return response
 
-async def get_by_id(id:int):
-    tv = await get_tv_by_id(id)
-    movie = await get_movie_by_id(id)
+async def get_by_id(id:int, media_type:str="movie", short:bool=True):
+    if media_type == "tv":
+        found = await get_tv_by_id(id)
+    elif media_type == "movie":
+        found = await get_movie_by_id(id)
+    else:
+        raise "incorrect media_type"
 
-    print(tv, movie)
+    if "success" in found and found["success"] == False:
+        raise "Media Not Fount 404"
+
+    found["media_type"] = media_type
+
+    if short:
+        found = TMDB.TMDBobject_Short(**found)
+    else:
+        if media_type == "movie":
+            found = TMDB.TMDBobject_Movie(**found)
+        elif media_type == "tv":
+            found = TMDB.TMDBobject_TV(**found)
+
+    return found
+
 
