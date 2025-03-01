@@ -85,6 +85,8 @@ async def search_multi_short(query:str, include_adult:bool=False, language:str="
 
     return response
 
+
+
 if __name__ == "__main__":
     sigma = asyncio.run(search_multi_short("Чбд"))
     print(sigma)

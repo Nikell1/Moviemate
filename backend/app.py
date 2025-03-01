@@ -12,6 +12,11 @@ app.include_router(images_router, prefix="/images", tags=["Images"])
 app.include_router(screenshots_router, prefix="/screenshots", tags=["Screenshots"])
 
 
+@app.get("/api/user/tmdb/")
+async def get_short_film():
+    return "Penis valeriy"
+
+
 if __name__ == "__main__":
     
     host, port = 'localhost', '8000'
