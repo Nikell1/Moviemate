@@ -14,7 +14,6 @@ export function renderSignup() {
     loginBtn.onclick = () => transition(consts.loginHash)
     signForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        console.log('считывание данных рега')
         async function logInUser(email, password, login) {
             const url = 'http://localhost:8000/auth/register'; // Замените на ваш URL FastAPI сервера
         
@@ -48,9 +47,10 @@ export function renderSignup() {
         }
         
         // Пример вызова функции
-        console.log(login.value, 1, password.innerText)
-        logInUser(email.value, password.value, login.value);
-        
+        console.log(login.textContent, password.textContent)
+        logInUser(email.textContent, password.textContent, login.textContent);
+
+        transition(consts.dashboardHash)
     })
     
 }
