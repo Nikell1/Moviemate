@@ -10,8 +10,6 @@ variables:
   FRONT_DOCKER_TAR: "frontend.tar"
   SSH_PORT: "22"
   REMOTE_DIR: "/home/ubuntu/projects/films"
-  DOCKER_HOST: "tcp://docker:2375"  # Указываем Docker на использование Docker-in-Docker
-  DOCKER_DRIVER: "overlay2"
 
 # Сборка Docker-образа для бэкенда
 build_back:
@@ -19,9 +17,14 @@ build_back:
   image: docker:latest
   services:
     - docker:dind
+  variables:
+    DOCKER_HOST: tcp://thedockerhost:2375/
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
   script:
     - echo "Waiting for Docker daemon to start..."
     - sleep 10 # Даем Docker-демону время на запуск
+    - docker info
     - docker build -t $BACK_DOCKER_IMAGE .
     - docker save -o $BACK_DOCKER_TAR $BACK_DOCKER_IMAGE
   artifacts:
@@ -37,9 +40,14 @@ build_front:
   image: docker:latest
   services:
     - docker:dind
+  variables:
+    DOCKER_HOST: tcp://thedockerhost:2375/
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
   script:
     - echo "Waiting for Docker daemon to start..."
     - sleep 10 # Даем Docker-демону время на запуск
+    - docker info
     - docker build -t $FRONT_DOCKER_IMAGE .
     - docker save -o $FRONT_DOCKER_TAR $FRONT_DOCKER_IMAGE
   artifacts:
