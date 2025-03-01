@@ -1,3 +1,5 @@
+import { showBlocks } from "./showBlocks.js";
+
 export function isWebp() {
     function testWebp(callback) {
         let webP = new Image();
@@ -10,4 +12,16 @@ export function isWebp() {
         let className = support === true ? 'webp' : 'no-webp';
         document.documentElement.classList.add(className);
     })
+}
+
+export function hashUpdate(req, req2 = '') {
+    let url = new URL (window.location.href)
+    url.hash = req
+    url.search = req2
+    window.location.href = url
+}
+
+export function transition(hash) {
+    hashUpdate(hash)
+    showBlocks()
 }
