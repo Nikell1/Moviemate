@@ -18,6 +18,8 @@ build_back:
   services:
     - docker:dind
   script:
+    - echo "Waiting for Docker daemon to start..."
+    - sleep 10 # Даем Docker-демону время на запуск
     - docker build -t $BACK_DOCKER_IMAGE .
     - docker save -o $BACK_DOCKER_TAR $BACK_DOCKER_IMAGE
   artifacts:
@@ -34,6 +36,8 @@ build_front:
   services:
     - docker:dind
   script:
+    - echo "Waiting for Docker daemon to start..."
+    - sleep 10 # Даем Docker-демону время на запуск
     - docker build -t $FRONT_DOCKER_IMAGE .
     - docker save -o $FRONT_DOCKER_TAR $FRONT_DOCKER_IMAGE
   artifacts:
