@@ -10,9 +10,9 @@ class DatabaseAdapter:
     def connect(self) -> None:
         try:
             self.connection = psycopg2.connect(
-                dbname="prodb",
+                dbname="postgres",
                 user="postgres",
-                password="penis1337",
+                password="timofey08",
                 host="localhost",
                 port="5432"
             )
@@ -46,7 +46,7 @@ class DatabaseAdapter:
                     media_id INTEGER NOT NULL,
                     collection VARCHAR(200),
                     media_type VARCHAR(200),
-                    watched BOOLEAN DEAFULT False
+                    watched BOOLEAN DEFAULT false
                 );
             """
         }

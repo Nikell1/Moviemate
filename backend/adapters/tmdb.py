@@ -2,7 +2,7 @@ import asyncio
 import json
 import urllib.parse
 from http.client import responses
-
+from fastapi import APIRouter, HTTPException
 from models import TMDB
 import httpx
 
@@ -103,10 +103,11 @@ async def get_by_id(id:int, media_type:str="movie", short:bool=True):
     elif media_type == "movie":
         found = await get_movie_by_id(id)
     else:
-        raise "incorrect media_type"
+        raise HTTPException(status_code=404, detail="incorrect media_type")
 
     if "success" in found and found["success"] == False:
-        raise "Media Not Fount 404"
+        raise HTTPException(status_code=404, detail="Media Not Fount 404")
+        
 
     found["media_type"] = media_type
 

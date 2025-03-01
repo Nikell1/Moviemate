@@ -23,4 +23,4 @@ class Film_to_front(BaseModel):
     overview:str
     release_date:str
     id:int
-    media_type:str
+    watched:bool
