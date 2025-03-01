@@ -79,16 +79,16 @@ async def search_multi_short(query:str, include_adult:bool=False, language:str="
             }
             new_results.append(TMDB.TMDBobject_Short(**cooked))
 
-            elif c_res["media_type"] == "movie":
-                cooked = {
-                    "title": c_res["title"],
-                    "poster_path": c_res["poster_path"],
-                    "overview": c_res["overview"],
-                    "release_date": c_res["release_date"],
-                    "id": c_res["id"],
-                    "media_type": "movie"
-                }
-                new_results.append(TMDB.TMDBobject_Short(**cooked))
+        elif c_res["media_type"] == "movie":
+            cooked = {
+                "title": c_res["title"],
+                "poster_path": c_res["poster_path"],
+                "overview": c_res["overview"],
+                "release_date": c_res["release_date"],
+                "id": c_res["id"],
+                "media_type": "movie"
+            }
+            new_results.append(TMDB.TMDBobject_Short(**cooked))
         else:
             if c_res["media_type"] == "tv":
                 new_results.append(TMDB.TMDBobject_TV(**c_res))
