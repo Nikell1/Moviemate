@@ -29,4 +29,3 @@ async def login(body: LogIn):
     adapter.execute_with_request(f"UPDATE users SET token = '{new_token}' WHERE email = '{body.email}'")
 
     return {'token':new_token}
-    
