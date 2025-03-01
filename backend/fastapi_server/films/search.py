@@ -9,5 +9,5 @@ Bear = HTTPBearer(auto_error=False)
 
 @router.get("/search_film", status_code=status.HTTP_200_OK)
 async def add_media(search: str,token:str = Security(Bear)):
-    media = search_multi(search)
+    media = await search_multi(search)
     return media
