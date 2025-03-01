@@ -14,7 +14,7 @@ headers = {
     "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMzc5YmVhZjI2ZWM2ZmM1NTU4ZDNkMWJjOGFhZGY4MSIsIm5iZiI6MTc0MDc2NDQ2Ny45OSwic3ViIjoiNjdjMWY1MzM3NmEzNjhmNzA2ZGJkMGM2Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.FHzVvtxp7cHYD3x3pX0qb-aCuoYe5ZCg_AJ85U1GXsQ"
 }
 
-requests = httpx.Client(proxy=proxies, headers=headers)
+requests = httpx.Client(proxy="socks5://77.81.138.114:6000", headers=headers)
 
 async def search_multi(query:str, include_adult:bool=False, language:str="ru-RU", page:int=1, limit=-1):
     encoded_query = urllib.parse.quote(query)
@@ -79,16 +79,25 @@ async def search_multi_short(query:str, include_adult:bool=False, language:str="
         else:
             pass
 
-
-
     response["results"] = new_results
 
     return response
 
+async def get_tv_by_id(id:int):
+    url = f"https://api.themoviedb.org/3/tv/{id}?language=ru-RU"
+    request = requests.get(url=url, headers=headers)
+    response = json.loads(request.text)
+    return response
 
+async def get_movie_by_id(id:int):
+    url = f"https://api.themoviedb.org/3/movie/{id}?language=ru-RU"
+    request = requests.get(url=url, headers=headers)
+    response = json.loads(request.text)
+    return response
 
-if __name__ == "__main__":
-    sigma = asyncio.run(search_multi_short("Чбд"))
-    print(sigma)
+async def get_by_id(id:int):
+    tv = await get_tv_by_id(id)
+    movie = await get_movie_by_id(id)
 
+    print(tv, movie)
 
