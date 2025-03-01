@@ -32,3 +32,8 @@ class TMDBobject_Movie(BaseModel):
     vote_average:float = 0.0
     vote_count:int = 0.0
 
+class TMDBobject_Short(BaseModel):
+    title:str = ""
+    overview:str
+    release_date:str
+    media_type:str
