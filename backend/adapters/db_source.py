@@ -58,6 +58,13 @@ class DatabaseAdapter:
                     email VARCHAR(200) NOT NULL,
                     collection_name VARCHAR(200)
                 );
+            """,
+            "friends": """
+                CREATE TABLE IF NOT EXISTS friends (
+                    user1 VARCHAR(200) NOT NULL,
+                    user2 VARCHAR(200) NOT NULL,
+                    status VARCHAR(200)
+                );
             """
         }
 
