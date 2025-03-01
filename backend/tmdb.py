@@ -78,7 +78,3 @@ async def search_multi_short(query:str, include_adult:bool=False, language:str="
     return response
 
 
-sigma = asyncio.run(search_multi_short("Интерстелар"))
-print(sigma)
-
-

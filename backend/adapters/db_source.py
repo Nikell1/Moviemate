@@ -12,8 +12,8 @@ class DatabaseAdapter:
             self.connection = psycopg2.connect(
                 dbname="postgres",
                 user="postgres",
-                password="1234",
-                host="localhost",
+                password="timofey08",
+                host="127.0.0.1",
                 port="5432"
             )
             print("Соединение с базой данных установлено.")
@@ -41,8 +41,10 @@ class DatabaseAdapter:
             "films_to_users": """
                 CREATE TABLE IF NOT EXISTS films_to_users (
                     id SERIAL PRIMARY KEY,
-                    email VARCHAR(200) UNIQUE NOT NULL,
-                    film_id INTEGER NOT NULL
+                    email VARCHAR(200) NOT NULL,
+                    media_id INTEGER NOT NULL,
+                    collection VARCHAR(200),
+                    media_type VARCHAR(200)
                 );
             """
         }
