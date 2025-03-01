@@ -10,8 +10,10 @@ Bear = HTTPBearer(auto_error=False)
 
 @router.get("/get_films", status_code=status.HTTP_200_OK)
 async def get_films(token:str = Security(Bear)):
+    print(token)
     user = get_user(token.credentials)
     if user == []:
+        print(11111)
         raise HTTPException(status_code=404, detail="Invalid credentials")
     user = user[0]
     adapter = DatabaseAdapter()
@@ -19,7 +21,8 @@ async def get_films(token:str = Security(Bear)):
     adapter.initialize_tables()
     email_check = adapter.get_by_value('users', 'email', user["email"])
     if len(email_check) == 0:
-        raise HTTPException(status_code=404, detail="User with this email does not exists")
+        print(2)
+        raise HTTPException(status_code=404, detail="User with this email does not exist")
     films = adapter.get_by_value('films_to_users', 'email', user["email"])
     result = []
     for i in range(len(films)):
