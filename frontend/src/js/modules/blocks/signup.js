@@ -14,7 +14,7 @@ export function renderSignup() {
     loginBtn.onclick = () => transition(consts.loginHash)
     signForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        async function logInUser(email, password, login) {
+        async function registerUser(email, password, login) {
             const url = 'http://localhost:8000/api/auth/register'; // Замените на ваш URL FastAPI сервера
         
             const requestBody = {
@@ -31,15 +31,16 @@ export function renderSignup() {
                     },
                     body: JSON.stringify(requestBody)
                 });
-        
+                
                 if (!response.ok) {
                     throw new Error(`Ошибка: ${response.status}`);
                 }
-        
+                
                 const data = await response.json();
                 console.log(data)
                 console.log('Токен:', data.token); // Предполагается, что сервер возвращает токен в поле "token"
                 localStorage.setItem("token", data.token)
+                transition(consts.dashboardHash)
                 return data.token;
             } catch (error) {
                 console.error('Ошибка при авторизации пользователя:', error);
@@ -47,10 +48,8 @@ export function renderSignup() {
         }
         
         // Пример вызова функции
-        console.log(login.textContent, password.textContent)
-        logInUser(email.textContent, password.textContent, login.textContent);
-
-        transition(consts.dashboardHash)
+        console.log(login.value, password.value)
+        registerUser(email.value, password.value, login.value);
     })
     
 }
