@@ -17,10 +17,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(authorization_router, prefix="/auth", tags=["Auth"])
-app.include_router(images_router, prefix="/images", tags=["Images"])
-app.include_router(screenshots_router, prefix="/screenshots", tags=["Screenshots"])
-app.include_router(films_router, prefix="/films", tags=["Films"])
+app.include_router(authorization_router, prefix="/api/auth", tags=["Auth"])
+app.include_router(images_router, prefix="/api/images", tags=["Images"])
+app.include_router(screenshots_router, prefix="/api/screenshots", tags=["Screenshots"])
+app.include_router(films_router, prefix="/api/films", tags=["Films"])
 
 @app.get("/api/user/tmdb/")
 async def get_short_film():

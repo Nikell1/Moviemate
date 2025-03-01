@@ -6,6 +6,8 @@ import { renderSignup } from "./blocks/signup.js"
 import { loginHtml } from "./html/login.js"
 import { signupHtml } from "./html/signup.js"
 import { dashboardHtml } from "./html/dashboardHtml.js"
+import { renderDashboard } from "./blocks/dashboard.js"
+
 
 
 const wpapper = document.getElementById('wrapper')
@@ -27,6 +29,7 @@ function showSignUp() {
 
 function showDashboard() {
     dashboardHtml()
+    renderDashboard()
 }
 
 export function showBlocks() {
