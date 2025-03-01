@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 class TMDBobject_TV(BaseModel):
     adult:bool = True
-    backdrop_path:str
+    backdrop_path:str = None
     genre_ids:list[int] = []
     id: int = 0
     name:str
