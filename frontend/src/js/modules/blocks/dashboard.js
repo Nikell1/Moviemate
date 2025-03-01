@@ -32,6 +32,7 @@ function showMovies() {
 }
 
 function showCollections() {
+    showCollectionsHtml()
     clearColor()
     const collectionsBtn = document.getElementById('collections')
     collectionsBtn.style.color = consts.accentColor
@@ -56,17 +57,17 @@ function updateHash(req) {
 }
 
 function showDashboardBlocks() {
-    let url = new URL(window.location.href)
-
+    let url = new URL(window.location.href) 
 
     if (url.hash == '') {
         updateHash(consts.moviesHash)
     }
+    let url2 = new URL(window.location.href) 
 
-    if (url.hash == `#${consts.moviesHash}`) {showMovies()}
-    if (url.hash == `#${consts.collectionsHash}`) {showCollections()}
-    if (url.hash == `#${consts.friendsHash}`) {showFriends()}
-    if (url.hash == `#${consts.searchHash}`) {showSearch()}
+    if (url2.hash == `#${consts.moviesHash}`) {showMovies()}
+    if (url2.hash == `#${consts.collectionsHash}`) {showCollections()}
+    if (url2.hash == `#${consts.friendsHash}`) {showFriends()}
+    if (url2.hash == `#${consts.searchHash}`) {showSearch()}
 
     const moviesBtn = document.getElementById('movies')
     const collectionsBtn = document.getElementById('collections')

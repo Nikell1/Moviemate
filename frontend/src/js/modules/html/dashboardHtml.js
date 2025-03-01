@@ -51,3 +51,7 @@ export function showMoviesHtml() {
         <button class="fixBtn">GET A MOVIE</button>`
 
 }
+
+export function showCollectionsHtml() {
+    
+}
