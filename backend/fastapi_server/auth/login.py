@@ -13,7 +13,7 @@ async def login(body: LogIn):
     adapter = DatabaseAdapter()
     adapter.connect()
     adapter.initialize_tables()
-
+    print(body)
     user = adapter.get_by_value('users', 'email', body.email)
     if len(user) == 0:
         raise HTTPException(status_code=404, detail="Invalid credentials")
