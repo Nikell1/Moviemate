@@ -25,3 +25,4 @@ app.include_router(social_router, prefix="/api/social", tags=["Social"])
 if __name__ == "__main__":
     host, port = os.getenv("FAST_API_HOST"), os.getenv("FAST_API_PORT")
     uvicorn.run(app, host=host, port=int(port))
+    
