@@ -28,9 +28,10 @@ build_back:
     - docker info
     - docker build -t $BACK_DOCKER_IMAGE ./backend
     - docker save -o $BACK_DOCKER_TAR $BACK_DOCKER_IMAGE
+    - gzip $FRONT_DOCKER_TAR
   artifacts:
     paths:
-      - $BACK_DOCKER_TAR
+      - $BACK_DOCKER_TAR.gz
   only:
     - master
 
@@ -52,9 +53,10 @@ build_front:
     - docker info
     - docker build -t $FRONT_DOCKER_IMAGE ./frontend
     - docker save -o $FRONT_DOCKER_TAR $FRONT_DOCKER_IMAGE
+    - gzip $FRONT_DOCKER_TAR
   artifacts:
     paths:
-      - $FRONT_DOCKER_TAR
+      - $FRONT_DOCKER_TAR.gz
   only:
     - master
 
@@ -70,9 +72,12 @@ deploy:
     - chmod 600 ~/.ssh/id_rsa
     - ssh-keyscan -H $ENV_SSH_HOST >> ~/.ssh/known_hosts
   script:
+    # Распаковываем .tar.gz файлы
+    - gunzip $FRONT_DOCKER_TAR.gz
+    - gunzip $BACK_DOCKER_TAR.gz
     # Копируем .tar файлы на сервер
-    - rsync -avz -e "ssh -p $SSH_PORT -o StrictHostKeyChecking=no" $BACK_DOCKER_TAR $ENV_SSH_USER@$ENV_SSH_HOST:$REMOTE_DIR/
-    - rsync -avz -e "ssh -p $SSH_PORT -o StrictHostKeyChecking=no" $FRONT_DOCKER_TAR $ENV_SSH_USER@$ENV_SSH_HOST:$REMOTE_DIR/
+    - rsync -avz -e "ssh -p $SSH_PORT -o StrictHostKeyChecking=no" $BACK_DOCKER_TAR.gz $ENV_SSH_USER@$ENV_SSH_HOST:$REMOTE_DIR/
+    - rsync -avz -e "ssh -p $SSH_PORT -o StrictHostKeyChecking=no" $FRONT_DOCKER_TAR.gz $ENV_SSH_USER@$ENV_SSH_HOST:$REMOTE_DIR/
     # Копируем docker-compose.yml на сервер
     - rsync -avz -e "ssh -p $SSH_PORT -o StrictHostKeyChecking=no" docker-compose.yml $ENV_SSH_USER@$ENV_SSH_HOST:$REMOTE_DIR/
     # Загружаем Docker-образы и запускаем Docker Compose
