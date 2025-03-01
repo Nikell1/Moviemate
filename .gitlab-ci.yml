@@ -28,7 +28,7 @@ build_back:
     - docker info
     - docker build -t $BACK_DOCKER_IMAGE ./backend
     - docker save -o $BACK_DOCKER_TAR $BACK_DOCKER_IMAGE
-    - gzip $FRONT_DOCKER_TAR
+    - gzip $BACK_DOCKER_TAR
   artifacts:
     paths:
       - $BACK_DOCKER_TAR.gz
