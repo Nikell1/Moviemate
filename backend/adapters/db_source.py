@@ -12,7 +12,7 @@ class DatabaseAdapter:
             self.connection = psycopg2.connect(
                 dbname="prodb",
                 user="postgres",
-                password="timofey08",
+                password="penis1337",
                 host="localhost",
                 port="5432"
             )
