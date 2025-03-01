@@ -3,6 +3,7 @@ from models.schemas import Token, Film
 from adapters.db_source import DatabaseAdapter
 from fastapi.security import HTTPBearer
 from utils.functions import get_user
+from models.TMDB import TMDBobject_Short
 router = APIRouter()
 Bear = HTTPBearer(auto_error=False)
 
