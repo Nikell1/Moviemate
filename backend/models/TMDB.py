@@ -16,7 +16,7 @@ class TMDBobject_TV(BaseModel):
     original_language:str
     overview:str
     popularity:float = 0.0
-    poster_path:str
+    poster_path:str = None
     first_air_date:str
     video:bool = True
     vote_average:float = 0.0
@@ -32,7 +32,7 @@ class TMDBobject_Movie(BaseModel):
     original_language:str
     overview:str
     popularity:float = 0.0
-    poster_path:str
+    poster_path:str = None
     release_date:str
     video:bool = True
     vote_average:float = 0.0
