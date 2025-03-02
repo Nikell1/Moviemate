@@ -8,7 +8,7 @@ router = APIRouter()
 Bear = HTTPBearer(auto_error=False)
 
 
-@router.put("/create_film", status_code=status.HTTP_201_CREATED)
+@router.post("/create_film", status_code=status.HTTP_201_CREATED)
 async def create_media(body: Film,token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:
