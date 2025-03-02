@@ -119,7 +119,33 @@ function renderModalMoviesList(data) {
             const addToDashboard = document.getElementById('addToDashboard')
             addToDashboard.onclick = () => {
 
-                console.log('добавление интернов')
+                console.log('добавление фильма')
+                const token = localStorage.getItem("token")
+                const url = 'http://localhost:8000/api/films/film'; // Замените на ваш URL FastAPI сервера
+                console.log(data)
+                console.log(data[ind].media_type)
+                const requestBody = {
+                    "media_id": data[ind].id,
+                    "media_type": data[ind].media_type,                  
+                };
+            
+                try {
+                    const response = fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            "Authorization": `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(requestBody)
+                    });
+            
+
+
+                    transition(consts.dashboardSearch)
+                    
+                } catch (error) {
+                    console.error('Ошибка при авторизации пользователя:', error);
+                }
             }
         }
     }
