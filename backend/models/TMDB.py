@@ -1,9 +1,15 @@
+from sys import base_prefix
+
 from pydantic import BaseModel
+
+class TMDBobject_Genre(BaseModel):
+    id:int = 0
+    name:str
 
 class TMDBobject_TV(BaseModel):
     adult:bool = True
     backdrop_path:str = None
-    genre_ids:list[int] = []
+    genres:list[TMDBobject_Genre] = []
     id: int = 0
     name:str
     original_name:str
@@ -19,7 +25,7 @@ class TMDBobject_TV(BaseModel):
 class TMDBobject_Movie(BaseModel):
     adult:bool = True
     backdrop_path:str = None
-    genre_ids:list[int] = []
+    genres:list[TMDBobject_Genre] = []
     id: int = 0
     title:str
     original_title:str
@@ -39,3 +45,4 @@ class TMDBobject_Short(BaseModel):
     release_date:str
     id:int
     media_type:str
+
