@@ -130,6 +130,8 @@
         width:100%;
         background: grey;
         background-repeat: no-repeat;
+        background-position: center; /* Центрируем изображение */
+        object-position: center; // центрируем изображение
         background-size:cover;
         border-radius:10px 10px 0 0;
     }
