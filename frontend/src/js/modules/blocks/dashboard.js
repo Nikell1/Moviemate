@@ -167,12 +167,12 @@ function addMovieRender() {
                         body: JSON.stringify(requestBody)
                     });
             
-                    if (!response.ok) {
-                        throw new Error(`Ошибка: ${response.status}`);
-                    }
+                    // if (!response.ok) {
+                    //     throw new Error(`Ошибка: ${response.status}`);
+                    // }
             
-                    const data = response.json();
-                    console.log(data)
+                    // const data = response.json();
+                    // console.log(data)
 
                     transition(consts.dashboardSearch)
                     return data.token;
