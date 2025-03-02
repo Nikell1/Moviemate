@@ -9,10 +9,25 @@ export function renderMoviesList(moviesData) {
     }
 }
 
+function showAddMovieModal(a, b, c) {
+    const modal = document.getElementById('modal')
+
+    modal.style = `opacity:${a}; pointer-events: ${b};`
+    dark.style = `opacity:${c}; pointer-events: ${b};`
+}
+
 function showSidebar(a, b, c) {
     sidebar.innerHtml = ''
     sidebar.style = `transform:translateX(${a}px);`
     dark.style = `opacity: ${b}; pointer-events: ${c}`
+}
+
+function addMovieRender() {
+    const addMovieBtn = document.getElementById('addMovie')
+
+    addMovieBtn.onclick = () => {
+        showAddMovieModal(1, 'visible', '0.3')
+    }
 }
 
 function showMovies() {
@@ -22,6 +37,8 @@ function showMovies() {
     moviesBtn.style.color = consts.accentColor
 
     const moviesList = document.getElementById('moviesList')
+
+    addMovieRender()
 
     let token = ''
     const url = 'http://localhost:8000/api/films/get_films'; 
@@ -151,42 +168,4 @@ export function renderDashboard() {
 
     showDashboardBlocks()
 
-    let token = ''
-    const url = 'http://localhost:8000/api/films/get_films'; 
-    try{
-        token = localStorage.getItem("token")
-    } catch (error) {
-        console.log(error)
-        transition(consts.homeSearch)
-    }
-    const requestBody = {
-        token: token,
-    };
-    console.log(token)
-    try {
-        const response = fetch(url, {
-            method: 'GET',
-            headers: {
-                "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
-                "Content-Type": "application/json" // Указываем тип содержимого
-            }
-        }).then(response => {
-            if (!response.ok) {
-              throw new Error(`Ошибка: ${response.status}`);
-            }
-            return response.json();
-          })
-          .then(data => {
-            console.log("Данные:", data);
-            let movies = data
-          })
-          .catch(error => {
-            console.error("Ошибка:", error);
-            transition(consts.homeSearch)
-          });
-
-    } catch (error) {
-        console.error('Ошибка при авторизации пользователя:', error);
-    }
-    console.log(movies)
 }

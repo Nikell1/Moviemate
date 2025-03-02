@@ -12,7 +12,8 @@ export function dashboardHtml() {
         </div>
     </div>
     <div class="sidebar" id="sidebar"></div>
-    <div class="dark" id="dark"></div>`
+    <div class="dark" id="dark"></div>
+    <div class="modal" id="modal"></div>`
 }
 
 export function renderMoviesHtml(element) {
@@ -37,7 +38,7 @@ export function showMoviesHtml() {
         <div class="dashboard__block">
             <h1>Your movie <span>dashboard</span></h1>
             <div class="dashboard__rightBtns">
-                <button>Add movie</button>
+                <button id="addMovie">Add movie</button>
                 <button>New collection</button>
             </div>
         </div>
