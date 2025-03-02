@@ -1,16 +1,11 @@
 from fastapi import APIRouter, HTTPException, status,Security
 from models.schemas import Add_media
 from adapters.db_source import DatabaseAdapter
+from adapters import tmdb
 from fastapi.security import HTTPBearer
 from utils.functions import get_user
 router = APIRouter()
 Bear = HTTPBearer(auto_error=False)
-
-moods = {
-        "Весёлое": [35, 12, 10751, 10402],
-        "Серьёзные": [18, 36, 10749, 99, 35],
-        "Напряженные": [28, 53, 27, 9648, 878, 18]
-    }
 
 
 @router.post("/film", status_code=status.HTTP_201_CREATED)
@@ -29,11 +24,16 @@ async def add_media(body: Add_media,token:str = Security(Bear)):
     check_exist = adapter.execute_with_request(f"SELECT * from films_to_users WHERE email = '{user['email']}' AND media_id = {body.media_id}")
     if len(check_exist) > 0:
         raise HTTPException(status_code=409, detail="This film already added")
+
+    media_get = await tmdb.get_by_id(body.media_id, body.media_type, short=False)
+    moods = await tmdb.get_moods_by_genres(media_get["genre_ids"])
+
     adapter.insert('films_to_users', {
         'email': user["email"],
         'media_id':  body.media_id,
         "collection": body.collection,
-        "media_type": body.media_type
+        "media_type": body.media_type,
+        "moods": moods
     })
     return {"success": True}
 
