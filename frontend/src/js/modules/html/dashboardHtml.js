@@ -80,10 +80,22 @@ export function sidebarProfileHtml(login) {
     <img src="https://qrjaecpccsfknzbpdwkw.supabase.co/storage/v1/object/sign/images/free-icon-user-account-12311784.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJpbWFnZXMvZnJlZS1pY29uLXVzZXItYWNjb3VudC0xMjMxMTc4NC5wbmciLCJpYXQiOjE3NDA5MTQ3NjksImV4cCI6ODY1NzQwODI4MzY5fQ.kFpGT0zzNqOHuyme8aku0PR9R8UgbvzfAF7NmXAzSAE" class="sidebar__profileImg" >
     <p class="sidebar__nickname" id="sidebar_nickname">${login}</p>
     <div class="sidebar__buttons">
-        <button>EDIT PROFILE</button>   
+        <button id="editBtn">EDIT PROFILE</button>   
         <button id="logoutBtn">LOG OUT</button>
     </div>
     `   
+}
+
+export function editRenderhtml() {
+    movieCardModal.innerHTML = `
+    <form class="editProfileForm">
+        <h2>Edit profile</h2>
+        <p>Enter new username</p>
+        <input>
+        <p>Enter new Email</p>
+        <input>
+        <button type="submit">Submit</button>
+    </form>`
 }
 
 export function renderMovieCardModalHtml(element, ind) {
@@ -128,6 +140,17 @@ export function renderMovieCardModalHtml(element, ind) {
         <div class="modalButtonsCont">
             <button id="addToDashboard">Add to dashboard</button>
             <button>Add to collection</button>
+        </div>`
+}
+
+export function searchPageHtml() {
+    const dashboardContent = document.getElementById('dashboardContent')
+    dashboardContent.innerHTML = `
+            <div class="dashboard__botBtns">
+            <button id="movies">Your movies</button>
+            <button id="collections">Collections</button>
+            <button id="friends">Friends</button>
+            <button id="search">Search</button>
         </div>`
 }
 
