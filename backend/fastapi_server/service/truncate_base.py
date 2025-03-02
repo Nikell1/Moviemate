@@ -1,9 +1,6 @@
 from fastapi import APIRouter, HTTPException, status, Header
 from models.schemas import LogIn, Token
 from adapters.db_source import DatabaseAdapter
-import bcrypt
-from utils.functions import create_access_token
-import json
 import os
 from dotenv import load_dotenv
 router = APIRouter()

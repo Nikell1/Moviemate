@@ -11,7 +11,7 @@ Bear = HTTPBearer(auto_error=False)
 async def get_friends_films(friend_login:str,token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:
-        raise HTTPException(status_code=404, detail="Invalid credentials")
+        raise HTTPException(status_code=401, detail="Invalid token")
     user = user[0]
     adapter = DatabaseAdapter()
     adapter.connect()

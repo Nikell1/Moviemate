@@ -92,7 +92,9 @@ export function renderAddMovieHtml() {
             <input placeholder="Find in base" id="search__input">
             <button type="submit">Search</button>
         </form>
-        <ul class="modal__filmsList" id="modalMoviesList"></ul>
+        <ul class="modal__filmsList" id="modalMoviesList">
+            <h2>Find the movie you want to watch</h2>
+        </ul>
     </div>
     <div class="modal__btn-container">
         <button>Find by photo</button>
@@ -126,12 +128,17 @@ export function renderModalMoviesHtml(element) {
 
     let overview = element.overview
     if (overview.length > 100) {
-        console.log(1)
         overview = `${overview.slice(0, 100)}...`
     }
+    const url = 'http://localhost:8000/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
+    const params = new URLSearchParams({
+        "url": element.poster_path,
+    });
+
+    const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
     return `
     <li class="modal-movie-element">
-        <img src="https://image.tmdb.org/t/p/w200${element.poster_path}">
+        <img src="${urlWithParams}">
         <div>
             <div class="modal-movie-element__container">
                 <span>${title}</span>
@@ -144,12 +151,16 @@ export function renderModalMoviesHtml(element) {
 
 export function addOwnHtml() {
     return `
-    <form class="addOwnForm">
-        <p>Specify the name of the movie</p>
-        <input>
-        <p>Specify the release year of the movie</p>
-        <input>
-        <p>Specify a description of the movie</p>
-        <textarea></textarea>
+    <form class="addOwnForm" id="addOwnForm">
+        <div>
+            <h2>Add your own movie</h2>
+            <p>Specify the name of the movie</p>
+            <input  required placeholder="Interstellar">
+            <p>Specify the release year of the movie</p>
+            <input  required placeholder="01-01-1999">
+            <p>Specify a description of the movie</p>
+            <textarea  required placeholder="Description"></textarea>
+        </div>
+        <button type="submit">Add</button>
     </form>`
 }

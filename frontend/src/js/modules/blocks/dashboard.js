@@ -95,6 +95,10 @@ function renderModalMoviesList(data) {
     for (let i = 0; i < data.length; i++) {
         modalMoviesList.insertAdjacentHTML('beforeend', dashboardHtml.renderModalMoviesHtml(data[i]))
     }
+
+    if (data.length == 0) {
+        modalMoviesList.innerHTML = `<h2>Movies not found</h2>`
+    }
 }
 
 function addMovieRender() {
@@ -109,6 +113,13 @@ function addMovieRender() {
         
         addOwnBtn.onclick = () => {
             modal.innerHTML = dashboardHtml.addOwnHtml()
+            const addOwnForm = document.getElementById('addOwnForm')
+
+            addOwnForm.addEventListener('submit', (event) => {
+                event.preventDefault()
+
+
+            })
         }
 
         moviesForm.addEventListener('submit', (event) => {
@@ -116,7 +127,6 @@ function addMovieRender() {
         const search_input = document.getElementById('search__input')
         const token = localStorage.getItem('token')
         console.log('считывание списка фильмов')
-        console.log(search_input.value)
 
         const url = 'http://localhost:8000/api/films/search_film'; // Замените на ваш URL FastAPI сервера
         const params = new URLSearchParams({
