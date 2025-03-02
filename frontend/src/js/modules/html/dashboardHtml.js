@@ -49,9 +49,34 @@ export function showMoviesHtml() {
         </div>
         <ul class="movies-list" id="moviesList"></ul>
         <button class="fixBtn">GET A MOVIE</button>`
-
 }
 
 export function showCollectionsHtml() {
-    
+    const dashboardContent = document.getElementById('dashboardContent')
+    dashboardContent.innerHTML = `
+        <div class="dashboard__block">
+            <h1>Your movie <span>Collections</span></h1>
+            <div class="dashboard__rightBtns">
+                <button>New collection</button>
+            </div>
+        </div>
+        <div class="dashboard__botBtns">
+            <button id="movies">Your movies</button>
+            <button id="collections">Collections</button>
+            <button id="friends">Friends</button>
+            <button id="search">Search</button>
+        </div>
+        <ul class="movies-list" id="moviesList"></ul>
+        <button class="fixBtn">GET A MOVIE</button>`
+}
+
+export function sidebarProfileHtml() {
+    return `
+    <div class="sidebar__profileImg"></div>
+    <p class="sidebar__nickname">Nickname</p>
+    <div class="sidebar__buttons">
+        <button>EDIT PROFILE</button>
+        <button>LOG OUT</button>
+    </div>
+    `
 }

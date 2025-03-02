@@ -24,3 +24,15 @@ export function transition(search) {
     searchUpdate(search)
     showBlocks()
 }
+
+export function clearColor() {
+    const moviesBtn = document.getElementById('movies')
+    const collectionsBtn = document.getElementById('collections')
+    const friendsBtn = document.getElementById('friends')
+    const searchBtn = document.getElementById('search')
+
+    friendsBtn.style.color = '#fff'
+    searchBtn.style.color = '#fff'
+    collectionsBtn.style.color = '#fff'
+    moviesBtn.style.color = '#fff'
+}

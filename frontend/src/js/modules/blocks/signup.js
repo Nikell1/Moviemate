@@ -42,7 +42,7 @@ export function renderSignup() {
                 localStorage.setItem("token", data.token)
                 localStorage.setItem("password", password)
                 localStorage.setItem("login", login)
-                transition(consts.dashboardHash)
+                transition(consts.dashboardSearch)
                 return data.token;
             } catch (error) {
                 console.error('Ошибка при авторизации пользователя:', error);
