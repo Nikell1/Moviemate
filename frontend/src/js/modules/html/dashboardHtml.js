@@ -43,11 +43,7 @@ export function renderMoviesHtml(element) {
         overview = `${overview.slice(0, 50)}...`
     }
 
-    let overview = element.overview
 
-    if (overview.length > 100) {
-        overview = `${overview.slice(0, 100)}...`
-    }
 
     const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
     return `            
