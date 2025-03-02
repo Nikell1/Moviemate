@@ -63,8 +63,10 @@ async def search_multi(query:str, genre_ids:list[int], release_date_low:str=None
         limit = response["total_results"]
     
     new_results = []
+
     for i in range(limit):
         c_res = response["results"][i]
+        print(c_res)
         if release_date_low != None:
             if "first_air_date" in c_res and datetime.fromisoformat(release_date_low) > datetime.fromisoformat(
                     c_res["first_air_date"]):
@@ -97,6 +99,8 @@ async def search_multi(query:str, genre_ids:list[int], release_date_low:str=None
                 continue
 
         else:
+            if "genre_ids" not in c_res:
+                c_res["genre_ids"] = []
             for id in c_res["genre_ids"]:
                 if str(id) not in genres_:
                     continue
