@@ -3,7 +3,12 @@ import * as consts from "../consts.js"
 import * as dashboardHtml from "../html/dashboardHtml.js";
 import { clearColor } from "../functions.js";
 import { transition } from "../functions.js"
+import { renderAddMovieHtml } from "../html/dashboardHtml.js";
+
+
 export function renderMoviesList(moviesData) {
+    moviesList.innerHTML = ''
+
     for (let i = 0; i < moviesData.length; i++) {
         console.log(moviesData[i].watched)
         if (moviesData[i].watched == false){
@@ -13,10 +18,15 @@ export function renderMoviesList(moviesData) {
         }
         moviesList.insertAdjacentHTML('beforeend', renderMoviesHtml(moviesData[i]));
     }
+
+    if (moviesData,length == 0) {
+        moviesList.innerHTML = `<p>You haven't added any movies to your bookmarks yet</p>`
+    }
 }
 
 function showAddMovieModal(a, b, c) {
     const modal = document.getElementById('modal')
+    modal.innerHTML = ''
 
     modal.style = `opacity:${a}; pointer-events: ${b};`
     dark.style = `opacity:${c}; pointer-events: ${b};`
@@ -32,7 +42,16 @@ function addMovieRender() {
     const addMovieBtn = document.getElementById('addMovie')
 
     addMovieBtn.onclick = () => {
-        showAddMovieModal(1, 'visible', '0.3')
+        showAddMovieModal(1, 'visible', 0.3)
+        renderAddMovieHtml()
+
+        const moviesForm = document.getElementById('moviesForm')
+
+        moviesForm.addEventListener('submit', (event) => {
+            event.preventDefault()
+
+            console.log('считывание списка фильмов')
+        })
     }
 }
 
@@ -169,7 +188,10 @@ export function renderDashboard() {
     const sidebar = document.getElementById('sidebar')
     const dark = document.getElementById('dark')
 
-    dark.onclick = () => showSidebar(400, 0, 'none')
+    dark.onclick = () => {
+        showSidebar(400, 0, 'none')
+        showAddMovieModal(0, 'none', 0)
+    }
     profileBtn.onclick = () => {
         showSidebar(0, 0.3, 'visible')
         const login = localStorage.getItem("login") 

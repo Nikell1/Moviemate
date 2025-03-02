@@ -48,6 +48,7 @@ export function showMoviesHtml() {
             <button id="friends">Friends</button>
             <button id="search">Search</button>
         </div>
+        <input class="dashboard__search" placeholder="Find movie in your bookmarks">
         <ul class="movies-list" id="moviesList"></ul>
         <button class="fixBtn">GET A MOVIE</button>`
 }
@@ -80,5 +81,36 @@ export function sidebarProfileHtml(login) {
         <button>EDIT PROFILE</button>   
         <button>LOG OUT</button>
     </div>
-    `
+    `   
+}
+
+export function renderAddMovieHtml() {
+    modal.innerHTML = `
+    <div modal__top>
+        <h2 class="modal__title">Add movie</h2>
+        <form class="modal__search" id="moviesForm">
+            <input placeholder="FInd in base">
+            <button type="submit">Search</button>
+        </form>
+        <ul class="modal__filmsList">${renderModalMoviesHtml()}</ul>
+    </div>
+    <div class="modal__btn-container">
+        <button>Find by photo</button>
+        <span>Or</span>
+        <button>Create your own</button>
+    </div>`
+}
+
+export function renderModalMoviesHtml() {
+    return `
+    <li class="modal-movie-element">
+        <img src="">
+        <div>
+            <div class="modal-movie-element__container">
+                <span>Name of film</span>
+                <span>1990</span>
+            </div>
+            <p>Description</p>
+        </div>
+    </li>`
 }

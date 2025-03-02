@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Header
 from models.schemas import LogIn, Token
 from adapters.db_source import DatabaseAdapter
 import bcrypt
@@ -10,7 +10,7 @@ router = APIRouter()
 load_dotenv()
 
 @router.post("/truncate", response_model=None, status_code=status.HTTP_204_NO_CONTENT)
-async def truncate_all_tables(admin_key: str = None):
+async def truncate_all_tables(admin_key: str = Header(None)):
     adapter = DatabaseAdapter()
     if admin_key != os.getenv("ADMIN_KEY"):
         raise HTTPException(status_code=403, detail="Correct admin key required")
