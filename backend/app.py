@@ -8,7 +8,7 @@ from fastapi_server.films import router as films_router
 from fastapi_server.social import router as social_router
 import os
 load_dotenv()
-app = FastAPI()
+app = FastAPI(docs_url="/api/docs")
 
 app.add_middleware(
     CORSMiddleware,
