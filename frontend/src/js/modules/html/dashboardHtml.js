@@ -23,16 +23,35 @@ export function renderMoviesHtml(element) {
     const params = new URLSearchParams({
         "url": element.poster_path,
     });
+    
+
+    let title
+
+    if (element.name != undefined) {
+        title = element.name
+    }
+    else if (element.title !=  undefined) {
+        title = element.title
+    }
+    if (title.length > 30) {
+        title = `${title.slice(0, 30)}...`
+    }
+
+    let overview = element.overview
+
+    if (overview.length > 50) {
+        overview = `${overview.slice(0, 50)}...`
+    }
 
     const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
     return `            
             <li class="movies-element">
                 <div class="movies-element__img" style="background-image: url('${urlWithParams}');"></div>
                 <div class="movies-element__block">
-                    <span>${element.title}</span>
+                    <span>${title}</span>
                     <span>${element.release_date}</span>
                 </div>
-                <p class="movies-element__description">${element.overview}</p>
+                <p class="movies-element__description">${overview}</p>
                 <div class="movies-element__bottom">
                     <button class="movies-element__btn1" id="mark_${element.id}">${element.watched}</button>
                     <button class="movies-element__btn2" id="add_to_coll_${element.id}">Add to collection</button>
@@ -122,9 +141,9 @@ export function renderMovieCardModalHtml(element, ind) {
         title = element.title
     }
 
-    if (title.length > 30) {
-        title = `${title.slice(0, 30)}...`
-    }
+    // if (title.length > 30) {
+    //     title = `${title.slice(0, 30)}...`
+    // }
 
     let overview = element.overview
     const url = 'http://localhost:8000/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
