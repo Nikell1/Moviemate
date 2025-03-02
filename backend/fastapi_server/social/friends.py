@@ -13,7 +13,7 @@ import random
 router = APIRouter()
 Bear = HTTPBearer(auto_error=False)
 
-@router.put("/friend", status_code=status.HTTP_200_OK)
+@router.post("/friend", status_code=status.HTTP_200_OK)
 async def add_friend(friend_login:str, token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:
@@ -29,7 +29,7 @@ async def add_friend(friend_login:str, token:str = Security(Bear)):
 
     friend = db.get_by_value('users', 'login', friend_login)
     if friend == []:
-        raise HTTPException(status_code=404, detail="Net idi nafek (No user found)")
+        raise HTTPException(status_code=403, detail="No user found")
 
     check_if_already_pending = f"""SELECT * FROM friends WHERE user1='{user['login']}'"""
     check_invited = f"""SELECT * FROM friends WHERE user2='{user['login']}'"""
