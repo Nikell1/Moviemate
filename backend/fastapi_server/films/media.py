@@ -26,7 +26,7 @@ async def add_media(body: Add_media,token:str = Security(Bear)):
         raise HTTPException(status_code=409, detail="This film already added")
 
     media_get = await tmdb.get_by_id(body.media_id, body.media_type, short=False)
-    moods = await tmdb.get_moods_by_genres(media_get["genre_ids"])
+    moods = await tmdb.get_moods_by_genres(media_get.genres)
 
     adapter.insert('films_to_users', {
         'email': user["email"],
