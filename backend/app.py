@@ -22,7 +22,7 @@ app.add_middleware(
 app.include_router(authorization_router, prefix="/api/auth", tags=["Auth"])
 app.include_router(screenshots_router, prefix="/api/screenshots", tags=["Screenshots"])
 app.include_router(films_router, prefix="/api/films", tags=["Films"])
-app.include_router(social_router, prefix="/api/title", tags=["Social"])
+app.include_router(social_router, prefix="/api/title", tags=["Title"])
 app.include_router(social_router, prefix="/api/social", tags=["Social"])
 app.include_router(service_router, prefix="/api/service", tags=["Service"])
 
