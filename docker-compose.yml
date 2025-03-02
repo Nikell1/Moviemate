@@ -15,6 +15,9 @@ services:
 
   app_api:
     image: backend:master
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: backend_container
     environment:
       FAST_API_HOST: ${FAST_API_HOST}
@@ -36,6 +39,9 @@ services:
 
   app_frontend:
     image: frontend:master
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     container_name: frontend_container
     environment:
       BACKEND_HOST: ${BACKEND_HOST}

@@ -13,7 +13,6 @@ async def get_films(token:str = Security(Bear)):
     print(token)
     user = get_user(token.credentials)
     if user == []:
-        print(11111)
         raise HTTPException(status_code=401, detail="Invalid token")
     user = user[0]
     adapter = DatabaseAdapter()
@@ -27,8 +26,6 @@ async def get_films(token:str = Security(Bear)):
     result = []
     print(films)
     for i in range(len(films)):
-        print(films[i])
-        print(films[i]["media_id"])
         
         if films[i]["media_id"] >= 0:
             film =  await get_by_id(films[i]["media_id"],films[i]["media_type"])

@@ -20,6 +20,7 @@ class TMDBobject_TV(BaseModel):
     video:bool = True
     vote_average:float = 0.0
     vote_count:int = 0.0
+    media_type:str
 
 class TMDBobject_Movie(BaseModel):
     adult:bool = True
@@ -36,6 +37,7 @@ class TMDBobject_Movie(BaseModel):
     video:bool = True
     vote_average:float = 0.0
     vote_count:int = 0.0
+    media_type:str
 
 class TMDBobject_Short(BaseModel):
     title:str
