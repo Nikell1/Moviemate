@@ -6,8 +6,8 @@ from utils.functions import get_user
 router = APIRouter()
 Bear = HTTPBearer(auto_error=False)
 
-@router.post("/title", status_code=status.HTTP_201_CREATED) 
-async def create_title(name:str,token:str = Security(Bear)):
+@router.post("/collections", status_code=status.HTTP_201_CREATED) 
+async def create_collections(name:str,token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:  
         raise HTTPException(status_code=404, detail="Invalid credentials")
@@ -24,8 +24,8 @@ async def create_title(name:str,token:str = Security(Bear)):
     })
     return {"success": True}
 
-@router.get("/title", status_code=status.HTTP_200_OK)
-async def get_titles(token:str = Security(Bear)):
+@router.get("/collections", status_code=status.HTTP_200_OK)
+async def get_collections(token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:
         raise HTTPException(status_code=404, detail="Invalid credentials")
@@ -37,8 +37,8 @@ async def get_titles(token:str = Security(Bear)):
         collections[i] = collections[i]["collection_name"]
     return collections
 
-@router.delete("/title", status_code=status.HTTP_200_OK)
-async def delete_title(name:str,token:str = Security(Bear)):
+@router.delete("/collections", status_code=status.HTTP_200_OK)
+async def delete_collections(name:str,token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:
         raise HTTPException(status_code=404, detail="Invalid credentials")
