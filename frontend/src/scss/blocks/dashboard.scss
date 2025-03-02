@@ -260,6 +260,11 @@
     }
 
     &__filmsList {
+        height:500px;
+        overflow-x: scroll;
+    }
+    &__filmsList::-webkit-scrollbar {
+        width:0;
     }
 
     &__btn-container {
@@ -294,7 +299,6 @@
     &__container {
         margin:10px 10px;
         display:flex;
-        width:480px;
         justify-content: space-between;
     }
 
@@ -308,5 +312,17 @@
         margin-left:10px;
         font-family: $text-font;
         font-size:1rem;
+        padding-bottom:10px;
+    }
+}
+
+.addOwnForm {
+    p {
+        font-size:2rem;
+        font-family:$text-font;
+        margin-bottom: 20px;
+    }
+    input {
+
     }
 }
