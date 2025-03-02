@@ -2,7 +2,7 @@ export function dashboardHtml() {
     wrapper.innerHTML = `
     <div class="dashboard">
         <nav class="dashboard__nav">
-            <span class="logo">NAME</span>
+            <span class="logo">MOVIEMATE</span>
             <button id="profileBtn" class="dashboard__profile">
                 <img src="https://qrjaecpccsfknzbpdwkw.supabase.co/storage/v1/object/sign/images/free-icon-user-account-12311784.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJpbWFnZXMvZnJlZS1pY29uLXVzZXItYWNjb3VudC0xMjMxMTc4NC5wbmciLCJpYXQiOjE3NDA5MTQ3NjksImV4cCI6ODY1NzQwODI4MzY5fQ.kFpGT0zzNqOHuyme8aku0PR9R8UgbvzfAF7NmXAzSAE">
                 <span id="profile_nickname">Nickname</span>
@@ -19,6 +19,12 @@ export function dashboardHtml() {
 }
 
 export function renderMoviesHtml(element) {
+
+    let overview = element.overview
+
+    if (overview.length > 100) {
+        overview = `${overview.slice(0, 100)}...`
+    }
     return `            
             <li class="movies-element">
                 <div class="movies-element__img" style="background-image: url('${element.poster_path}');"></div>
@@ -26,7 +32,7 @@ export function renderMoviesHtml(element) {
                     <span>${element.title}</span>
                     <span>${element.release_date}</span>
                 </div>
-                <p class="movies-element__description">${element.overview}</p>
+                <p class="movies-element__description">${overview}</p>
                 <div class="movies-element__bottom">
                     <button class="movies-element__btn1" id="mark_${element.id}">${element.watched}</button>
                     <button class="movies-element__btn2" id="add_to_coll_${element.id}">Add to collection</button>
