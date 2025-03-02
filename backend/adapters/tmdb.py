@@ -71,7 +71,6 @@ async def search_multi_short(query:str, include_adult:bool=False, language:str="
 
     for i in range(limit):
         c_res = response["results"][i]
-        cooked = {}
 
         if c_res["media_type"] == "tv":
             cooked = {
