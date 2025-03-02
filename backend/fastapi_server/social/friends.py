@@ -1,4 +1,6 @@
 from fastapi import APIRouter, HTTPException, status,Security
+from urllib3 import request
+
 from models.schemas import Token, Film
 from adapters.db_source import DatabaseAdapter
 from adapters.tmdb import get_by_id
@@ -30,10 +32,18 @@ async def add_friend(friend_login:str, token:str = Security(Bear)):
         raise HTTPException(status_code=404, detail="Net idi nafek (No user found)")
 
     check_if_already_pending = f"""SELECT * FROM friends WHERE user1='{user['login']}'"""
+    check_invited = f"""SELECT * FROM friends WHERE user2='{user['login']}'"""
+
+    check_if_already_pending = db.execute_with_request(check_if_already_pending)
+    check_invited = db.execute_with_request(check_invited)
 
     if check_if_already_pending != []:
         raise HTTPException(status_code=403, detail="Already sent invite")
 
+    if check_invited != []:
+        request = f"""UPDATE friends SET status='complete' WHERE user1='{check_invited[0]['user1']}' and user2='{check_invited[0]['user2']}'"""
+        db.execute_with_request(request)
+        return {"ok": True, "detail": "Confirmed"}
 
     request = {
         "user1": user["login"],
