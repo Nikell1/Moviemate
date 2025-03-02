@@ -1,3 +1,6 @@
+from datetime import datetime
+
+from pycparser.c_ast import Struct
 from pydantic import BaseModel
 
 class LogIn(BaseModel):
@@ -34,6 +37,11 @@ class Add_media(BaseModel):
     media_id:int
     media_type:str = "movie"
     collection:str = None
+
+class Search(BaseModel):
+    release_date_low: str = None
+    release_date_high: str = None
+    genre_ids: list[int] = None
 
 class Set_collection(BaseModel):
     media_id:str
