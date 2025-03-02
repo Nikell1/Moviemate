@@ -155,11 +155,11 @@ export function addOwnHtml() {
         <div>
             <h2>Add your own movie</h2>
             <p>Specify the name of the movie</p>
-            <input  required placeholder="Interstellar">
+            <input id="title_input" required placeholder="Interstellar">
             <p>Specify the release year of the movie</p>
-            <input  required placeholder="01-01-1999">
+            <input id="date_input" required placeholder="01-01-1999">
             <p>Specify a description of the movie</p>
-            <textarea  required placeholder="Description"></textarea>
+            <textarea id="description_input" required placeholder="Description"></textarea>
         </div>
         <button type="submit">Add</button>
     </form>`

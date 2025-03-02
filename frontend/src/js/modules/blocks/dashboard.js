@@ -117,8 +117,44 @@ function addMovieRender() {
 
             addOwnForm.addEventListener('submit', (event) => {
                 event.preventDefault()
+                console.log(1243)
 
+                let title_input = document.getElementById("title_input")
+                let date_input = document.getElementById("date_input")
+                let description_input = document.getElementById("description_input")
 
+                const token = localStorage.getItem("token")
+                const url = 'http://localhost:8000/api/films/create_film'; // Замените на ваш URL FastAPI сервера
+                        
+                const requestBody = {
+                    "title": title_input.value,
+                    "description": description_input.value,
+                    "date": date_input.value,
+                    "image_url": "null"
+                };
+            
+                try {
+                    const response = fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            "Authorization": `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(requestBody)
+                    });
+            
+                    if (!response.ok) {
+                        throw new Error(`Ошибка: ${response.status}`);
+                    }
+            
+                    const data = response.json();
+                    console.log(data)
+
+                    transition(consts.dashboardSearch)
+                    return data.token;
+                } catch (error) {
+                    console.error('Ошибка при авторизации пользователя:', error);
+                }
             })
         }
 
