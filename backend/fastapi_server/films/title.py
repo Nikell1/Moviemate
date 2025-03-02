@@ -39,7 +39,7 @@ async def get_titles(token:str = Security(Bear)):
     return collections
 
 @router.delete("/title", status_code=status.HTTP_200_OK)
-async def get_titles(name:str,token:str = Security(Bear)):
+async def delete_title(name:str,token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:
         raise HTTPException(status_code=404, detail="Invalid credentials")

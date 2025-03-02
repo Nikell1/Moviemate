@@ -42,7 +42,7 @@ async def get_films(token:str = Security(Bear)):
     return result
 
 @router.get("/get_rand_film", status_code=status.HTTP_200_OK)
-async def add_media(token:str = Security(Bear)):
+async def get_rand_film(token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:
         raise HTTPException(status_code=404, detail="Invalid credentials")
