@@ -72,10 +72,11 @@ export function showCollectionsHtml() {
 
 export function sidebarProfileHtml() {
     return `
+    <div class="sidebar__close" id="sidebarClose"></div>
     <div class="sidebar__profileImg"></div>
     <p class="sidebar__nickname">Nickname</p>
     <div class="sidebar__buttons">
-        <button>EDIT PROFILE</button>
+        <button>EDIT PROFILE</button>   
         <button>LOG OUT</button>
     </div>
     `

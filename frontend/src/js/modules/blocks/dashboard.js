@@ -89,6 +89,12 @@ function showDashboardBlocks() {
     dashboardBtnOnclick()
 }
 
+function renderCloseBtn() {
+    const closeSidebarBtn = document.getElementById('sidebarClose')
+
+    closeSidebarBtn.onclick = () => showSidebar(400, 0, 'none')
+}
+
 export function renderDashboard() {
     const profileBtn = document.getElementById('profileBtn')
     const sidebar = document.getElementById('sidebar')
@@ -98,6 +104,7 @@ export function renderDashboard() {
     profileBtn.onclick = () => {
         showSidebar(0, 0.3, 'visible')
         sidebar.innerHTML = dashboardHtml.sidebarProfileHtml()
+        renderCloseBtn()
     }
 
     showDashboardBlocks()
