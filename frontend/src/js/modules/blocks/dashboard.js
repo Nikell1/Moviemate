@@ -16,11 +16,62 @@ export function renderMoviesList(moviesData) {
         } else if (moviesData[i].watched == true){
             moviesData[i].watched = "Mark as unwatched"
         }
-        moviesList.insertAdjacentHTML('beforeend', renderMoviesHtml(moviesData[i]));
+        moviesList.insertAdjacentHTML('beforeend', renderMoviesHtml(moviesData[i]))
     }
 
     if (moviesData.length == 0) {
         moviesList.innerHTML = `<p>You haven't added any movies to your bookmarks yet</p>`
+    }
+    for (let i = 0; i < moviesData.length; i++){
+        console.log(`mark_${moviesData[i].id}`)
+        const current_mark_button = document.getElementById(`mark_${moviesData[i].id}`)
+        current_mark_button.onclick = () => {
+            console.log(current_mark_button.textContent)
+            if (current_mark_button.textContent == "Mark as watched"){
+                current_mark_button.textContent = "Mark as unwatched"
+            }
+            else{
+                current_mark_button.textContent = "Mark as watched" 
+            }
+
+            try {
+                const token = localStorage.getItem("token")
+                const url = 'http://localhost:8000/api/films/mark_as_watched'; // Замените на ваш URL FastAPI сервера
+                const params = new URLSearchParams({
+                    "id": moviesData[i].id,
+                });
+            
+                const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
+                const response = fetch(urlWithParams, {
+                    method: 'PUT',
+                    headers: {
+                        "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                        "Content-Type": "application/json" // Указываем тип содержимого
+                    }
+                }).then(response => {
+                    if (!response.ok) {
+                      throw new Error(`Ошибка: ${response.status}`);
+                    }
+                    return response.json();
+                  })
+                  .then(data => {
+                    console.log("Данные:", data);
+                    console.log(data.results)
+                    let moviesData = data
+                    // renderMoviesList(moviesData)
+                  })
+                  .catch(error => {
+                    console.error("Ошибка:", error);
+                    // transition(consts.homeSearch)
+                  });
+        
+            } catch (error) {
+                console.error('Ошибка при авторизации пользователя:', error);
+            }
+
+
+
+        }
     }
 }
 
@@ -38,6 +89,14 @@ function showSidebar(a, b, c) {
     dark.style = `opacity: ${b}; pointer-events: ${c}`
 }
 
+function renderModalMoviesList(data) {
+    const modalMoviesList = document.getElementById('modalMoviesList')
+    modalMoviesList.innerHTML = ''
+    for (let i = 0; i < data.length; i++) {
+        modalMoviesList.insertAdjacentHTML('beforeend', dashboardHtml.renderModalMoviesHtml(data[i]))
+    }
+}
+
 function addMovieRender() {
     const addMovieBtn = document.getElementById('addMovie')
 
@@ -46,11 +105,16 @@ function addMovieRender() {
         renderAddMovieHtml()
 
         const moviesForm = document.getElementById('moviesForm')
-        const search_input = document.getElementById('search_input')
-        const token = localStorage.getItem("token")
+        const addOwnBtn = document.getElementById('addOwn')
+        
+        addOwnBtn.onclick = () => {
+            modal.innerHTML = dashboardHtml.addOwnHtml()
+        }
+
         moviesForm.addEventListener('submit', (event) => {
         event.preventDefault()
-
+        const search_input = document.getElementById('search__input')
+        const token = localStorage.getItem('token')
         console.log('считывание списка фильмов')
         console.log(search_input.value)
 
@@ -76,7 +140,7 @@ function addMovieRender() {
                   .then(data => {
                     console.log("Данные:", data);
                     console.log(data.results)
-                    let moviesData = data
+                    renderModalMoviesList(data.results)
                     // renderMoviesList(moviesData)
                   })
                   .catch(error => {

@@ -26,8 +26,8 @@ export function renderMoviesHtml(element) {
                 </div>
                 <p class="movies-element__description">${element.overview}</p>
                 <div class="movies-element__bottom">
-                    <button class="movies-element__btn1">${element.watched}</button>
-                    <button class="movies-element__btn2">Add to collection</button>
+                    <button class="movies-element__btn1" id="mark_${element.id}">${element.watched}</button>
+                    <button class="movies-element__btn2" id="add_to_coll_${element.id}">Add to collection</button>
                 </div>
             </li>`
 }
@@ -89,28 +89,67 @@ export function renderAddMovieHtml() {
     <div modal__top>
         <h2 class="modal__title">Add movie</h2>
         <form class="modal__search" id="moviesForm">
-            <input placeholder="FInd in base" id="search_input">
+            <input placeholder="Find in base" id="search__input">
             <button type="submit">Search</button>
         </form>
-        <ul class="modal__filmsList">${renderModalMoviesHtml()}</ul>
+        <ul class="modal__filmsList" id="modalMoviesList"></ul>
     </div>
     <div class="modal__btn-container">
         <button>Find by photo</button>
         <span>Or</span>
-        <button>Add your own</button>
+        <button id="addOwn">Add your own</button>
     </div>`
 }
 
-export function renderModalMoviesHtml() {
+export function renderModalMoviesHtml(element) {
+
+    let releaseDate
+    if (element.first_air_date != undefined) {
+        releaseDate = element.first_air_date
+    }
+    else if (element.release_date != undefined) {
+        releaseDate = element.release_date
+    }
+
+    let title
+
+    if (element.name != undefined) {
+        title = element.name
+    }
+    else if (element.title !=  undefined) {
+        title = element.title
+    }
+
+    if (title.length > 30) {
+        title = `${title.slice(0, 30)}...`
+    }
+
+    let overview = element.overview
+    if (overview.length > 100) {
+        console.log(1)
+        overview = `${overview.slice(0, 100)}...`
+    }
     return `
     <li class="modal-movie-element">
-        <img src="">
+        <img src="https://image.tmdb.org/t/p/w200${element.poster_path}">
         <div>
             <div class="modal-movie-element__container">
-                <span>Name of film</span>
-                <span>1990</span>
+                <span>${title}</span>
+                <span>${releaseDate}</span>
             </div>
-            <p>Description</p>
+            <p>${overview}</p>
         </div>
     </li>`
+}
+
+export function addOwnHtml() {
+    return `
+    <form class="addOwnForm">
+        <p>Specify the name of the movie</p>
+        <input>
+        <p>Specify the release year of the movie</p>
+        <input>
+        <p>Specify a description of the movie</p>
+        <textarea></textarea>
+    </form>`
 }
