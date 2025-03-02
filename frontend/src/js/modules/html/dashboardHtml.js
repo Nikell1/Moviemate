@@ -204,9 +204,10 @@ export function getMovieHtml() {
         <h2>Get a movie</h2>
         <p>Choose the mood of the movie</p>
         <select>
-            <option>Mood 1</option>
-            <option>Mood 2</option>
-            <option>Mood 3</option>
+            <option>Any</option>
+            <option>Joyful</option>
+            <option>Serious</option>
+            <option>Tense</option>
         </select>
     </div>
     <button class="get-a-movie-modal" id="getMovieModal">Get a movie</button>`
