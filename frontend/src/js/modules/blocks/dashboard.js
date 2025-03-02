@@ -19,7 +19,7 @@ export function renderMoviesList(moviesData) {
         moviesList.insertAdjacentHTML('beforeend', renderMoviesHtml(moviesData[i]));
     }
 
-    if (moviesData,length == 0) {
+    if (moviesData.length == 0) {
         moviesList.innerHTML = `<p>You haven't added any movies to your bookmarks yet</p>`
     }
 }
@@ -46,12 +46,49 @@ function addMovieRender() {
         renderAddMovieHtml()
 
         const moviesForm = document.getElementById('moviesForm')
-
+        const search_input = document.getElementById('search_input')
+        const token = localStorage.getItem("token")
         moviesForm.addEventListener('submit', (event) => {
-            event.preventDefault()
+        event.preventDefault()
 
-            console.log('считывание списка фильмов')
-        })
+        console.log('считывание списка фильмов')
+        console.log(search_input.value)
+
+        const url = 'http://localhost:8000/api/films/search_film'; // Замените на ваш URL FastAPI сервера
+        const params = new URLSearchParams({
+            "search": search_input.value,
+        });
+    
+        const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
+            try {
+                const response = fetch(urlWithParams, {
+                    method: 'GET',
+                    headers: {
+                        "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                        "Content-Type": "application/json" // Указываем тип содержимого
+                    }
+                }).then(response => {
+                    if (!response.ok) {
+                      throw new Error(`Ошибка: ${response.status}`);
+                    }
+                    return response.json();
+                  })
+                  .then(data => {
+                    console.log("Данные:", data);
+                    console.log(data.results)
+                    let moviesData = data
+                    // renderMoviesList(moviesData)
+                  })
+                  .catch(error => {
+                    console.error("Ошибка:", error);
+                    // transition(consts.homeSearch)
+                  });
+        
+            } catch (error) {
+                console.error('Ошибка при авторизации пользователя:', error);
+            }
+
+    })
     }
 }
 

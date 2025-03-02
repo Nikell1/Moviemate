@@ -89,7 +89,7 @@ export function renderAddMovieHtml() {
     <div modal__top>
         <h2 class="modal__title">Add movie</h2>
         <form class="modal__search" id="moviesForm">
-            <input placeholder="FInd in base">
+            <input placeholder="FInd in base" id="search_input">
             <button type="submit">Search</button>
         </form>
         <ul class="modal__filmsList">${renderModalMoviesHtml()}</ul>
