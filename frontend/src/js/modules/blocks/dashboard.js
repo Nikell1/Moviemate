@@ -4,6 +4,7 @@ import * as dashboardHtml from "../html/dashboardHtml.js";
 import { clearColor } from "../functions.js";
 import { transition } from "../functions.js"
 import { renderAddMovieHtml } from "../html/dashboardHtml.js";
+import { renderMovieCardModalHtml } from "../html/dashboardHtml.js";
 
 
 export function renderMoviesList(moviesData) {
@@ -89,15 +90,38 @@ function showSidebar(a, b, c) {
     dark.style = `opacity: ${b}; pointer-events: ${c}`
 }
 
+
+function showMovieCardModal(a, b, c) {
+    movieCardModal.style = `opacity: ${a}; pointer-events: ${b};`
+    topDark.style = `opacity: ${c}; pointer-events: ${b};`
+}
 function renderModalMoviesList(data) {
     const modalMoviesList = document.getElementById('modalMoviesList')
     modalMoviesList.innerHTML = ''
     for (let i = 0; i < data.length; i++) {
-        modalMoviesList.insertAdjacentHTML('beforeend', dashboardHtml.renderModalMoviesHtml(data[i]))
+        modalMoviesList.insertAdjacentHTML('beforeend', dashboardHtml.renderModalMoviesHtml(data[i], i))
     }
 
     if (data.length == 0) {
         modalMoviesList.innerHTML = `<h2>Movies not found</h2>`
+    }
+    modalMoviesList.onclick = (event) => {
+        let ind = event.target.dataset.index
+        let type = event.target.dataset.type
+        const movieCardModal = document.getElementById('movieCardModal')
+        const topDark = document.getElementById('topDark')
+        topDark.onclick = () => {showMovieCardModal(0, 'none', 0)}
+
+        if (type == 'movie') {
+            showMovieCardModal(1, 'visible', 0.5)
+            renderMovieCardModalHtml(data[ind], ind)
+
+            const addToDashboard = document.getElementById('addToDashboard')
+            addToDashboard.onclick = () => {
+
+                console.log('добавление интернов')
+            }
+        }
     }
 }
 
@@ -151,6 +175,7 @@ function addMovieRender() {
                     console.log("Данные:", data);
                     console.log(data.results)
                     renderModalMoviesList(data.results)
+
                     // renderMoviesList(moviesData)
                   })
                   .catch(error => {
