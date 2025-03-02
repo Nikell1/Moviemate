@@ -8,7 +8,7 @@ router = APIRouter()
 Bear = HTTPBearer(auto_error=False)
 
 
-@router.get("/search_film", status_code=status.HTTP_200_OK)
+@router.post("/search_film", status_code=status.HTTP_200_OK)
 async def search_film(search: str, body: Search, token:str = Security(Bear)):
     user = get_user(token.credentials)
     print(token.credentials)
