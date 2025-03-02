@@ -10,7 +10,7 @@ from fastapi_server.collections import  router as collection_router
 from fastapi_server.service import router as service_router
 import os
 load_dotenv()
-app = FastAPI(docs_url="/api/docs")
+app = FastAPI(docs_url="/api/docs",openapi_url="/api/openapi.json")
 
 app.add_middleware(
     CORSMiddleware,
