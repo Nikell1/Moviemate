@@ -41,6 +41,8 @@ export function renderLogin() {
                 console.log(data)
                 console.log('Токен:', data.token); // Предполагается, что сервер возвращает токен в поле "token"
                 localStorage.setItem("token", data.token)
+                localStorage.setItem("login", data.login)
+                localStorage.setItem("email", email)
                 transition(consts.dashboardSearch)
                 return data.token;
             } catch (error) {

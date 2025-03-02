@@ -4,8 +4,8 @@ export function dashboardHtml() {
         <nav class="dashboard__nav">
             <span class="logo">NAME</span>
             <button id="profileBtn" class="dashboard__profile">
-                <div></div>
-                <span>Nickname</span>
+                <img src="https://qrjaecpccsfknzbpdwkw.supabase.co/storage/v1/object/sign/images/free-icon-user-account-12311784.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJpbWFnZXMvZnJlZS1pY29uLXVzZXItYWNjb3VudC0xMjMxMTc4NC5wbmciLCJpYXQiOjE3NDA5MTQ3NjksImV4cCI6ODY1NzQwODI4MzY5fQ.kFpGT0zzNqOHuyme8aku0PR9R8UgbvzfAF7NmXAzSAE">
+                <span id="profile_nickname">Nickname</span>
             </button>
         </nav> 
         <div id="dashboardContent">
@@ -71,11 +71,11 @@ export function showCollectionsHtml() {
         <button class="fixBtn">GET A MOVIE</button>`
 }
 
-export function sidebarProfileHtml() {
+export function sidebarProfileHtml(login) {
     return `
     <div class="sidebar__close" id="sidebarClose"></div>
-    <div class="sidebar__profileImg"></div>
-    <p class="sidebar__nickname">Nickname</p>
+    <img src="https://qrjaecpccsfknzbpdwkw.supabase.co/storage/v1/object/sign/images/free-icon-user-account-12311784.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJpbWFnZXMvZnJlZS1pY29uLXVzZXItYWNjb3VudC0xMjMxMTc4NC5wbmciLCJpYXQiOjE3NDA5MTQ3NjksImV4cCI6ODY1NzQwODI4MzY5fQ.kFpGT0zzNqOHuyme8aku0PR9R8UgbvzfAF7NmXAzSAE" class="sidebar__profileImg" >
+    <p class="sidebar__nickname" id="sidebar_nickname">${login}</p>
     <div class="sidebar__buttons">
         <button>EDIT PROFILE</button>   
         <button>LOG OUT</button>

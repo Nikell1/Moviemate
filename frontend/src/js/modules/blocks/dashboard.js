@@ -42,8 +42,12 @@ function showMovies() {
 
     let token = ''
     const url = 'http://localhost:8000/api/films/get_films'; 
+    const profile_nickname = document.getElementById('profile_nickname')
     try{
         token = localStorage.getItem("token")
+        const login = localStorage.getItem("login")    
+        profile_nickname.textContent = login
+
     } catch (error) {
         console.log(error)
         transition(consts.homeSearch)
@@ -162,7 +166,8 @@ export function renderDashboard() {
     dark.onclick = () => showSidebar(400, 0, 'none')
     profileBtn.onclick = () => {
         showSidebar(0, 0.3, 'visible')
-        sidebar.innerHTML = dashboardHtml.sidebarProfileHtml()
+        const login = localStorage.getItem("login") 
+        sidebar.innerHTML = dashboardHtml.sidebarProfileHtml(login)
         renderCloseBtn()
     }
 

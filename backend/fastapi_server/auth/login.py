@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, status
-from models.schemas import LogIn, Token
+from models.schemas import LogIn, LogInResponse
 from adapters.db_source import DatabaseAdapter
 import bcrypt
 from utils.functions import create_access_token
@@ -8,7 +8,7 @@ import json
 router = APIRouter()
 
 
-@router.post("/login", response_model=Token, status_code=status.HTTP_200_OK)
+@router.post("/login", response_model=LogInResponse, status_code=status.HTTP_200_OK)
 async def login(body: LogIn):
     adapter = DatabaseAdapter()
     adapter.connect()
@@ -28,4 +28,7 @@ async def login(body: LogIn):
     })
     adapter.execute_with_request(f"UPDATE users SET token = '{new_token}' WHERE email = '{body.email}'")
 
-    return {'token':new_token}
+    return LogInResponse(
+        token=new_token,
+        login=user['login']
+    )
