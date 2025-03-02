@@ -1,4 +1,3 @@
-from sys import base_prefix
 
 from pydantic import BaseModel
 

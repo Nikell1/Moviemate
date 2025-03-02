@@ -11,14 +11,14 @@ Bear = HTTPBearer(auto_error=False)
 async def create_media(body: Film,token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:
-        raise HTTPException(status_code=404, detail="Invalid credentials")
+        raise HTTPException(status_code=401, detail="Invalid token")
     user = user[0]
     adapter = DatabaseAdapter()
     adapter.connect()
     adapter.initialize_tables()
     films = adapter.get_by_value('films', 'title', body.title)
     if len(films) != 0:
-        raise HTTPException(status_code=404, detail="Media with this title already exist")
+        raise HTTPException(status_code=409, detail="Media with this title already exist")
     adapter.insert('films', {
         'title': body.title,
         'description':  body.description,

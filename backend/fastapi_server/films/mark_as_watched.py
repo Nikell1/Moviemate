@@ -9,7 +9,7 @@ Bear = HTTPBearer(auto_error=False)
 async def mark_as_watched(id:int, token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:
-        raise HTTPException(status_code=501, detail="Invalid credentials")
+        raise HTTPException(status_code=401, detail="Invalid token")
 
     user = user[0]
     db = DatabaseAdapter()
