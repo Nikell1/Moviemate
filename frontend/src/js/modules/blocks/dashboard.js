@@ -288,6 +288,7 @@ function showMovies() {
     const url = 'http://localhost:8000/api/films/get_films'; 
     const profile_nickname = document.getElementById('profile_nickname')
     try{
+        console.log(1)
         token = localStorage.getItem("token")
         const login = localStorage.getItem("login")    
         profile_nickname.textContent = login
@@ -417,7 +418,7 @@ export function renderDashboard() {
         const login = localStorage.getItem("login") 
         sidebar.innerHTML = dashboardHtml.sidebarProfileHtml(login)
         renderCloseBtn()
-
+        
         const logoutBtn = document.getElementById('logoutBtn')
         logoutBtn.onclick = () => {
             const token = localStorage.getItem("token")
@@ -453,6 +454,40 @@ export function renderDashboard() {
             showMovieCardModal(1, 'visible', 0.5)
             topDark.onclick = () => {showMovieCardModal(0, 'none', 0)}
             dashboardHtml.editRenderhtml()
+            const edit_login_button = document.getElementById('edit_login_button')
+
+            edit_login_button.onclick = () => {
+                console.log('Изменение юзернейма')
+                const token = localStorage.getItem("token")
+                const url = 'http://localhost:8000/api/auth/change_login'; // Замените на ваш URL FastAPI сервера
+                const new_login = document.getElementById('new_login')
+                const params = new URLSearchParams({
+                    "login": new_login.value,
+                });
+
+
+                const urlWithParams = `${url}?${params}`; 
+            
+                try {
+                    const response = fetch(urlWithParams, {
+                        method: 'PUT',
+                        headers: {
+                            "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                            'Content-Type': 'application/json'
+                        },
+                    });
+            
+        
+                    // localStorage.removeItem("token")
+                    // localStorage.removeItem("email")   
+                    localStorage.setItem("login", new_login.value)
+    
+                    transition(consts.dashboardSearch)
+                    
+                } catch (error) {
+                    console.error('Ошибка при авторизации пользователя:', error);
+                }               
+            }
         }
     }
 

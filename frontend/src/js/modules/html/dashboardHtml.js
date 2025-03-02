@@ -118,10 +118,8 @@ export function editRenderhtml() {
     <form class="editProfileForm">
         <h2>Edit profile</h2>
         <p>Enter new username</p>
-        <input>
-        <p>Enter new Email</p>
-        <input>
-        <button type="submit">Submit</button>
+        <input id="new_login">
+        <button type="submit" id="edit_login_button">Submit</button>
     </form>`
 }
 

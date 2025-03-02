@@ -10,7 +10,7 @@ Bear = HTTPBearer(auto_error=False)
 
 @router.get("/get_films", status_code=status.HTTP_200_OK)
 async def get_films(token:str = Security(Bear)):
-    print(token)
+    # print(token)
     user = get_user(token.credentials)
     if user == []:
         raise HTTPException(status_code=401, detail="Invalid token")
@@ -20,11 +20,11 @@ async def get_films(token:str = Security(Bear)):
     adapter.initialize_tables()
     email_check = adapter.get_by_value('users', 'email', user["email"])
     if len(email_check) == 0:
-        print(2)
+        # print(2)
         raise HTTPException(status_code=409, detail="User with this email does not exist")
     films = adapter.get_by_value('films_to_users', 'email', user["email"])
     result = []
-    print(films)
+    # print(films)
     for i in range(len(films)):
         
         if films[i]["media_id"] >= 0:
@@ -56,9 +56,9 @@ async def get_rand_film(mood:str=None,token:str = Security(Bear)):
 
 
     films = db.execute_with_request(request)
-    print(films)
+    # print(films)
     result = []
-    print(await get_by_id(2))
+    # print(await get_by_id(2))
     for i in range(len(films)):
         if films[i]["media_id"] >= 0:
             film =  await get_by_id(films[i]["media_id"],films[i]["media_type"])
