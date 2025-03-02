@@ -39,11 +39,12 @@
         margin-bottom:50px;
         h1 {
             display:inline-block;
-            max-width:650px;
             font-family: $accent-font;
+            max-width:100%;
         }
         span {
             color: $main-color;
+            display:inline-block;
         }
     }
     &__nav {
