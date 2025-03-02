@@ -112,7 +112,7 @@
     &__img {
         height:170px;
         width:100%;
-        background-image: url('https://avatars.mds.yandex.net/get-kinopoisk-image/1773646/8c37e15d-b623-4ae4-be8a-6185dffe3d8c/1920x');
+        background: grey;
         background-repeat: no-repeat;
         background-size:cover;
         border-radius:10px 10px 0 0;
@@ -198,4 +198,18 @@
             margin-top: 20px;
         }
     }
+}
+
+.modal {
+    position:fixed;
+    background: #fff;
+    width:400px;
+    height:600px;
+    top:3vh;
+    left:50%;
+    z-index:10;
+    opacity:0;
+    pointer-events: none;
+    transform: translateX(-50%);
+    border-radius: 10px;
 }

@@ -140,3 +140,21 @@ class DatabaseAdapter:
             cursor.execute(query, (parameter_value,))
             self.connection.commit()
             return cursor.fetchall()
+        
+    def update_by_value(
+        self,
+        table_name: str,
+        update_dict: dict,
+        parameter: Any,
+        value: Any
+    ) -> List[dict]:
+        with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
+            set_clause = ', '.join([f"{key} = %s" for key in update_dict.keys()])
+            query = f"UPDATE {table_name} SET {set_clause} WHERE {parameter} = %s RETURNING *;"
+            cursor.execute(query, tuple(update_dict.values()) + (value,))
+            self.connection.commit()
+    
+    def truncate_table(self, table_name: str) -> None:
+        with self.connection.cursor() as cursor:
+            cursor.execute(f"TRUNCATE TABLE {table_name};")
+            self.connection.commit()

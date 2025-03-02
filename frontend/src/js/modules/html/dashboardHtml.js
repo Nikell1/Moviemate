@@ -12,18 +12,19 @@ export function dashboardHtml() {
         </div>
     </div>
     <div class="sidebar" id="sidebar"></div>
-    <div class="dark" id="dark"></div>`
+    <div class="dark" id="dark"></div>
+    <div class="modal" id="modal"></div>`
 }
 
 export function renderMoviesHtml(element) {
     return `            
             <li class="movies-element">
-                <div class="movies-element__img"></div>
+                <div class="movies-element__img" style="background-image: url('${element.poster_path}');"></div>
                 <div class="movies-element__block">
-                    <span>Name of film</span>
-                    <span>1990</span>
+                    <span>${element.title}</span>
+                    <span>${element.release_date}</span>
                 </div>
-                <p class="movies-element__description">Description</p>
+                <p class="movies-element__description">${element.overview}</p>
                 <div class="movies-element__bottom">
                     <button class="movies-element__btn1">Mark as watched</button>
                     <button class="movies-element__btn2">Add to collection</button>
@@ -37,7 +38,7 @@ export function showMoviesHtml() {
         <div class="dashboard__block">
             <h1>Your movie <span>dashboard</span></h1>
             <div class="dashboard__rightBtns">
-                <button>Add movie</button>
+                <button id="addMovie">Add movie</button>
                 <button>New collection</button>
             </div>
         </div>
