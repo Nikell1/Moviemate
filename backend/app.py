@@ -21,7 +21,7 @@ app.add_middleware(
 app.include_router(authorization_router, prefix="/api/auth", tags=["Auth"])
 app.include_router(screenshots_router, prefix="/api/screenshots", tags=["Screenshots"])
 app.include_router(films_router, prefix="/api/films", tags=["Films"])
-app.include_router(social_router, prefix="/api/title", tags=["Social"])
+app.include_router(social_router, prefix="/api/title", tags=["Title"])
 app.include_router(social_router, prefix="/api/social", tags=["Social"])
 if __name__ == "__main__":
     host, port = os.getenv("FAST_API_HOST"), os.getenv("FAST_API_PORT")
