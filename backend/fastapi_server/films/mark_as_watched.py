@@ -8,8 +8,8 @@ from models.TMDB import TMDBobject_Short
 router = APIRouter()
 Bear = HTTPBearer(auto_error=False)
 
-@router.put("/switch_film/{id}", status_code=200)
-async def switch_film(id:int, token:str = Security(Bear)):
+@router.put("/mark_as_watched", status_code=200)
+async def mark_as_watched(id:int, token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:
         raise HTTPException(status_code=501, detail="Invalid credentials")

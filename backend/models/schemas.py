@@ -25,7 +25,12 @@ class Film_to_front(BaseModel):
     release_date:str
     id:int
     watched:bool
+
 class Add_media(BaseModel):
     media_id:str
     media_type:str = "movie"
+    collection:str = None
+
+class Set_collection(BaseModel):
+    media_id:str
     collection:str = None
