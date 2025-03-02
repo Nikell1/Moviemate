@@ -19,15 +19,21 @@ export function dashboardHtml() {
 }
 
 export function renderMoviesHtml(element) {
+    const url = 'http://localhost:8000/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
+    const params = new URLSearchParams({
+        "url": element.poster_path,
+    });
 
     let overview = element.overview
 
     if (overview.length > 100) {
         overview = `${overview.slice(0, 100)}...`
     }
+
+    const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
     return `            
             <li class="movies-element">
-                <div class="movies-element__img" style="background-image: url('${element.poster_path}');"></div>
+                <div class="movies-element__img" style="background-image: url('${urlWithParams}');"></div>
                 <div class="movies-element__block">
                     <span>${element.title}</span>
                     <span>${element.release_date}</span>
