@@ -38,6 +38,14 @@ function showSidebar(a, b, c) {
     dark.style = `opacity: ${b}; pointer-events: ${c}`
 }
 
+function renderModalMoviesList(data) {
+    const modalMoviesList = document.getElementById('modalMoviesList')
+    modalMoviesList.innerHTML = ''
+    for (let i = 0; i < data.length; i++) {
+        modalMoviesList.insertAdjacentHTML('beforeend', dashboardHtml.renderModalMoviesHtml(data[i]))
+    }
+}
+
 function addMovieRender() {
     const addMovieBtn = document.getElementById('addMovie')
 
@@ -46,11 +54,16 @@ function addMovieRender() {
         renderAddMovieHtml()
 
         const moviesForm = document.getElementById('moviesForm')
-        const search_input = document.getElementById('search_input')
-        const token = localStorage.getItem("token")
+        const addOwnBtn = document.getElementById('addOwn')
+        
+        addOwnBtn.onclick = () => {
+            modal.innerHTML = dashboardHtml.addOwnHtml()
+        }
+
         moviesForm.addEventListener('submit', (event) => {
         event.preventDefault()
-
+        const search_input = document.getElementById('search__input')
+        const token = localStorage.getItem('token')
         console.log('считывание списка фильмов')
         console.log(search_input.value)
 
@@ -76,7 +89,7 @@ function addMovieRender() {
                   .then(data => {
                     console.log("Данные:", data);
                     console.log(data.results)
-                    let moviesData = data
+                    renderModalMoviesList(data.results)
                     // renderMoviesList(moviesData)
                   })
                   .catch(error => {
