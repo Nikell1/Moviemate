@@ -9,7 +9,7 @@ Bear = HTTPBearer(auto_error=False)
 
 
 @router.get("/search_film", status_code=status.HTTP_200_OK)
-async def search_film(search: str,token:str = Security(Bear)):
+async def search_film(search: str, token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:
         raise HTTPException(status_code=404, detail="Invalid credentials")
