@@ -16,11 +16,62 @@ export function renderMoviesList(moviesData) {
         } else if (moviesData[i].watched == true){
             moviesData[i].watched = "Mark as unwatched"
         }
-        moviesList.insertAdjacentHTML('beforeend', renderMoviesHtml(moviesData[i]));
+        moviesList.insertAdjacentHTML('beforeend', renderMoviesHtml(moviesData[i]))
     }
 
     if (moviesData.length == 0) {
         moviesList.innerHTML = `<p>You haven't added any movies to your bookmarks yet</p>`
+    }
+    for (let i = 0; i < moviesData.length; i++){
+        console.log(`mark_${moviesData[i].id}`)
+        const current_mark_button = document.getElementById(`mark_${moviesData[i].id}`)
+        current_mark_button.onclick = () => {
+            console.log(current_mark_button.textContent)
+            if (current_mark_button.textContent == "Mark as watched"){
+                current_mark_button.textContent = "Mark as unwatched"
+            }
+            else{
+                current_mark_button.textContent = "Mark as watched" 
+            }
+
+            try {
+                const token = localStorage.getItem("token")
+                const url = 'http://localhost:8000/api/films/mark_as_watched'; // Замените на ваш URL FastAPI сервера
+                const params = new URLSearchParams({
+                    "id": moviesData[i].id,
+                });
+            
+                const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
+                const response = fetch(urlWithParams, {
+                    method: 'PUT',
+                    headers: {
+                        "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                        "Content-Type": "application/json" // Указываем тип содержимого
+                    }
+                }).then(response => {
+                    if (!response.ok) {
+                      throw new Error(`Ошибка: ${response.status}`);
+                    }
+                    return response.json();
+                  })
+                  .then(data => {
+                    console.log("Данные:", data);
+                    console.log(data.results)
+                    let moviesData = data
+                    // renderMoviesList(moviesData)
+                  })
+                  .catch(error => {
+                    console.error("Ошибка:", error);
+                    // transition(consts.homeSearch)
+                  });
+        
+            } catch (error) {
+                console.error('Ошибка при авторизации пользователя:', error);
+            }
+
+
+
+        }
     }
 }
 
