@@ -35,9 +35,11 @@
         display:flex;
         justify-content: space-between;
         font-family: $text-font;
-        font-size:2rem;
+        font-size:1.7rem;
         margin-bottom:50px;
         h1 {
+            display:inline-block;
+            max-width:650px;
             font-family: $accent-font;
         }
         span {

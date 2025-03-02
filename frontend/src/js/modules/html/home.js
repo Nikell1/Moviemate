@@ -2,7 +2,7 @@ export function homeHtml() {
     wrapper.innerHTML = `
             <header class="header">
             <nav class="header__nav">
-                <span>NAME</span>
+                <span>MOVIEMATE</span>
                 <div class="header__signBtn" id="nav">
                     <button id="signupBtn1">SIGN UP</button>
                     <button id="loginBtn">LOG IN</buttons>
