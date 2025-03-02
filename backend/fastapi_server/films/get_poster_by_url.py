@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, status,Security
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response
 from adapters.db_source import DatabaseAdapter
 from adapters.tmdb import get_by_id
 from fastapi.security import HTTPBearer
@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 import random
 import os
 import httpx
+from io import BytesIO
 router = APIRouter()
 
 
@@ -17,7 +18,6 @@ load_dotenv()
 @router.get("/get-poster-by-url", status_code=status.HTTP_200_OK)
 async def get_poster(url:str):
     try:
-        print(url)
         if len(url) < 10:
             return 
         if not url.endswith('jpg'):
@@ -30,15 +30,8 @@ async def get_poster(url:str):
 
         response = requests.get('https://image.tmdb.org/t/p/w200'+url)
 
-        print(response)
-        with open(f"backend/temporary_images{url}", "wb") as f:
-            f.write(response.content)
-        
-        return FileResponse(f"backend/temporary_images{url}", media_type="image/jpg")
+        image_bytes = BytesIO(response.content)
+
+        return Response(content=image_bytes.getvalue(), media_type="image/jpeg")
     except:
         raise HTTPException(status_code=404, detail="no image found with this url")
-    finally:
-        try:
-            os.remove(f"backend/temporary_images{url}")
-        except:
-            pass

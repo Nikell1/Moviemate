@@ -13,7 +13,9 @@ export function dashboardHtml() {
     </div>
     <div class="sidebar" id="sidebar"></div>
     <div class="dark" id="dark"></div>
-    <div class="modal" id="modal"></div>`
+    <div class="modal" id="modal"></div>
+    <div class="movieCardModal" id="movieCardModal"></div>
+    <div class="topDark" id="topDark"></div>`
 }
 
 export function renderMoviesHtml(element) {
@@ -79,9 +81,54 @@ export function sidebarProfileHtml(login) {
     <p class="sidebar__nickname" id="sidebar_nickname">${login}</p>
     <div class="sidebar__buttons">
         <button>EDIT PROFILE</button>   
-        <button>LOG OUT</button>
+        <button id="logoutBtn">LOG OUT</button>
     </div>
     `   
+}
+
+export function renderMovieCardModalHtml(element, ind) {
+    let releaseDate
+    if (element.first_air_date != undefined) {
+        releaseDate = element.first_air_date
+    }
+    else if (element.release_date != undefined) {
+        releaseDate = element.release_date
+    }
+
+    let title
+
+    if (element.name != undefined) {
+        title = element.name
+    }
+    else if (element.title !=  undefined) {
+        title = element.title
+    }
+
+    if (title.length > 30) {
+        title = `${title.slice(0, 30)}...`
+    }
+
+    let overview = element.overview
+    const url = 'http://localhost:8000/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
+    const params = new URLSearchParams({
+        "url": element.poster_path,
+    });
+
+    const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
+    
+    movieCardModal.innerHTML = `
+        <div class="movies-element__img" style="background-image: url('${urlWithParams}');"></div>
+            <div class="movies-element__block">
+                <span>${title}</span>
+                <span>${releaseDate}</span>
+            </div>
+            <p class="movies-element__description">${overview}</p>
+            <div class="movies-element__bottom">
+        </div>
+        <div class="modalButtonsCont">
+            <button id="addToDashboard">Add to dashboard</button>
+            <button>Add to collection</button>
+        </div>`
 }
 
 export function renderAddMovieHtml() {
@@ -103,7 +150,7 @@ export function renderAddMovieHtml() {
     </div>`
 }
 
-export function renderModalMoviesHtml(element) {
+export function renderModalMoviesHtml(element, ind) {
 
     let releaseDate
     if (element.first_air_date != undefined) {
@@ -137,14 +184,14 @@ export function renderModalMoviesHtml(element) {
 
     const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
     return `
-    <li class="modal-movie-element">
-        <img src="${urlWithParams}">
-        <div>
-            <div class="modal-movie-element__container">
-                <span>${title}</span>
-                <span>${releaseDate}</span>
+    <li class="modal-movie-element" data-index="${ind}" data-type="movie">
+        <img src="${urlWithParams}" data-index="${ind}" data-type="movie">
+        <div data-index="${ind}" data-type="movie">
+            <div class="modal-movie-element__container" data-index="${ind}" data-type="movie">
+                <span data-index="${ind}" data-type="movie">${title}</span>
+                <span data-index="${ind}" data-type="movie">${releaseDate}</span>
             </div>
-            <p>${overview}</p>
+            <p data-index="${ind}" data-type="movie">${overview}</p>
         </div>
     </li>`
 }
@@ -155,11 +202,11 @@ export function addOwnHtml() {
         <div>
             <h2>Add your own movie</h2>
             <p>Specify the name of the movie</p>
-            <input  required placeholder="Interstellar">
+            <input id="title_input" required placeholder="Interstellar">
             <p>Specify the release year of the movie</p>
-            <input  required placeholder="01-01-1999">
+            <input id="date_input" required placeholder="01-01-1999">
             <p>Specify a description of the movie</p>
-            <textarea  required placeholder="Description"></textarea>
+            <textarea id="description_input" required placeholder="Description"></textarea>
         </div>
         <button type="submit">Add</button>
     </form>`

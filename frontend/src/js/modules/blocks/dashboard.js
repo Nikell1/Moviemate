@@ -4,6 +4,7 @@ import * as dashboardHtml from "../html/dashboardHtml.js";
 import { clearColor } from "../functions.js";
 import { transition } from "../functions.js"
 import { renderAddMovieHtml } from "../html/dashboardHtml.js";
+import { renderMovieCardModalHtml } from "../html/dashboardHtml.js";
 
 
 export function renderMoviesList(moviesData) {
@@ -89,15 +90,38 @@ function showSidebar(a, b, c) {
     dark.style = `opacity: ${b}; pointer-events: ${c}`
 }
 
+
+function showMovieCardModal(a, b, c) {
+    movieCardModal.style = `opacity: ${a}; pointer-events: ${b};`
+    topDark.style = `opacity: ${c}; pointer-events: ${b};`
+}
 function renderModalMoviesList(data) {
     const modalMoviesList = document.getElementById('modalMoviesList')
     modalMoviesList.innerHTML = ''
     for (let i = 0; i < data.length; i++) {
-        modalMoviesList.insertAdjacentHTML('beforeend', dashboardHtml.renderModalMoviesHtml(data[i]))
+        modalMoviesList.insertAdjacentHTML('beforeend', dashboardHtml.renderModalMoviesHtml(data[i], i))
     }
 
     if (data.length == 0) {
         modalMoviesList.innerHTML = `<h2>Movies not found</h2>`
+    }
+    modalMoviesList.onclick = (event) => {
+        let ind = event.target.dataset.index
+        let type = event.target.dataset.type
+        const movieCardModal = document.getElementById('movieCardModal')
+        const topDark = document.getElementById('topDark')
+        topDark.onclick = () => {showMovieCardModal(0, 'none', 0)}
+
+        if (type == 'movie') {
+            showMovieCardModal(1, 'visible', 0.5)
+            renderMovieCardModalHtml(data[ind], ind)
+
+            const addToDashboard = document.getElementById('addToDashboard')
+            addToDashboard.onclick = () => {
+
+                console.log('добавление интернов')
+            }
+        }
     }
 }
 
@@ -117,8 +141,44 @@ function addMovieRender() {
 
             addOwnForm.addEventListener('submit', (event) => {
                 event.preventDefault()
+                console.log(1243)
 
+                let title_input = document.getElementById("title_input")
+                let date_input = document.getElementById("date_input")
+                let description_input = document.getElementById("description_input")
 
+                const token = localStorage.getItem("token")
+                const url = 'http://localhost:8000/api/films/create_film'; // Замените на ваш URL FastAPI сервера
+                        
+                const requestBody = {
+                    "title": title_input.value,
+                    "description": description_input.value,
+                    "date": date_input.value,
+                    "image_url": "null"
+                };
+            
+                try {
+                    const response = fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            "Authorization": `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(requestBody)
+                    });
+            
+                    // if (!response.ok) {
+                    //     throw new Error(`Ошибка: ${response.status}`);
+                    // }
+            
+                    // const data = response.json();
+                    // console.log(data)
+
+                    transition(consts.dashboardSearch)
+                    return data.token;
+                } catch (error) {
+                    console.error('Ошибка при авторизации пользователя:', error);
+                }
             })
         }
 
@@ -151,6 +211,7 @@ function addMovieRender() {
                     console.log("Данные:", data);
                     console.log(data.results)
                     renderModalMoviesList(data.results)
+
                     // renderMoviesList(moviesData)
                   })
                   .catch(error => {
@@ -308,6 +369,36 @@ export function renderDashboard() {
         const login = localStorage.getItem("login") 
         sidebar.innerHTML = dashboardHtml.sidebarProfileHtml(login)
         renderCloseBtn()
+
+        const logoutBtn = document.getElementById('logoutBtn')
+        logoutBtn.onclick = () => {
+            const token = localStorage.getItem("token")
+            const url = 'http://localhost:8000/api/auth/logout'; // Замените на ваш URL FastAPI сервера
+                    
+            const requestBody = {
+                "token": token,
+            };
+        
+            try {
+                const response = fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+        
+ 
+                localStorage.removeItem("token")
+                localStorage.removeItem("email")   
+                localStorage.removeItem("login")
+
+                transition(consts.homeSearch)
+                
+            } catch (error) {
+                console.error('Ошибка при авторизации пользователя:', error);
+            }
+        }
     }
 
     showDashboardBlocks()

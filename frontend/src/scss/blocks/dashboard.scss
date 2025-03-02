@@ -136,11 +136,16 @@
         display:flex;
         justify-content: space-between;
         font-size:2rem;
+        span {
+            font-family: $text-font;
+        }
 	}
 
 	&__description {
         font-size: 1.1rem;
         margin:20px 15px 0 15px;
+        font-family: $text-font;
+        line-height:1.1;
 	}
 
 	&__btn1 {
@@ -161,6 +166,19 @@
             font-size:1.2rem;
             font-family: $text-font;
         }
+    }
+}
+
+.modalButtonsCont {
+    display:flex;
+    justify-content: space-between;
+    width:400px;
+    button {
+        background: $main-color;
+        padding:10px;
+        font-size:1.5rem;
+        font-family: $text-font;
+        border-radius:50px;
     }
 }
 
@@ -293,6 +311,7 @@
 }
 
 .modal-movie-element {  
+    cursor:pointer;
     border-radius:10px;
     border: 1px solid #fff;
     margin-top: 15px;
@@ -369,4 +388,32 @@
         display:block;
         margin:0 auto;
     }
+}
+
+.movieCardModal {
+    width:400px;
+    height:500px;
+    background: $grey-color;
+    position:absolute;
+    top:10vh;
+    left:50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s;
+    z-index:12;
+    border-radius: 10px;
+}
+
+.topDark {
+    opacity: 0;
+    z-index: 11;
+    position: fixed;
+    width:100vw;
+    height: 100vh;
+    top:0;
+    left:0;
+    background: #000;
+    pointer-events: none;
+    transition: all 0.3s;
 }
