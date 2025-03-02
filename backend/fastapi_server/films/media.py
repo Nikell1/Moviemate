@@ -17,7 +17,7 @@ moods = {
 async def add_media(body: Add_media,token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:
-        raise HTTPException(status_code=404, detail="Invalid credentials")
+        raise HTTPException(status_code=401, detail="Invalid token")
     user = user[0]
     adapter = DatabaseAdapter()
     adapter.connect()
@@ -28,7 +28,7 @@ async def add_media(body: Add_media,token:str = Security(Bear)):
         raise HTTPException(status_code=404, detail="User with this email does not exists")
     check_exist = adapter.execute_with_request(f"SELECT * from films_to_users WHERE email = '{user['email']}' AND media_id = {body.media_id}")
     if len(check_exist) > 0:
-        raise HTTPException(status_code=404, detail="This film already exists")
+        raise HTTPException(status_code=409, detail="This film already added")
     adapter.insert('films_to_users', {
         'email': user["email"],
         'media_id':  body.media_id,
@@ -41,7 +41,7 @@ async def add_media(body: Add_media,token:str = Security(Bear)):
 async def del_media(media_id: int,token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:
-        raise HTTPException(status_code=404, detail="Invalid credentials")
+        raise HTTPException(status_code=401, detail="Invalid token")
     user = user[0]
     db = DatabaseAdapter()
     db.connect()

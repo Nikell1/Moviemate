@@ -10,7 +10,7 @@ Bear = HTTPBearer(auto_error=False)
 async def change_login(login:str, token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:
-        raise HTTPException(status_code=501, detail="Invalid credentials")
+        raise HTTPException(status_code=401, detail="Invalid token")
     user = user[0]
     adapter = DatabaseAdapter()
     adapter.connect()
@@ -18,3 +18,5 @@ async def change_login(login:str, token:str = Security(Bear)):
     user["login"] = login
     adapter.execute_with_request(f"UPDATE users SET login = {login} WHERE email = {user['email']}")
     return {"success": True}
+
+# ДОБАВЬ ПРОВЕРКУ НА УНИКАЛЬНОСТЬ ЛОГИНА, ИНАЧЕ ВЕРНУТЬ КОД 409
