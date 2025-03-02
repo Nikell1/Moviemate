@@ -1,5 +1,4 @@
 from fastapi import APIRouter, HTTPException, status,Security
-from models.schemas import Token, Film
 from adapters.db_source import DatabaseAdapter
 from adapters.tmdb import get_by_id
 from fastapi.security import HTTPBearer
@@ -42,7 +41,7 @@ async def get_films(token:str = Security(Bear)):
     return result
 
 @router.get("/get_rand_film", status_code=status.HTTP_200_OK)
-async def add_media(token:str = Security(Bear)):
+async def get_rand_film(token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:
         raise HTTPException(status_code=404, detail="Invalid credentials")
@@ -53,7 +52,11 @@ async def add_media(token:str = Security(Bear)):
     email_check = db.get_by_value('users', 'email', user["email"])
     if len(email_check) == 0:
         raise HTTPException(status_code=404, detail="User with this email does not exists")
-    films = db.get_by_value('films_to_users', 'email', user["email"])
+
+    request = f"""SELECT * FROM films_to_users WHERE email='{user["email"]}' and watched=false"""
+
+    films = db.execute_with_request(request)
+    print(films)
     result = []
     print(await get_by_id(2))
     for i in range(len(films)):

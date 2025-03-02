@@ -3,8 +3,6 @@ from models.schemas import Register, Token
 from adapters.db_source import DatabaseAdapter
 import bcrypt
 from utils.functions import create_access_token
-import json
-
 router = APIRouter()
 
 

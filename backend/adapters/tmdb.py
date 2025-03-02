@@ -2,10 +2,8 @@ import asyncio
 import json
 import os
 import urllib.parse
-from http.client import responses
-
 from dotenv import load_dotenv
-from fastapi import APIRouter, HTTPException
+from fastapi import  HTTPException
 from models import TMDB
 import httpx
 

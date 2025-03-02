@@ -150,4 +150,43 @@ export function renderDashboard() {
     }
 
     showDashboardBlocks()
+
+    let token = ''
+    const url = 'http://localhost:8000/api/films/get_films'; 
+    try{
+        token = localStorage.getItem("token")
+    } catch (error) {
+        console.log(error)
+        transition(consts.homeSearch)
+    }
+    const requestBody = {
+        token: token,
+    };
+    console.log(token)
+    try {
+        const response = fetch(url, {
+            method: 'GET',
+            headers: {
+                "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                "Content-Type": "application/json" // Указываем тип содержимого
+            }
+        }).then(response => {
+            if (!response.ok) {
+              throw new Error(`Ошибка: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log("Данные:", data);
+            let movies = data
+          })
+          .catch(error => {
+            console.error("Ошибка:", error);
+            transition(consts.homeSearch)
+          });
+
+    } catch (error) {
+        console.error('Ошибка при авторизации пользователя:', error);
+    }
+    console.log(movies)
 }

@@ -1,14 +1,8 @@
 from fastapi import APIRouter, HTTPException, status,Security
-from urllib3 import request
-
-from models.schemas import Token, Film
 from adapters.db_source import DatabaseAdapter
-from adapters.tmdb import get_by_id
 from adapters.mail import send_invite
 from fastapi.security import HTTPBearer
 from utils.functions import get_user
-from models.schemas import Film_to_front
-import random
 
 router = APIRouter()
 Bear = HTTPBearer(auto_error=False)
@@ -24,12 +18,17 @@ async def add_friend(friend_login:str, token:str = Security(Bear)):
     db.initialize_tables()
 
     email_check = db.get_by_value('users', 'email', user["email"])
+    friend = db.get_by_value('users', 'login', friend_login)
+
     if len(email_check) == 0:
         raise HTTPException(status_code=404, detail="User with this email does not exists")
-
-    friend = db.get_by_value('users', 'login', friend_login)
+    if friend_login == user['login']:
+        raise HTTPException(status_code=400, detail="Self Invite")
     if friend == []:
         raise HTTPException(status_code=403, detail="No user found")
+
+    print(email_check)
+    print(friend_login)
 
     check_if_already_pending = f"""SELECT * FROM friends WHERE user1='{user['login']}'"""
     check_invited = f"""SELECT * FROM friends WHERE user2='{user['login']}'"""
@@ -54,4 +53,4 @@ async def add_friend(friend_login:str, token:str = Security(Bear)):
 
     await send_invite(friend[0]['email'], user['login'])
 
-    return {"ok": True}
+    return {"ok": True, "detail": "Invitation Sent"}

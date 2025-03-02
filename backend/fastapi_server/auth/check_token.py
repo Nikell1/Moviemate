@@ -1,10 +1,7 @@
 from fastapi import APIRouter, HTTPException, status,Security
-from models.schemas import Token, Film
 from adapters.db_source import DatabaseAdapter
-from adapters.tmdb import get_by_id
 from fastapi.security import HTTPBearer
 from utils.functions import get_user
-from models.schemas import Film_to_front
 router = APIRouter()
 Bear = HTTPBearer(auto_error=False)
 
