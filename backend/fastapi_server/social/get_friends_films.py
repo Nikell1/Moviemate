@@ -8,7 +8,7 @@ router = APIRouter()
 Bear = HTTPBearer(auto_error=False)
 
 @router.get("/get_friends_films", status_code=status.HTTP_200_OK)
-async def get_friends_films(friends_login:str,token:str = Security(Bear)):
+async def get_friends_films(friend_login:str,token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:
         raise HTTPException(status_code=404, detail="Invalid credentials")
@@ -16,16 +16,19 @@ async def get_friends_films(friends_login:str,token:str = Security(Bear)):
     adapter = DatabaseAdapter()
     adapter.connect()
     adapter.initialize_tables()
+
     email_check = adapter.get_by_value('users', 'email', user["email"])
-    check = adapter.execute_with_request(f"SELECT * from friends WHERE user1 = '{user['login']}' AND user2 = {friends_login} AND status = 'complete'")
+    if email_check == []:
+        raise HTTPException(status_code=404, detail="No email found")
+
+    check = adapter.execute_with_request(f"""SELECT * FROM friends WHERE (user1='{friend_login}' and user2='{user['login']}') or (user1='{user['login']}' and user2='{friend_login}')""")
     if len(check) == 0:
         raise HTTPException(status_code=404, detail="You do not have this friend")
-    check = adapter.execute_with_request(f"SELECT * from friends WHERE user2 = '{user['login']}' AND user1 = {friends_login} AND status = 'complete'")
-    if len(check) == 0:
-        raise HTTPException(status_code=404, detail="You do not have this friend")
-    friend = adapter.get_by_value('films_to_users', 'login', friends_login)
-    films = adapter.get_by_value('films_to_users', 'email', friend["email"])
+
+    friend = adapter.get_by_value('users', 'login', friend_login)
+    films = adapter.get_by_value('films_to_users', 'email', friend[0]["email"])
     result = []
+
     for i in range(len(films)):
         if films[i]["media_id"] >= 0:
             film =  await get_by_id(films[i]["media_id"],films[i]["media_type"])
@@ -34,5 +37,5 @@ async def get_friends_films(friends_login:str,token:str = Security(Bear)):
             film = adapter.get_by_value('films', 'id',-1*films[i]["media_id"])[0]
             new_film = Film_to_front(title=film["title"],poster_path=film["image_url"],overview=film["description"],release_date=film["date"],id=films[i]["media_id"],watched=films[i]["watched"])
         result.append(new_film)
-    #возвращает список айдишников фильмов
+
     return result
