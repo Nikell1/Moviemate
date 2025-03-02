@@ -9,7 +9,7 @@ router = APIRouter()
 Bear = HTTPBearer(auto_error=False)
 
 @router.put("/change_login", status_code=200)
-async def mark_as_watched(login:str, token:str = Security(Bear)):
+async def change_login(login:str, token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:
         raise HTTPException(status_code=501, detail="Invalid credentials")
