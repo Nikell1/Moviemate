@@ -154,7 +154,7 @@ function addMovieRender() {
                     "title": title_input.value,
                     "description": description_input.value,
                     "date": date_input.value,
-                    "image_url": "null"
+                    "image_url": "https://avatars.mds.yandex.net/i?id=1683d076e80887c04421aabf3b0879ee_l-4420695-images-thumbs&n=13"
                 };
             
                 try {
@@ -295,6 +295,7 @@ function showFriends() {
 }
 
 function showSearch() {
+    dashboardHtml.searchPageHtml()
     clearColor()
     const searchBtn = document.getElementById('search')
     searchBtn.style.color = consts.accentColor
@@ -398,6 +399,13 @@ export function renderDashboard() {
             } catch (error) {
                 console.error('Ошибка при авторизации пользователя:', error);
             }
+        }
+
+        const editBtn = document.getElementById('editBtn')
+        editBtn.onclick = () => {
+            showMovieCardModal(1, 'visible', 0.5)
+            topDark.onclick = () => {showMovieCardModal(0, 'none', 0)}
+            dashboardHtml.editRenderhtml()
         }
     }
 
