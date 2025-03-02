@@ -7,6 +7,20 @@ import { renderAddMovieHtml } from "../html/dashboardHtml.js";
 import { renderMovieCardModalHtml } from "../html/dashboardHtml.js";
 
 
+function renderGetMovie() {
+    const getMovie = document.getElementById('getMovie')
+
+    getMovie.onclick = () => {
+        showAddMovieModal(1, 'visible', 0.3)
+        dashboardHtml.getMovieHtml()
+
+        const getMovieModal = document.getElementById('getMovieModal')
+        getMovieModal.onclick = () => {
+            modal.innerHTML = dashboardHtml.renderGetMovieEndHtml()    // сюда передать данные о фильме
+        }
+    }
+}
+
 export function renderMoviesList(moviesData) {
     moviesList.innerHTML = ''
 
@@ -268,6 +282,7 @@ function showMovies() {
     const moviesList = document.getElementById('moviesList')
 
     addMovieRender()
+    renderGetMovie()
 
     let token = ''
     const url = 'http://localhost:8000/api/films/get_films'; 

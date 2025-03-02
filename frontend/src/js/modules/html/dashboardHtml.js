@@ -64,7 +64,7 @@ export function showMoviesHtml() {
         </div>
         <input class="dashboard__search" placeholder="Find movie in your bookmarks">
         <ul class="movies-list" id="moviesList"></ul>
-        <button class="fixBtn">GET A MOVIE</button>`
+        <button class="fixBtn" id="getMovie">GET A MOVIE</button>`
 }
 
 export function showCollectionsHtml() {
@@ -83,7 +83,7 @@ export function showCollectionsHtml() {
             <button id="search">Search</button>
         </div>
         <ul class="movies-list" id="moviesList"></ul>
-        <button class="fixBtn">GET A MOVIE</button>`
+        <button class="fixBtn"id="getMovie">GET A MOVIE</button>`
 }
 
 export function sidebarProfileHtml(login) {
@@ -183,6 +183,32 @@ export function renderAddMovieHtml() {
         <span>Or</span>
         <button id="addOwn">Add your own</button>
     </div>`
+}
+
+export function getMovieHtml() {
+    modal.innerHTML = `
+    <div class="get-movie-top">
+        <h2>Get a movie</h2>
+        <p>Choose the mood of the movie</p>
+        <select>
+            <option>Mood 1</option>
+            <option>Mood 2</option>
+            <option>Mood 3</option>
+        </select>
+    </div>
+    <button class="get-a-movie-modal" id="getMovieModal">Get a movie</button>`
+}
+
+export function renderGetMovieEndHtml(element) {
+    return `            
+    <li class="movies-element">
+        <div class="movies-element__img" style="background-image: url('');"></div>
+        <div class="movies-element__block">
+            <span>dfsdfsdf</span>
+            <span>sdfdsfsdf</span>
+        </div>
+        <p class="movies-element__description">sdfsdfsdf</p>
+    </li>`
 }
 
 export function renderModalMoviesHtml(element, ind) {

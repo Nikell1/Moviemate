@@ -344,6 +344,7 @@
     }
 }
 
+
 .addOwnForm {
     display: flex;
     height: 100%;
@@ -448,4 +449,37 @@
         font-size:1.5rem;
         border-radius:50px;
     }
+}
+
+.get-movie-top {
+    h2 {
+        text-align: center;
+        font-family: $accent-font;
+        font-size:2rem;
+        margin-bottom: 20px;
+    }
+    p {
+        font-family: $text-font;
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+    select {
+        border-radius:50px;
+        background: none;
+        font-size:1.5rem;
+        border: 1px solid #fff;
+        padding: 10px;
+        option {
+            color: #000;
+        }
+    }
+}
+
+.get-a-movie-modal {
+    background: $main-color;
+    border-radius: 50px;
+    padding: 10px;
+    text-align: center;
+    font-family: $text-font;
+    font-size:1.5rem;
 }
