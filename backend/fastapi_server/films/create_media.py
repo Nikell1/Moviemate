@@ -33,5 +33,5 @@ async def create_media(body: Film,token:str = Security(Bear)):
         "collection": None,
         "media_type": "movie"
     })
-    return {"success": True}
+    return {"media_id": film_id}
 
