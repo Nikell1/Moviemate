@@ -41,7 +41,7 @@ async def get_films(token:str = Security(Bear)):
     return result
 
 @router.get("/get_rand_film", status_code=status.HTTP_200_OK)
-async def get_rand_film(token:str = Security(Bear)):
+async def get_rand_film(mood:str=None,token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:
         raise HTTPException(status_code=404, detail="Invalid credentials")
@@ -53,7 +53,10 @@ async def get_rand_film(token:str = Security(Bear)):
     if len(email_check) == 0:
         raise HTTPException(status_code=404, detail="User with this email does not exists")
 
-    request = f"""SELECT * FROM films_to_users WHERE email='{user["email"]}' and watched=false"""
+    request = f"""SELECT * FROM films_to_users WHERE email='{user["email"]}' and watched=false """
+    if mood != None:
+        request += f"""and '{mood}' = any(moods)"""
+
 
     films = db.execute_with_request(request)
     print(films)
@@ -69,5 +72,7 @@ async def get_rand_film(token:str = Security(Bear)):
             new_film = Film_to_front(title=film["title"],poster_path=film["poster_path"],overview=film["overview"],release_date=film["release_date"],id=films[i]["media_id"],watched=films[i]["watched"])
 
         result.append(new_film)
-
-    return random.choice(result)
+    if result != []:
+        return random.choice(result)
+    else:
+        return {}

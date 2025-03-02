@@ -31,7 +31,7 @@ class Film_to_front(BaseModel):
     watched:bool
 
 class Add_media(BaseModel):
-    media_id:str
+    media_id:int
     media_type:str = "movie"
     collection:str = None
 

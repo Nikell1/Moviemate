@@ -35,7 +35,7 @@ async def add_media(body: Add_media,token:str = Security(Bear)):
         "collection": body.collection,
         "media_type": body.media_type
     })
-    return {"media_id": body.media_id}
+    return {"success": True}
 
 @router.delete("/film", status_code=status.HTTP_201_CREATED)
 async def del_media(media_id: int,token:str = Security(Bear)):

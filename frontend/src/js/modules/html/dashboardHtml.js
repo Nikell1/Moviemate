@@ -26,8 +26,8 @@ export function renderMoviesHtml(element) {
                 </div>
                 <p class="movies-element__description">${element.overview}</p>
                 <div class="movies-element__bottom">
-                    <button class="movies-element__btn1">${element.watched}</button>
-                    <button class="movies-element__btn2">Add to collection</button>
+                    <button class="movies-element__btn1" id="mark_${element.id}">${element.watched}</button>
+                    <button class="movies-element__btn2" id="add_to_coll_${element.id}">Add to collection</button>
                 </div>
             </li>`
 }

@@ -50,7 +50,8 @@ class DatabaseAdapter:
                     media_id INTEGER NOT NULL,
                     collection VARCHAR(200),
                     media_type VARCHAR(200),
-                    watched BOOLEAN DEFAULT False
+                    watched BOOLEAN DEFAULT False,
+                    moods text[] COLLATE pg_catalog."default"
                 );
             """,
             "collections": """
