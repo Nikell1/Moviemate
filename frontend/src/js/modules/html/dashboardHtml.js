@@ -18,12 +18,12 @@ export function dashboardHtml() {
 export function renderMoviesHtml(element) {
     return `            
             <li class="movies-element">
-                <div class="movies-element__img"></div>
+                <div class="movies-element__img" style="background-image: url('${element.poster_path}');"></div>
                 <div class="movies-element__block">
-                    <span>Name of film</span>
-                    <span>1990</span>
+                    <span>${element.title}</span>
+                    <span>${element.release_date}</span>
                 </div>
-                <p class="movies-element__description">Description</p>
+                <p class="movies-element__description">${element.overview}</p>
                 <div class="movies-element__bottom">
                     <button class="movies-element__btn1">Mark as watched</button>
                     <button class="movies-element__btn2">Add to collection</button>

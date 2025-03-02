@@ -3,8 +3,10 @@ import * as consts from "../consts.js"
 import * as dashboardHtml from "../html/dashboardHtml.js";
 import { clearColor } from "../functions.js";
 import { transition } from "../functions.js"
-export function renderMoviesList() {
-    
+export function renderMoviesList(moviesData) {
+    for (let i = 0; i < moviesData.length; i++) {
+        moviesList.insertAdjacentHTML('beforeend', renderMoviesHtml(moviesData[i]));
+    }
 }
 
 function showSidebar(a, b, c) {
@@ -19,6 +21,46 @@ function showMovies() {
     const moviesBtn = document.getElementById('movies')
     moviesBtn.style.color = consts.accentColor
 
+    const moviesList = document.getElementById('moviesList')
+
+    let token = ''
+    const url = 'http://localhost:8000/api/films/get_films'; 
+    try{
+        token = localStorage.getItem("token")
+    } catch (error) {
+        console.log(error)
+        transition(consts.homeSearch)
+    }
+    const requestBody = {
+        token: token,
+    };
+    console.log(token)
+    try {
+        const response = fetch(url, {
+            method: 'GET',
+            headers: {
+                "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                "Content-Type": "application/json" // Указываем тип содержимого
+            }
+        }).then(response => {
+            if (!response.ok) {
+              throw new Error(`Ошибка: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log("Данные:", data);
+            let moviesData = data
+            renderMoviesList(moviesData)
+          })
+          .catch(error => {
+            console.error("Ошибка:", error);
+            transition(consts.homeSearch)
+          });
+
+    } catch (error) {
+        console.error('Ошибка при авторизации пользователя:', error);
+    }
 }
 
 function showCollections() {
@@ -108,42 +150,4 @@ export function renderDashboard() {
     }
 
     showDashboardBlocks()
-
-    let token = ''
-    const url = 'http://localhost:8000/api/films/get_films'; 
-    try{
-        token = localStorage.getItem("token")
-    } catch (error) {
-        console.log(error)
-        transition(consts.homeHash)
-    }
-    const requestBody = {
-        token: token,
-    };
-    console.log(token)
-    try {
-        const response = fetch(url, {
-            method: 'GET',
-            headers: {
-                "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
-                "Content-Type": "application/json" // Указываем тип содержимого
-            }
-        }).then(response => {
-            if (!response.ok) {
-              throw new Error(`Ошибка: ${response.status}`);
-            }
-            return response.json();
-          })
-          .then(data => {
-            console.log("Данные:", data);
-            let movies = data
-          })
-          .catch(error => {
-            console.error("Ошибка:", error);
-            transition(consts.homeSearch)
-          });
-
-    } catch (error) {
-        console.error('Ошибка при авторизации пользователя:', error);
-    }
 }
