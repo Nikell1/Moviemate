@@ -16,7 +16,9 @@ async def search_film(search: str, token:str = Security(Bear)):
 
 
     user = get_user(token.credentials)
+    print(token.credentials)
     if user == []:
+        print(1)
         raise HTTPException(status_code=404, detail="Invalid credentials")
     user = user[0]
     media = await search_multi(search,limit=19)
