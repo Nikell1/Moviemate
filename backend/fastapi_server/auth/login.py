@@ -16,12 +16,12 @@ async def login(body: LogIn):
     print(body)
     user = adapter.get_by_value('users', 'email', body.email)
     if len(user) == 0:
-        raise HTTPException(status_code=404, detail="Invalid credentials")
+        raise HTTPException(status_code=401, detail="Invalid credentials")
     user = user[0]
     bytes_hashed_password = user["password"].encode('utf-8')
     pd_check = bcrypt.checkpw(body.password.encode('utf-8'), bytes_hashed_password)
     if not pd_check:
-        raise HTTPException(status_code=404, detail="Invalid credentials")
+        raise HTTPException(status_code=401, detail="Invalid credentials")
 
     new_token = create_access_token({
         'email': body.email

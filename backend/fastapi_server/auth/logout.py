@@ -16,7 +16,7 @@ async def login(body: Token):
 
     user = adapter.get_by_value('users', 'token', body.token)
     if len(user) == 0:
-        raise HTTPException(status_code=404, detail="Invalid credentials")
+        raise HTTPException(status_code=401, detail="Invalid token")
     user = user[0]
 
     adapter.execute_with_request(f"UPDATE users SET token = null WHERE email = '{user['email']}'")

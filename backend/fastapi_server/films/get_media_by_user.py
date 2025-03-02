@@ -14,7 +14,7 @@ async def get_films(token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:
         print(11111)
-        raise HTTPException(status_code=404, detail="Invalid credentials")
+        raise HTTPException(status_code=401, detail="Invalid token")
     user = user[0]
     adapter = DatabaseAdapter()
     adapter.connect()
@@ -22,7 +22,7 @@ async def get_films(token:str = Security(Bear)):
     email_check = adapter.get_by_value('users', 'email', user["email"])
     if len(email_check) == 0:
         print(2)
-        raise HTTPException(status_code=404, detail="User with this email does not exist")
+        raise HTTPException(status_code=409, detail="User with this email does not exist")
     films = adapter.get_by_value('films_to_users', 'email', user["email"])
     result = []
     print(films)
@@ -44,14 +44,14 @@ async def get_films(token:str = Security(Bear)):
 async def get_rand_film(mood:str=None,token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:
-        raise HTTPException(status_code=404, detail="Invalid credentials")
+        raise HTTPException(status_code=401, detail="Invalid token")
     user = user[0]
     db = DatabaseAdapter()
     db.connect()
     db.initialize_tables()
     email_check = db.get_by_value('users', 'email', user["email"])
     if len(email_check) == 0:
-        raise HTTPException(status_code=404, detail="User with this email does not exists")
+        raise HTTPException(status_code=409, detail="User with this email does not exists")
 
     request = f"""SELECT * FROM films_to_users WHERE email='{user["email"]}' and watched=false """
     if mood != None:
