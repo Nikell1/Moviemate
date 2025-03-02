@@ -21,7 +21,7 @@ async def add_media(body: Add_media,token:str = Security(Bear)):
 
     if len(email_check) == 0:
         raise HTTPException(status_code=404, detail="User with this email does not exists")
-    check_exist = adapter.execute_with_request(f"SELECT * from films_to_users WHERE email = '{user['email']}' AND media_id = {body.media_id}")
+    check_exist = adapter.execute_with_request(f"SELECT * from films_to_users WHERE email = '{user['email']}' AND media_id = {body.media_id} AND media_type='{body.media_type}'")
     if len(check_exist) > 0:
         raise HTTPException(status_code=409, detail="This film already added")
 

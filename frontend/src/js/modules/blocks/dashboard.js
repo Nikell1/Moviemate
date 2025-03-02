@@ -219,16 +219,22 @@ function addMovieRender() {
             "search": search_input.value,
         });
     
-        const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
+        const requestBody = {
+            release_date_low: "0001-01-01"
+        }
+
+        const urlWithParams = `${url}?${params}`; 
             try {
                 const response = fetch(urlWithParams, {
-                    method: 'GET',
+                    method: 'POST',
                     headers: {
                         "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
-                        "Content-Type": "application/json" // Указываем тип содержимого
-                    }
+                        "Content-Type": "application/json", // Указываем тип содержимого
+                    },
+                    body: JSON.stringify(requestBody)
                 }).then(response => {
                     if (!response.ok) {
+                        console.log(response)
                       throw new Error(`Ошибка: ${response.status}`);
                     }
                     return response.json();

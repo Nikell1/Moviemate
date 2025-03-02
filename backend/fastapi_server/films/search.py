@@ -11,6 +11,7 @@ Bear = HTTPBearer(auto_error=False)
 @router.post("/search_film", status_code=status.HTTP_200_OK)
 async def search_film(search: str, body: Search, token:str = Security(Bear)):
     user = get_user(token.credentials)
+    print(body)
     print(token.credentials)
     if user == []:
         raise HTTPException(status_code=401, detail="Invalid token")
