@@ -1,9 +1,4 @@
 from fastapi import APIRouter, HTTPException, status, UploadFile
-from models.schemas import Register, Token
-from adapters.db_source import DatabaseAdapter
-import bcrypt
-from utils.functions import create_access_token
-import json
 import mimetypes
 import shutil
 import g4f

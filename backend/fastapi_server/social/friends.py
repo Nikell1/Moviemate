@@ -1,14 +1,8 @@
 from fastapi import APIRouter, HTTPException, status,Security
-from urllib3 import request
-
-from models.schemas import Token, Film
 from adapters.db_source import DatabaseAdapter
-from adapters.tmdb import get_by_id
 from adapters.mail import send_invite
 from fastapi.security import HTTPBearer
 from utils.functions import get_user
-from models.schemas import Film_to_front
-import random
 
 router = APIRouter()
 Bear = HTTPBearer(auto_error=False)

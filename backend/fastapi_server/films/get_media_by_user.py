@@ -1,5 +1,4 @@
 from fastapi import APIRouter, HTTPException, status,Security
-from models.schemas import Token, Film
 from adapters.db_source import DatabaseAdapter
 from adapters.tmdb import get_by_id
 from fastapi.security import HTTPBearer

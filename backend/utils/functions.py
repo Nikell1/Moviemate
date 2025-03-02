@@ -3,8 +3,6 @@ from adapters.db_source import DatabaseAdapter
 import jwt
 import os
 from dotenv import load_dotenv
-import re
-import json
 load_dotenv()
 def create_access_token(data: dict, expires_delta: timedelta = None):
     to_encode = data.copy()
