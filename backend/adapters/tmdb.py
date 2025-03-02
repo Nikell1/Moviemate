@@ -16,7 +16,7 @@ proxies = {
     "http://": "socks5://77.81.138.114:6000",
     "https://": "socks5://77.81.138.114:6000"
 }
-oleg = ""
+
 headers = {
     "accept": "application/json",
     "Authorization": "Bearer " + os.getenv("TMDB_KEY")
