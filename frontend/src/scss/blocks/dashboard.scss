@@ -324,6 +324,10 @@
 }
 
 .addOwnForm {
+    display: flex;
+    height: 100%;
+    justify-content: space-between;
+    flex-direction: column;
     p {
         font-size:1.5rem;
         font-family:$text-font;
@@ -363,6 +367,6 @@
         font-family: $text-font;
         font-size: 2rem;
         display:block;
-        margin:auto;
+        margin:0 auto;
     }
 }

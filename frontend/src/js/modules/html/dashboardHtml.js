@@ -152,13 +152,15 @@ export function renderModalMoviesHtml(element) {
 export function addOwnHtml() {
     return `
     <form class="addOwnForm" id="addOwnForm">
-        <h2>Add your own movie</h2>
-        <p>Specify the name of the movie</p>
-        <input  required placeholder="Interstellar">
-        <p>Specify the release year of the movie</p>
-        <input  required placeholder="01-01-1999">
-        <p>Specify a description of the movie</p>
-        <textarea  required placeholder="Description"></textarea>
+        <div>
+            <h2>Add your own movie</h2>
+            <p>Specify the name of the movie</p>
+            <input  required placeholder="Interstellar">
+            <p>Specify the release year of the movie</p>
+            <input  required placeholder="01-01-1999">
+            <p>Specify a description of the movie</p>
+            <textarea  required placeholder="Description"></textarea>
+        </div>
         <button type="submit">Add</button>
     </form>`
 }
