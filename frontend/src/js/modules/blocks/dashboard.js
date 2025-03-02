@@ -119,7 +119,33 @@ function renderModalMoviesList(data) {
             const addToDashboard = document.getElementById('addToDashboard')
             addToDashboard.onclick = () => {
 
-                console.log('добавление интернов')
+                console.log('добавление фильма')
+                const token = localStorage.getItem("token")
+                const url = 'http://localhost:8000/api/films/film'; // Замените на ваш URL FastAPI сервера
+                console.log(data)
+                console.log(data[ind].media_type)
+                const requestBody = {
+                    "media_id": data[ind].id,
+                    "media_type": data[ind].media_type,                  
+                };
+            
+                try {
+                    const response = fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            "Authorization": `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(requestBody)
+                    });
+            
+
+
+                    transition(consts.dashboardSearch)
+                    
+                } catch (error) {
+                    console.error('Ошибка при авторизации пользователя:', error);
+                }
             }
         }
     }
@@ -154,7 +180,7 @@ function addMovieRender() {
                     "title": title_input.value,
                     "description": description_input.value,
                     "date": date_input.value,
-                    "image_url": "null"
+                    "image_url": "https://avatars.mds.yandex.net/i?id=1683d076e80887c04421aabf3b0879ee_l-4420695-images-thumbs&n=13"
                 };
             
                 try {
@@ -295,6 +321,7 @@ function showFriends() {
 }
 
 function showSearch() {
+    dashboardHtml.searchPageHtml()
     clearColor()
     const searchBtn = document.getElementById('search')
     searchBtn.style.color = consts.accentColor
@@ -398,6 +425,13 @@ export function renderDashboard() {
             } catch (error) {
                 console.error('Ошибка при авторизации пользователя:', error);
             }
+        }
+
+        const editBtn = document.getElementById('editBtn')
+        editBtn.onclick = () => {
+            showMovieCardModal(1, 'visible', 0.5)
+            topDark.onclick = () => {showMovieCardModal(0, 'none', 0)}
+            dashboardHtml.editRenderhtml()
         }
     }
 
