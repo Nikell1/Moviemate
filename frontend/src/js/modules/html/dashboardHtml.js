@@ -79,7 +79,7 @@ export function sidebarProfileHtml(login) {
     <p class="sidebar__nickname" id="sidebar_nickname">${login}</p>
     <div class="sidebar__buttons">
         <button>EDIT PROFILE</button>   
-        <button>LOG OUT</button>
+        <button id="logoutBtn">LOG OUT</button>
     </div>
     `   
 }

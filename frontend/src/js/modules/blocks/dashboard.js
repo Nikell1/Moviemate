@@ -344,6 +344,36 @@ export function renderDashboard() {
         const login = localStorage.getItem("login") 
         sidebar.innerHTML = dashboardHtml.sidebarProfileHtml(login)
         renderCloseBtn()
+
+        const logoutBtn = document.getElementById('logoutBtn')
+        logoutBtn.onclick = () => {
+            const token = localStorage.getItem("token")
+            const url = 'http://localhost:8000/api/auth/logout'; // Замените на ваш URL FastAPI сервера
+                    
+            const requestBody = {
+                "token": token,
+            };
+        
+            try {
+                const response = fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+        
+ 
+                localStorage.removeItem("token")
+                localStorage.removeItem("email")   
+                localStorage.removeItem("login")
+
+                transition(consts.homeSearch)
+                
+            } catch (error) {
+                console.error('Ошибка при авторизации пользователя:', error);
+            }
+        }
     }
 
     showDashboardBlocks()
