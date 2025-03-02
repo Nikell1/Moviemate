@@ -6,8 +6,14 @@ from utils.functions import get_user
 router = APIRouter()
 Bear = HTTPBearer(auto_error=False)
 
+moods = {
+        "Весёлое": [35, 12, 10751, 10402],
+        "Серьёзные": [18, 36, 10749, 99, 35],
+        "Напряженные": [28, 53, 27, 9648, 878, 18]
+    }
 
-@router.put("/film", status_code=status.HTTP_201_CREATED)
+
+@router.post("/film", status_code=status.HTTP_201_CREATED)
 async def add_media(body: Add_media,token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:

@@ -1,4 +1,6 @@
 from fastapi import APIRouter, HTTPException, status,Security
+from urllib3 import request
+
 from adapters.db_source import DatabaseAdapter
 from adapters.mail import send_invite
 from fastapi.security import HTTPBearer
@@ -54,3 +56,40 @@ async def add_friend(friend_login:str, token:str = Security(Bear)):
     await send_invite(friend[0]['email'], user['login'])
 
     return {"ok": True, "detail": "Invitation Sent"}
+
+
+@router.delete("/friend", status_code=status.HTTP_200_OK)
+async def add_friend(friend_login:str, token:str = Security(Bear)):
+    user = get_user(token.credentials)
+    if user == []:
+        raise HTTPException(status_code=404, detail="Invalid credentials")
+    user = user[0]
+    db = DatabaseAdapter()
+    db.connect()
+    db.initialize_tables()
+
+    email_check = db.get_by_value('users', 'email', user["email"])
+    friend = db.get_by_value('users', 'login', friend_login)
+
+    if len(email_check) == 0:
+        raise HTTPException(status_code=404, detail="User with this email does not exists")
+    if friend_login == user['login']:
+        raise HTTPException(status_code=400, detail="Self Invite")
+    if friend == []:
+        raise HTTPException(status_code=403, detail="No user found")
+
+    print(email_check)
+    print(friend_login)
+
+    request = f"""SELECT * FROM friends WHERE (user1='{friend_login}' and user2='{user['login']}') or (user1='{user['login']}' and user2='{friend_login}')"""
+    check_friendship = db.execute_with_request(request)
+
+
+    if check_friendship == []:
+        raise HTTPException(status_code=403, detail="No Friendship or Invitation")
+    check_friendship = check_friendship[0]
+
+    request = f"""DELETE FROM friends WHERE user1='{check_friendship['user1']}' and user2='{check_friendship['user2']}'"""
+    db.execute_with_request(request)
+
+    return {"ok": True, "detail": "Friend deleted"}
