@@ -33,5 +33,4 @@ class Add_media(BaseModel):
 
 class Set_collection(BaseModel):
     media_id:str
-    media_type:str = "movie"
     collection:str = None
