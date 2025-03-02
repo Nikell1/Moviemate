@@ -39,7 +39,6 @@ async def search_multi(query:str, include_adult:bool=False, language:str="ru-RU"
     new_results = []
     for i in range(limit):
         c_res = response["results"][i]
-        # print(c_res)
         none_keys = []
         for param in c_res.keys():
             if c_res[param] == None:
