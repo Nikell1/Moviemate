@@ -57,6 +57,7 @@ async def add_media(token:str = Security(Bear)):
     request = f"""SELECT * FROM films_to_users WHERE email='{user["email"]}' and watched=false"""
 
     films = db.execute_with_request(request)
+    print(films)
     result = []
     print(await get_by_id(2))
     for i in range(len(films)):
