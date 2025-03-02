@@ -5,6 +5,12 @@ import { clearColor } from "../functions.js";
 import { transition } from "../functions.js"
 export function renderMoviesList(moviesData) {
     for (let i = 0; i < moviesData.length; i++) {
+        console.log(moviesData[i].watched)
+        if (moviesData[i].watched == false){
+            moviesData[i].watched = "Mark as watched"
+        } else if (moviesData[i].watched == true){
+            moviesData[i].watched = "Mark as unwatched"
+        }
         moviesList.insertAdjacentHTML('beforeend', renderMoviesHtml(moviesData[i]));
     }
 }
