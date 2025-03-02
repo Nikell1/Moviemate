@@ -3,6 +3,15 @@
     max-width: 1920px;
     padding:30px 100px; 
     margin: auto;
+    &__search {
+        border-radius:100px;
+        padding:10px;
+        width:750px;
+        background: none;
+        color: #fff;
+        border: 1px solid #fff;
+        margin-top:20px;
+    }
     &__profile {
         cursor:pointer;
         background: none;
@@ -91,7 +100,7 @@
 }
 
 .movies-list {
-    margin-top:50px;
+    margin-top:30px;
     max-width:750px;
     padding-bottom: 50px;
     display:flex;
@@ -99,6 +108,9 @@
     justify-content: space-between;
     height: 400px;
     overflow-y: scroll;
+    p {
+        font-size: 1.5rem;
+    }
 }
 .movies-list::-webkit-scrollbar {
     width:0;
@@ -204,9 +216,9 @@
 
 .modal {
     position:fixed;
-    background: #fff;
-    width:400px;
-    height:600px;
+    background: $grey-color;
+    width:650px;
+    height:700px;
     top:3vh;
     left:50%;
     z-index:10;
@@ -214,4 +226,86 @@
     pointer-events: none;
     transform: translateX(-50%);
     border-radius: 10px;
+    padding:20px;
+    transition: all 0.3s;
+    display:flex;
+    justify-content: space-between;
+    flex-direction: column;
+    &__title {
+        font-family: $accent-font;
+        font-size: 2rem;
+        text-align:center;
+        margin-bottom: 20px;
+    }
+
+    &__search {
+        display: flex;
+        input {
+            background: #000;
+            border-radius: 50px;
+            border: 1px solid #fff;
+            padding:10px;
+            width: 480px;
+            font-family: $text-font;
+            font-size: 1.5rem;
+        }
+        button {
+            background: $main-color;
+            border-radius: 50px;
+            padding:10px 20px;
+            font-size: 1.5rem;
+            margin-left: 15px;
+            font-family: $text-font;
+        }
+    }
+
+    &__filmsList {
+    }
+
+    &__btn-container {
+        margin:0 auto;
+        button {
+            background: $main-color;
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-family: $text-font;
+            font-size:2rem;
+        }
+        span {
+            margin:0 30px;
+            font-size:2rem;
+            font-family: $text-font;
+        }
+    }
+}
+
+.modal-movie-element {
+    background: #000;
+    border-radius:10px;
+    border: 1px solid #fff;
+    margin-top: 15px;
+    display:flex;
+    img {
+        height: 100px;
+        width:100px;
+    }
+
+    &__container {
+        margin:10px 10px;
+        display:flex;
+        width:480px;
+        justify-content: space-between;
+    }
+
+    span {
+        font-size:1.5rem;
+        font-family: $text-font;
+    }
+
+    p {
+        display:block;
+        margin-left:10px;
+        font-family: $text-font;
+        font-size:1rem;
+    }
 }
