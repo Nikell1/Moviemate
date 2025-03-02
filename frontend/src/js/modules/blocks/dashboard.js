@@ -3,14 +3,30 @@ import * as consts from "../consts.js"
 import * as dashboardHtml from "../html/dashboardHtml.js";
 import { clearColor } from "../functions.js";
 import { transition } from "../functions.js"
+import { renderAddMovieHtml } from "../html/dashboardHtml.js";
+
+
 export function renderMoviesList(moviesData) {
+    moviesList.innerHTML = ''
+
     for (let i = 0; i < moviesData.length; i++) {
+        console.log(moviesData[i].watched)
+        if (moviesData[i].watched == false){
+            moviesData[i].watched = "Mark as watched"
+        } else if (moviesData[i].watched == true){
+            moviesData[i].watched = "Mark as unwatched"
+        }
         moviesList.insertAdjacentHTML('beforeend', renderMoviesHtml(moviesData[i]));
+    }
+
+    if (moviesData.length == 0) {
+        moviesList.innerHTML = `<p>You haven't added any movies to your bookmarks yet</p>`
     }
 }
 
 function showAddMovieModal(a, b, c) {
     const modal = document.getElementById('modal')
+    modal.innerHTML = ''
 
     modal.style = `opacity:${a}; pointer-events: ${b};`
     dark.style = `opacity:${c}; pointer-events: ${b};`
@@ -26,7 +42,53 @@ function addMovieRender() {
     const addMovieBtn = document.getElementById('addMovie')
 
     addMovieBtn.onclick = () => {
-        showAddMovieModal(1, 'visible', '0.3')
+        showAddMovieModal(1, 'visible', 0.3)
+        renderAddMovieHtml()
+
+        const moviesForm = document.getElementById('moviesForm')
+        const search_input = document.getElementById('search_input')
+        const token = localStorage.getItem("token")
+        moviesForm.addEventListener('submit', (event) => {
+        event.preventDefault()
+
+        console.log('считывание списка фильмов')
+        console.log(search_input.value)
+
+        const url = 'http://localhost:8000/api/films/search_film'; // Замените на ваш URL FastAPI сервера
+        const params = new URLSearchParams({
+            "search": search_input.value,
+        });
+    
+        const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
+            try {
+                const response = fetch(urlWithParams, {
+                    method: 'GET',
+                    headers: {
+                        "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                        "Content-Type": "application/json" // Указываем тип содержимого
+                    }
+                }).then(response => {
+                    if (!response.ok) {
+                      throw new Error(`Ошибка: ${response.status}`);
+                    }
+                    return response.json();
+                  })
+                  .then(data => {
+                    console.log("Данные:", data);
+                    console.log(data.results)
+                    let moviesData = data
+                    // renderMoviesList(moviesData)
+                  })
+                  .catch(error => {
+                    console.error("Ошибка:", error);
+                    // transition(consts.homeSearch)
+                  });
+        
+            } catch (error) {
+                console.error('Ошибка при авторизации пользователя:', error);
+            }
+
+    })
     }
 }
 
@@ -42,8 +104,12 @@ function showMovies() {
 
     let token = ''
     const url = 'http://localhost:8000/api/films/get_films'; 
+    const profile_nickname = document.getElementById('profile_nickname')
     try{
         token = localStorage.getItem("token")
+        const login = localStorage.getItem("login")    
+        profile_nickname.textContent = login
+
     } catch (error) {
         console.log(error)
         transition(consts.homeSearch)
@@ -159,10 +225,14 @@ export function renderDashboard() {
     const sidebar = document.getElementById('sidebar')
     const dark = document.getElementById('dark')
 
-    dark.onclick = () => showSidebar(400, 0, 'none')
+    dark.onclick = () => {
+        showSidebar(400, 0, 'none')
+        showAddMovieModal(0, 'none', 0)
+    }
     profileBtn.onclick = () => {
         showSidebar(0, 0.3, 'visible')
-        sidebar.innerHTML = dashboardHtml.sidebarProfileHtml()
+        const login = localStorage.getItem("login") 
+        sidebar.innerHTML = dashboardHtml.sidebarProfileHtml(login)
         renderCloseBtn()
     }
 

@@ -7,6 +7,10 @@ class LogIn(BaseModel):
 class Token(BaseModel):
     token: str
 
+class LogInResponse(BaseModel):
+    token: str
+    login: str
+
 class Register(BaseModel):
     email: str
     password: str

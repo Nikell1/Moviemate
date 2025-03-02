@@ -3,9 +3,15 @@ from models.schemas import Add_media
 from adapters.db_source import DatabaseAdapter
 from fastapi.security import HTTPBearer
 from utils.functions import get_user
-from adapters import tmdb
 router = APIRouter()
 Bear = HTTPBearer(auto_error=False)
+
+moods = {
+        "Весёлое": [35, 12, 10751, 10402],
+        "Серьёзные": [18, 36, 10749, 99, 35],
+        "Напряженные": [28, 53, 27, 9648, 878, 18]
+    }
+
 
 @router.post("/film", status_code=status.HTTP_201_CREATED)
 async def add_media(body: Add_media,token:str = Security(Bear)):
@@ -20,24 +26,15 @@ async def add_media(body: Add_media,token:str = Security(Bear)):
 
     if len(email_check) == 0:
         raise HTTPException(status_code=404, detail="User with this email does not exists")
-
-    check_exist = adapter.execute_with_request(f"SELECT * from films_to_users WHERE email = '{user['email']}' AND media_id = {body.media_id} and media_type='{body.media_type}'")
+    check_exist = adapter.execute_with_request(f"SELECT * from films_to_users WHERE email = '{user['email']}' AND media_id = {body.media_id}")
     if len(check_exist) > 0:
         raise HTTPException(status_code=404, detail="This film already exists")
-
-    media_get = await tmdb.get_by_id(body.media_id, body.media_type, short=False)
-    print(media_get.genres)
-    moods = await tmdb.get_moods_by_genres(media_get.genres)
-
     adapter.insert('films_to_users', {
         'email': user["email"],
         'media_id':  body.media_id,
         "collection": body.collection,
-        "media_type": body.media_type,
-        "moods": moods
+        "media_type": body.media_type
     })
-
-
     return {"success": True}
 
 @router.delete("/film", status_code=status.HTTP_201_CREATED)

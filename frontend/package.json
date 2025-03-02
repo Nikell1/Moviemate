@@ -13,6 +13,7 @@
   "devDependencies": {
     "browser-sync": "^3.0.2",
     "del": "^6.1.1",
+    "dotenv": "^16.4.7",
     "gulp": "^4.0.0",
     "gulp-autoprefixer": "^9.0.0",
     "gulp-clean-css": "^4.3.0",

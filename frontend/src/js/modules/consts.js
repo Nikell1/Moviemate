@@ -9,3 +9,8 @@ export const friendsHash = 'friends'
 export const searchHash = 'search'
 
 export const accentColor = '#003BBE'
+
+// import dotenv from 'dotenv'
+
+// console.log(process.env.DB_PORT)
+
