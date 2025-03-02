@@ -115,7 +115,7 @@ export function renderDashboard() {
         token = localStorage.getItem("token")
     } catch (error) {
         console.log(error)
-        transition(consts.homeHash)
+        transition(consts.homeSearch)
     }
     const requestBody = {
         token: token,
@@ -146,4 +146,5 @@ export function renderDashboard() {
     } catch (error) {
         console.error('Ошибка при авторизации пользователя:', error);
     }
+    console.log(movies)
 }
