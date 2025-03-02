@@ -97,7 +97,7 @@ export function renderAddMovieHtml() {
     <div class="modal__btn-container">
         <button>Find by photo</button>
         <span>Or</span>
-        <button>Create your own</button>
+        <button>Add your own</button>
     </div>`
 }
 
