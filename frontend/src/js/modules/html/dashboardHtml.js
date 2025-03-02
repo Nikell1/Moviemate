@@ -129,9 +129,15 @@ export function renderModalMoviesHtml(element) {
         console.log(1)
         overview = `${overview.slice(0, 100)}...`
     }
+    const url = 'http://localhost:8000/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
+    const params = new URLSearchParams({
+        "url": element.poster_path,
+    });
+
+    const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
     return `
     <li class="modal-movie-element">
-        <img src="https://image.tmdb.org/t/p/w200${element.poster_path}">
+        <img src="${urlWithParams}">
         <div>
             <div class="modal-movie-element__container">
                 <span>${title}</span>
