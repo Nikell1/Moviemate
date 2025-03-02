@@ -25,6 +25,10 @@ services:
       DB_PORT: ${DB_PORT}
       RANDOM_SECRET: ${RANDOM_SECRET}
       TMDB_KEY: ${TMDB_KEY}
+      MAIL_LOGIN: $(MAIL_LOGIN)
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+
     ports:
       - ${FAST_API_PORT}:${FAST_API_PORT}
     extra_hosts:

@@ -1,5 +1,4 @@
 from fastapi import APIRouter, HTTPException, status,Security
-from urllib3 import request
 
 from adapters.db_source import DatabaseAdapter
 from adapters.mail import send_invite
