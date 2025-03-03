@@ -82,7 +82,7 @@ export function showMoviesHtml() {
             <button id="friends">Friends</button>
             <button id="search">Search</button>
         </div>
-        <div class="dashboard__search"><input placeholder="Find movie in your bookmarks"></div>
+        <form id="searchInMoviesForm" class="dashboard__search"><input placeholder="Find movie in your bookmarks"></form>
         <ul class="movies-list" id="moviesList"></ul>
         <button class="fixBtn" id="getMovie">GET A MOVIE</button>`
 }
@@ -176,12 +176,16 @@ export function renderMovieCardModalHtml(element, ind) {
 export function searchPageHtml() {
     const dashboardContent = document.getElementById('dashboardContent')
     dashboardContent.innerHTML = `
-            <div class="dashboard__botBtns">
+        <div class="dashboard__block">
+            <h1>Search in <span>global</span></h1>
+        </div>
+        <div class="dashboard__botBtns">
             <button id="movies">Your movies</button>
             <button id="collections">Collections</button>
             <button id="friends">Friends</button>
             <button id="search">Search</button>
-        </div>`
+        </div>
+        <div class="dashboard__search"><input placeholder="Find movie in your "></div>`
 }
 
 export function renderAddMovieHtml() {

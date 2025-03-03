@@ -341,6 +341,14 @@ function addMovieRender() {
     }
 }
 
+function movieSearchRender() {
+    const searchInMoviesForm = document.getElementById('searchInMoviesForm')
+    searchInMoviesForm.addEventListener('submit', (event) => {
+        event.preventDefault()
+        console.log('поиск закладок')
+    })
+}
+
 function showMovies() {
     dashboardHtml.showMoviesHtml()
     clearColor()
@@ -351,6 +359,7 @@ function showMovies() {
 
     addMovieRender()
     renderGetMovie()
+    movieSearchRender()
 
     let token = ''
     const url = 'http://localhost:8000/api/films/get_films'; 
