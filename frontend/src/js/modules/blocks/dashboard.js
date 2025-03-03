@@ -705,6 +705,15 @@ function renderNewCollectionBtn() {
                   .catch(error => {
                     console.error("Ошибка:", error);
                     // transition(consts.homeSearch)
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'There is alredy a collection with this name',
+                        icon: 'error', // Иконка ошибки
+                        confirmButtonText: 'ОК',
+                        customClass: {
+                            popup: 'custom-popup' // Добавляем класс для окна
+                        }
+                    });
                   });
         
             } catch (error) {
