@@ -59,6 +59,11 @@ async def delete_collections(name:str,token:str = Security(Bear)):
     if len(check_exist) == 0:
         raise HTTPException(status_code=404, detail="This collection does not exists")
     adapter.execute_with_request(f"DELETE  from collections WHERE email = '{user['email']}' AND collection_name = '{name}'")
+    #films_to_Users collection = None
+    check_exist = adapter.execute_with_request(f"UPDATE films_to_users SET collection = null WHERE email = '{user['email']}' AND collection ='{name}'")
+    if len(check_exist) == 0:
+        return {"success": True}
+    
     return {"success": True}
 
 

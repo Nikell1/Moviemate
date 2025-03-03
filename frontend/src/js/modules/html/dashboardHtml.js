@@ -73,7 +73,7 @@ export function showMoviesHtml() {
             <h1>Your movie <span>dashboard</span></h1>
             <div class="dashboard__rightBtns">
                 <button id="addMovie">Add movie</button>
-                <button>New collection</button>
+                <button id="newCollectionBtn">New collection</button>
             </div>
         </div>
         <div class="dashboard__botBtns">
@@ -109,10 +109,14 @@ export function showCollectionsHtml() {
 
 export function newCollectionHtml() {
     return `
-    <h2>New collection</h2>
-    <p>Enter the name of collection</p>
-    <input>
-    <button type="submit">Add</button>`
+    <form class="new-collection" id="newCollectionForm">
+        <div>
+            <h2>New collection</h2>
+            <p>Enter the name of collection</p>
+            <input placeholder="Sad films">
+        </div>
+        <div class="new-collection__btnCont"><button type="submit">Add</button></div>
+    </form>`
 }
 
 export function renderCollectionHtml(data, ind) {
@@ -271,7 +275,7 @@ export function renderGetMovieEndHtml(element) {
     const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
 
     return `            
-    <ul class="new-collection">
+    <ul class="get-movie">
         <li class="movies-element">
             <div class="movies-element__img" style="background-image: url('${urlWithParams}');"></div>
             <div class="movies-element__block">

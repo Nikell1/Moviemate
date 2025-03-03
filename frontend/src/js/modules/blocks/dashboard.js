@@ -409,6 +409,8 @@ function showMovies() {
     addMovieRender()
     renderGetMovie()
     movieSearchRender()
+    renderNewCollectionBtn()
+    
 
     let token = ''
     const url = consts.BACKEND_URL+'/api/films/get_films'; 
@@ -505,17 +507,30 @@ function showCollections() {
         console.error('Ошибка при авторизации пользователя:', error);
     }
 
-    const newCollectionBtn = document.getElementById('newCollectionBtn')
+    renderNewCollectionBtn()
 
-    newCollectionBtn.onclick = () => {
-        showAddMovieModal(1, 'visible', 0.3)
-        modal.innerHTML = dashboardHtml.newCollectionHtml()
-    }
+    renderGetMovie()
+
+    
 
 
     clearColor()
     const collectionsBtn = document.getElementById('collections')
     collectionsBtn.style.color = consts.accentColor
+}
+function renderNewCollectionBtn() {
+    const newCollectionBtn = document.getElementById('newCollectionBtn')
+
+    newCollectionBtn.onclick = () => {
+        showAddMovieModal(1, 'visible', 0.3)
+        modal.innerHTML = dashboardHtml.newCollectionHtml()
+
+        const newCollectionForm = document.getElementById('newCollectionForm')
+        newCollectionForm.addEventListener('submit', (event) => {
+            event.preventDefault()
+            console.log('колекшен добавлейшен')
+        })
+    }
 }
 
 function showFriends() {
