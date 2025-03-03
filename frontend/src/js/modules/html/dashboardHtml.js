@@ -107,8 +107,8 @@ export function showCollectionsHtml() {
         <button class="fixBtn"id="getMovie">GET A MOVIE</button>`
 }
 
-export function renderCollectionHtml(data) {
-    return `<li class="collection-el"><span>title</span><div>🗑</div></li>`
+export function renderCollectionHtml(data, ind) {
+    return `<li data-index="${ind}" data-type="collection" class="collection-el"><span>title</span><div data-index="${ind}" data-type="delete">🗑</div></li>`
 }
 
 export function sidebarProfileHtml(login) {
