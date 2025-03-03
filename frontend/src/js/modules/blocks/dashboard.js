@@ -477,11 +477,35 @@ function renderCollections(data, a='', b) {
 
         if (type = "delete") {
             console.log(ind)
+            console.log('удаление коллекции')
+            const token = localStorage.getItem("token")
+            const url = consts.BACKEND_URL+'/api/collections/collections'; 
+            const reqbody = {
+                name: ind,
+            }
+    
+
+                try {
+                    const response = fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                        "Content-Type": "application/json", // Указываем тип содержимого
+                    },
+                    body: JSON.stringify(reqbody)
+
+                })
+                transition(consts.dashboardSearch)
+
+        
+            } catch (error) {
+                console.error('Ошибка при авторизации пользователя:', error);
+            }
         }
     }
 }
 
-function serverCollectinos(a = '', b) {
+function serverCollectinos(a = '' , b) {
     const token = localStorage.getItem("token")
     const url = consts.BACKEND_URL+'/api/collections/collections'; 
     try {
