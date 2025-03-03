@@ -225,7 +225,7 @@ export function renderDescHtml() {
         <div>
             <h2>Find by description</h2>
             <p>Paste your description</p>
-            <textarea required></textarea>
+            <textarea id="input_desc" required></textarea>
         </div>
         <button type="submit">Find</button>
     </form>
