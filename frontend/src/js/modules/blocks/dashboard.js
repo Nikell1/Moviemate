@@ -90,7 +90,7 @@ function renderGetMovie() {
     }
 }
 
-export function renderMoviesList(moviesData, a, b) {
+export function renderMoviesList(moviesData, a) {
     moviesList.innerHTML = ''
 
     for (let i = 0; i < moviesData.length; i++) {
@@ -100,11 +100,11 @@ export function renderMoviesList(moviesData, a, b) {
         } else if (moviesData[i].watched == true){
             moviesData[i].watched = "Mark as unwatched"
         }
-        moviesList.insertAdjacentHTML('beforeend', renderMoviesHtml(moviesData[i], a, b))
+        moviesList.insertAdjacentHTML('beforeend', renderMoviesHtml(moviesData[i], a, moviesData[i].id))
     }
 
     if (moviesData.length == 0) {
-        moviesList.innerHTML = `<p>You haven't added any movies to your bookmarks yet</p>`
+        moviesList.innerHTML = `<p>No movies</p>`
     }
     if (new URL(window.location.href).hash != `#${consts.searchHash}`) {
         for (let i = 0; i < moviesData.length; i++){
@@ -125,7 +125,7 @@ export function renderMoviesList(moviesData, a, b) {
                     const params = new URLSearchParams({
                         "id": moviesData[i].id,
                     });
-                    
+
                 
                     const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
                     const response = fetch(urlWithParams, {
@@ -566,7 +566,55 @@ function showSearch() {
                     console.log("Данные:", data);
                     console.log(data.results)
                     // Отрендерить рещультаты глобального поиска
-                    renderMoviesList(data.results, 'add to dashboard', '')
+                    renderMoviesList(data.results, 'add to dashboard')
+                    let moviesData = data.results
+                    for (let i = 0; i < moviesData.length; i++){
+                        console.log(`mark_${moviesData[i].id}`)
+                        const current_mark_button = document.getElementById(`mark_${moviesData[i].id}`)
+                        current_mark_button.onclick = () => {
+                
+                            try {
+                                const token = localStorage.getItem("token")
+                                const url = consts.BACKEND_URL+'/api/films/film'; // Замените на ваш URL FastAPI сервера
+
+                                const reqbody = {
+                                    media_id: moviesData[i].id,
+                                    media_type: moviesData[i].media_type,
+                                    }
+                                const response = fetch(url, {
+                                    method: 'POST',
+                                    headers: {
+                                        "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                                        "Content-Type": "application/json",
+                                    },
+                                    body: JSON.stringify(reqbody)
+
+                                }).then(response => {
+                                    if (!response.ok) {
+                                      throw new Error(`Ошибка: ${response.status}`);
+                                    }
+                                    return response.json();
+                                  })
+                                  .then(data => {
+                                    console.log("Данные:", data);
+                                    console.log(data.results)
+                                    // alert("Movie has been added to collection")
+                                    updateHash(consts.moviesHash)
+                                    showDashboardBlocks()
+                                  })
+                                  .catch(error => {
+                                    console.error("Ошибка:", error);
+                                    // transition(consts.homeSearch)
+                                  });
+                        
+                            } catch (error) {
+                                console.error('Ошибка при авторизации пользователя:', error);
+                            }
+                
+                
+                
+                        }
+                    }
 
                     const addToDashboardSearch = document.getElementsByName('addToDashboardBtn')
                     
