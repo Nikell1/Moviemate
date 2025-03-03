@@ -44,8 +44,8 @@ export function renderMoviesHtml(element) {
 
     let overview = element.overview
 
-    if (overview.length > 100) {
-        overview = `${overview.slice(0, 100)}...`
+    if (overview.length > 50) {
+        overview = `${overview.slice(0, 50)}...`
     }
 
 
@@ -82,7 +82,7 @@ export function showMoviesHtml() {
             <button id="friends">Friends</button>
             <button id="search">Search</button>
         </div>
-        <div class="dashboard__search"><input placeholder="Find movie in your bookmarks"></div>
+        <form id="searchInMoviesForm" class="dashboard__search"><input placeholder="Find movie in your bookmarks"></form>
         <ul class="movies-list" id="moviesList"></ul>
         <button class="fixBtn" id="getMovie">GET A MOVIE</button>`
 }
@@ -176,12 +176,17 @@ export function renderMovieCardModalHtml(element, ind) {
 export function searchPageHtml() {
     const dashboardContent = document.getElementById('dashboardContent')
     dashboardContent.innerHTML = `
-            <div class="dashboard__botBtns">
+        <div class="dashboard__block">
+            <h1>Search in <span>global</span></h1>
+        </div>
+        <div class="dashboard__botBtns">
             <button id="movies">Your movies</button>
             <button id="collections">Collections</button>
             <button id="friends">Friends</button>
             <button id="search">Search</button>
-        </div>`
+        </div>
+        <form class="dashboard__search" id="searchInGlobalForm"><input placeholder="Find movie in global"></form>
+        <ul class="movies-list" id="moviesList"></ul>`  
 }
 
 export function renderAddMovieHtml() {
@@ -257,7 +262,7 @@ export function renderGetMovieEndHtml(element) {
         <div class="movies-element__img" style="background-image: url('${urlWithParams}');"></div>
         <div class="movies-element__block">
             <span>${title}</span>
-            <span>${releaseDate}</span>
+            <span>${releaseDate}</span> 
         </div>
         <p class="movies-element__description">${overview}</p>
     </li>
