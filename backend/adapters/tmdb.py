@@ -6,6 +6,8 @@ import os
 import urllib.parse
 from dotenv import load_dotenv
 from fastapi import  HTTPException
+
+from adapters import db_source
 from models import TMDB
 import httpx
 
@@ -13,8 +15,8 @@ from models.TMDB import TMDBobject_Genre
 
 load_dotenv()
 proxies = {
-    "http://": "socks5://77.81.138.114:6000",
-    "https://": "socks5://77.81.138.114:6000"
+    "http://": "socks5://142.54.237.38:4145",
+    "https://": "socks5://142.54.237.38:4145"
 }
 
 headers = {
@@ -53,7 +55,7 @@ genres_ = {
 
 requests = httpx.Client(proxy="socks5://77.81.138.114:6000", headers=headers)
 
-async def search_multi(query:str, genre_ids:list[int], release_date_low:str=None, release_date_high:str=None    , include_adult:bool=False, language:str="ru-RU", page:int=1, limit=-1, short=True):
+async def search_multi(query:str, genre_ids:list[int], release_date_low:str=None, release_date_high:str=None, include_adult:bool=False, watched:bool=None, email:str=None, language:str="ru-RU", page:int=1, limit=-1, short=True):
     encoded_query = urllib.parse.quote(query)
     url = f"https://api.themoviedb.org/3/search/multi?query={encoded_query}&include_adult={str(include_adult).lower()}&language={language}&page={page}"
     request = requests.get(url=url, headers=headers)
@@ -64,9 +66,26 @@ async def search_multi(query:str, genre_ids:list[int], release_date_low:str=None
     
     new_results = []
 
+    db = db_source.DatabaseAdapter()
+    db.connect()
+    db.initialize_tables()
+
     for i in range(limit):
         c_res = response["results"][i]
-        print(c_res)
+
+        if watched != None:
+            name_l = "title"
+            if "name" in c_res:
+                name_l = "name"
+
+            film_db = db.execute_with_request(f"""SELECT * FROM films_to_users WHERE media_id='{c_res["id"]}' and email='{email}'""")
+
+            if film_db == [] and watched == True:
+                continue
+
+            elif film_db != [] and film_db[0]['watched'] != watched:
+                continue
+
         try:
             if release_date_low != None:
                 if "first_air_date" in c_res and datetime.fromisoformat(release_date_low) > datetime.fromisoformat(

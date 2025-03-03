@@ -45,6 +45,15 @@ export function renderSignup() {
                 transition(consts.dashboardSearch)
                 return data.token;
             } catch (error) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Something is wrong with your request',
+                    icon: 'error', // Иконка ошибки
+                    confirmButtonText: 'ОК',
+                    customClass: {
+                        popup: 'custom-popup' // Добавляем класс для окна
+                    }
+                });
                 console.error('Ошибка при авторизации пользователя:', error);
             }
         }

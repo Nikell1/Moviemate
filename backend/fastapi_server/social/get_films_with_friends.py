@@ -54,3 +54,4 @@ async def get_film_with_friends(friend_logins:str,token:str = Security(Bear)):
         )
     title = response.choices[0].message.content
     return summ_films[title]
+

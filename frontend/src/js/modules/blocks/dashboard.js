@@ -164,6 +164,7 @@ export function renderMoviesList(moviesData, a) {
     const addToCollectionList = Array.from(document.getElementsByName('addToCollection'))
 
     addToCollectionList.forEach(el => el.onclick = () => {
+        localStorage.setItem("cur_movie", el.id)
         addToCollection()
     })
 }
@@ -258,6 +259,7 @@ function addMovieRender() {
         const moviesForm = document.getElementById('moviesForm')
         const addOwnBtn = document.getElementById('addOwn')
         
+        
         addOwnBtn.onclick = () => {
             modal.innerHTML = dashboardHtml.addOwnHtml()
             const addOwnForm = document.getElementById('addOwnForm')
@@ -306,8 +308,12 @@ function addMovieRender() {
             })
         }
 
+
         moviesForm.addEventListener('submit', (event) => {
+        modalMoviesList.innerHTML = '<div id="loader2" class="loader"></div>'
+        const loader = document.getElementById('loader2')
         event.preventDefault()
+        loader.style.display = 'block'
         const search_input = document.getElementById('search__input')
         const token = localStorage.getItem('token')
         console.log('считывание списка фильмов')
@@ -333,13 +339,24 @@ function addMovieRender() {
                 }).then(response => {
                     if (!response.ok) {
                         console.log(response)
-                      throw new Error(`Ошибка: ${response.status}`);
+                        Swal.fire({
+                          title: 'Error!',
+                          text: 'Something went wrong',
+                          icon: 'error', // Иконка ошибки
+                          confirmButtonText: 'ОК',
+                          customClass: {
+                              popup: 'custom-popup' // Добавляем класс для окна
+                          }
+                      });
+                      transition(consts.dashboardSearch)
+                        throw new Error(`Ошибка: ${response.status}`);
                     }
                     return response.json();
                   })
                   .then(data => {
                     console.log("Данные:", data);
                     console.log(data.results)
+                    loader.style.display = 'none'
                     renderModalMoviesList(data.results)
 
                     // renderMoviesList(moviesData)
@@ -455,6 +472,10 @@ function showMovies() {
           })
           .catch(error => {
             console.error("Ошибка:", error);
+            localStorage.removeItem("token");
+            localStorage.removeItem("login");
+            localStorage.removeItem("email");
+            
             transition(consts.homeSearch)
           });
 
@@ -463,25 +484,146 @@ function showMovies() {
     }
 }
 
-function renderCollections(data) {
-    const collectionsList = document.getElementById('collectionsList')
+function renderCollections(data, a='', b, c) {
+    const collectionsList = document.getElementById(`collectionsList${a}`)
+    collectionsList.innerHTML = ''
+
 
     for (let i = 0; i < data.length; i++) {
-        collectionsList.insertAdjacentHTML('beforeend', dashboardHtml.renderCollectionHtml(data[i], i))
+        collectionsList.insertAdjacentHTML('beforeend', dashboardHtml.renderCollectionHtml(data[i], i, b, c))
     }
 
     collectionsList.onclick = (event) => {
         let ind = event.target.dataset.index 
         let type = event.target.dataset.type
 
-        if (type = "delete") {
+        if (type == "delete") {
             console.log(ind)
+            console.log('удаление коллекции')
+            const token = localStorage.getItem("token")
+            const url = consts.BACKEND_URL+'/api/collections/collections'; 
+            const reqbody = {
+                name: ind,
+            }
+    
+
+                try {
+                    const response = fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                        "Content-Type": "application/json", // Указываем тип содержимого
+                    },
+                    body: JSON.stringify(reqbody)
+
+                })
+                transition(consts.dashboardSearch)
+
+        
+            } catch (error) {
+                console.error('Ошибка при авторизации пользователя:', error);
+            }
+        } else if (type == 'gen-collection'){
+            console.log('открытие окна коллекции')
+            console.log(ind)
+            showAddMovieModal(1, 'visible', 0.3)
+            dashboardHtml.renderCollectionCardHtml(ind)
+
+            const url = consts.BACKEND_URL + '/api/collections/get_films'
+            const new_coll_name = document.getElementById('new_coll_name')
+            const token = localStorage.getItem("token")
+            const reqbody = {
+                collection: ind
+            }
+
+                try {
+                    const response = fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                            "Content-Type": "application/json", // Указываем тип содержимого
+                        },
+                        body: JSON.stringify(reqbody)
+                    }).then(response => {
+                        if (!response.ok) {
+                            console.log(response)
+                        throw new Error(`Ошибка: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log("Данные:", data);
+                        console.log(data.results)
+                        renderModalMoviesList(data)
+                    })
+                    .catch(error => {
+                        console.error("Ошибка:", error);
+                        // transition(consts.homeSearch)
+                    });
+            
+                } catch (error) {
+                    console.error('Ошибка при авторизации пользователя:', error);
+                }
+
+
+
+
+        }
+        else if (type == 'modal-collection') {
+            console.log('добавление фильма в коллекцию')
+            console.log(ind)
+            let cur_movie = localStorage.getItem("cur_movie")
+            console.log(cur_movie)
+            cur_movie = cur_movie.substring(12)
+
+            // cur_movie = parseInt(cur_movie)
+
+        const url = consts.BACKEND_URL + '/api/films/set_collection'
+        const new_coll_name = document.getElementById('new_coll_name')
+        const token = localStorage.getItem("token")
+        const reqbody = {
+            media_id: cur_movie,
+            collection: ind
+        }
+
+            try {
+                const response = fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                        "Content-Type": "application/json", // Указываем тип содержимого
+                    },
+                    body: JSON.stringify(reqbody)
+                }).then(response => {
+                    if (!response.ok) {
+                        console.log(response)
+                      throw new Error(`Ошибка: ${response.status}`);
+                    }
+                    return response.json();
+                  })
+                  .then(data => {
+                    console.log("Данные:", data);
+                    console.log(data.results)
+                    transition(consts.dashboardSearch)
+
+                
+                  })
+                  .catch(error => {
+                    console.error("Ошибка:", error);
+                    // transition(consts.homeSearch)
+                  });
+        
+            } catch (error) {
+                console.error('Ошибка при авторизации пользователя:', error);
+            }
+
+
+
         }
     }
 }
 
-function showCollections() {
-    dashboardHtml.showCollectionsHtml()
+function serverCollectinos(a = '' , b, c) {
     const token = localStorage.getItem("token")
     const url = consts.BACKEND_URL+'/api/collections/collections'; 
     try {
@@ -500,7 +642,7 @@ function showCollections() {
           })
           .then(data => {
               console.log("Данные:", data);
-              renderCollections(data) //  сюда передать данные всех коллекцийй
+              renderCollections(data, a, b, c) //  сюда передать данные всех коллекцийй
 
             // renderMoviesList(moviesData)
           })
@@ -512,6 +654,11 @@ function showCollections() {
     } catch (error) {
         console.error('Ошибка при авторизации пользователя:', error);
     }
+}
+
+function showCollections() {
+    dashboardHtml.showCollectionsHtml()
+    serverCollectinos()
 
     renderNewCollectionBtn()
 
@@ -568,6 +715,15 @@ function renderNewCollectionBtn() {
                   .catch(error => {
                     console.error("Ошибка:", error);
                     // transition(consts.homeSearch)
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'There is alredy a collection with this name',
+                        icon: 'error', // Иконка ошибки
+                        confirmButtonText: 'ОК',
+                        customClass: {
+                            popup: 'custom-popup' // Добавляем класс для окна
+                        }
+                    });
                   });
         
             } catch (error) {
@@ -589,9 +745,121 @@ function showSearch() {
     const searchBtn = document.getElementById('search')
     searchBtn.style.color = consts.accentColor
 
+    const findPhotoBtn = document.getElementById('findPhotoBtn')
+    const findDescBtn = document.getElementById('findDescBtn')
+
+    findDescBtn.onclick = () => {
+        showAddMovieModal(1, 'visible', 0.3)
+        dashboardHtml.renderDescHtml()
+
+        const findByDescForm = document.getElementById('findByDescForm')
+        
+        findByDescForm.addEventListener('submit', (event) => {
+
+            event.preventDefault()
+            console.log('жпт решает x2')
+            const url = consts.BACKEND_URL + "/api/ai/search_desc"
+            const input_desc = document.getElementById('input_desc')
+            const params = new URLSearchParams({
+                "description": input_desc.value,
+            });
+            let urlWithParams = `${url}?${params}`; 
+                
+
+            
+        
+            try {
+                const response = fetch(urlWithParams, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => {
+                    console.log(response); // Логируем объект ответа
+                    console.log(response.status)
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+            
+                    return response.json(); // Парсим тело ответа как JSON
+                })
+                .then(data => {
+                    console.log(data); // Логируем данные
+                })
+                .catch(error => {
+                    console.error('Error:', error); // Логируем ошибки
+                });
+                // transition(consts.dashboardSearch)
+                
+            } catch (error) {
+                console.error('Ошибка при авторизации пользователя:', error);
+            }
+
+
+
+
+
+        })
+    }
+
+    findPhotoBtn.onclick = () => {
+        showAddMovieModal(1, 'visible', 0.3)
+        dashboardHtml.renderPhotoHtml()
+
+        const findByPhotoForm = document.getElementById('findByPhotoForm')
+        const image_input = document.getElementById("image_input")
+        const loader = document.getElementById('loader2')
+        loader.style.display = 'none'
+        findByPhotoForm.addEventListener('submit', (event) => {
+
+            event.preventDefault()
+            const file = image_input.files[0];
+
+            console.log('жпт решает')
+
+            const formData = new FormData();
+            const url = consts.BACKEND_URL + '/api/ai/recognition'
+            formData.append('file', file);
+
+            try {
+                loader.style.display  = 'block'
+                const response = fetch(url, {
+                    method: 'POST',
+                    body: formData
+                }).then(response => {
+                    if (!response.ok) {
+                        console.log(response)
+                      throw new Error(`Ошибка: ${response.status}`);
+                    }
+                    return response.json();
+                  })
+                  .then(data => {
+                    console.log("Данные:", data);
+                    // Вернуть название фильма
+                    
+                    const res = document.getElementById('res')
+                    res.textContent = `Result: ${data}`
+                    loader.style.display = 'none'
+                
+                  })
+                  .catch(error => {
+                    console.error("Ошибка:", error);
+                    // transition(consts.homeSearch)
+                  });
+        
+            } catch (error) {
+                console.error('Ошибка при авторизации пользователя:', error);
+            }
+        })
+    }
+
     const searchInGlobal = document.getElementById('searchInGlobalForm')
+    const loader = document.getElementById('loader')
+    loader.style.display = 'none'
     searchInGlobal.addEventListener('submit', (event) => {
         event.preventDefault()
+        loader.style.display = 'block'
         console.log('поиск еще один')
         /////////////////////////////////////////////////////////////////////////////////////////
         const token = localStorage.getItem("token")
@@ -626,6 +894,7 @@ function showSearch() {
                     console.log(data.results)
                     // Отрендерить рещультаты глобального поиска
                     renderMoviesList(data.results, 'add to dashboard')
+                    loader.style.display = 'none'
                     let moviesData = data.results
                     for (let i = 0; i < moviesData.length; i++){
                         console.log(`mark_${moviesData[i].id}`)
@@ -694,6 +963,7 @@ function showSearch() {
 function addToCollection() {
     showAddMovieModal(1, 'visible', 0.3)
     dashboardHtml.addToCollectionHtml()
+    serverCollectinos('2', '', 'data-type="modal-collection"')
 }
 
 function updateHash(req) {

@@ -242,6 +242,8 @@
 }
 
 .collections-list {
+    display: flex;
+    flex-direction: column;
     width:750px;
     padding:20px 0;
     height:580px;
@@ -251,6 +253,19 @@
 .collections-list::-webkit-scrollbar {
     width: 0;
 }
+
+.collections-list2 {
+    display: flex;
+    flex-direction: column;
+    padding:20px 0;
+    height:580px;
+    overflow-y: scroll;
+}
+
+.collections-list2::-webkit-scrollbar {
+    width: 0;
+}
+
 .collection-el {
     border: 1px solid #fff;
     padding: 10px 20px;
@@ -259,11 +274,13 @@
     margin-bottom:15px;
     display:flex;
     justify-content: space-between;
+    cursor: pointer;
     span {
         margin-top:5px;    
     }
     div {
         font-size:3rem;
+        cursor:pointer;
     }
 }
 
@@ -292,6 +309,7 @@
         font-size:1.7rem;
         span {
             font-family: $text-font;
+            word-break: break-all;
         }
 	}
 
@@ -356,7 +374,10 @@
         right:15px;
         width:50px;
         height:50px;
-        background: #fff;
+        background: none;
+        img {
+            width:100%;
+        }
         cursor:pointer;
     }
 
@@ -389,6 +410,30 @@
     }
 }
 
+.findPhotoForm {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height:100%;
+    font-family: $text-font;
+    font-size: 1.5rem;
+    p {
+        margin-bottom: 10px;
+    }
+    input {
+        margin-bottom: 20px;
+    }
+    button {
+        font-size: 1.5rem;
+        font-family: $accent-font;
+        padding:10px 20px;
+        border-radius: 50px;
+        width: 100px;
+        margin: 0 auto;
+        background: $main-color;
+    }
+}
+
 .modal {
     position:fixed;
     background: $grey-color;
@@ -411,6 +456,11 @@
         font-size: 2rem;
         text-align:center;
         margin-bottom: 20px;
+    }
+    h2 {
+        font-family: $accent-font;
+        font-size:2rem;
+        text-align: center;
     }
 
     &__search {
@@ -504,6 +554,7 @@
     height: 100%;
     justify-content: space-between;
     flex-direction: column;
+    margin:auto;
     p {
         font-size:1.5rem;
         font-family:$text-font;

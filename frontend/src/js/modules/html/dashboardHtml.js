@@ -1,3 +1,5 @@
+import * as consts from '../consts.js'
+
 export function dashboardHtml() {
     wrapper.innerHTML = `
     <div class="dashboard">
@@ -5,7 +7,7 @@ export function dashboardHtml() {
             <span class="logo">MOVIEMATE</span>
             <button id="profileBtn" class="dashboard__profile">
                 <img src="https://qrjaecpccsfknzbpdwkw.supabase.co/storage/v1/object/sign/images/free-icon-user-account-12311784.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJpbWFnZXMvZnJlZS1pY29uLXVzZXItYWNjb3VudC0xMjMxMTc4NC5wbmciLCJpYXQiOjE3NDA5MTQ3NjksImV4cCI6ODY1NzQwODI4MzY5fQ.kFpGT0zzNqOHuyme8aku0PR9R8UgbvzfAF7NmXAzSAE">
-                <span id="profile_nickname">Nickname</span>
+                <span id="profile_nickname">${localStorage.getItem('login')}</span>
             </button>
             <button class="dashboard__burger">
                 <div></div>
@@ -24,7 +26,7 @@ export function dashboardHtml() {
 }
 
 export function renderMoviesHtml(element, a=element.watched, b=element.id) {
-    const url = 'http://localhost:8000/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
+    const url = consts.BACKEND_URL+'/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
     const params = new URLSearchParams({
         "url": element.poster_path,
     });
@@ -83,7 +85,7 @@ export function showMoviesHtml() {
             <button id="search">Search</button>
         </div>
         <form id="searchInMoviesForm" class="dashboard__search"><input id="search_in_bookmarks" placeholder="Find movie in your bookmarks"></form>
-        <ul class="movies-list" id="moviesList"></ul>
+        <ul class="movies-list" id="moviesList"><div class="loader"></div></ul>
         <button class="fixBtn" id="getMovie">GET A MOVIE</button>`
 }
 
@@ -102,8 +104,7 @@ export function showCollectionsHtml() {
             <button id="friends">Friends</button>
             <button id="search">Search</button>
         </div>
-        <ul class="collections-list" id="collectionsList">
-        </ul>
+        <ul class="collections-list" id="collectionsList"><div class="loader"></div></ul>
         <button class="fixBtn"id="getMovie">GET A MOVIE</button>`
 }
 
@@ -111,7 +112,7 @@ export function addToCollectionHtml() {
     modal.innerHTML = `
     <div>
         <h2>Add to collection</h2>
-        <ul></ul>
+        <ul class="collections-list2" id="collectionsList2"><div class="loader"></div></ul>
     </div>`
 }
 
@@ -127,13 +128,13 @@ export function newCollectionHtml() {
     </form>`
 }
 
-export function renderCollectionHtml(data, ind) {
-    return `<li data-index="${ind}" data-type="collection" class="collection-el"><span>${data}</span><div data-index="${ind}" data-type="delete">🗑</div></li>`
+export function renderCollectionHtml(data, ind, b=`<div id="delete_${data}_button" data-index="${data}" data-type="delete">🗑</div>`, c = 'data-type="gen-collection"') {
+    return `<li data-index="${data}" ${c} class="collection-el"><span>${data}</span>${b}</li>`
 }
 
 export function sidebarProfileHtml(login) {
     return `
-    <div class="sidebar__close" id="sidebarClose"></div>
+    <div class="sidebar__close" id="sidebarClose"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/OOjs_UI_icon_close-ltr-progressive.svg/768px-OOjs_UI_icon_close-ltr-progressive.svg.png"></div>
     <img src="https://qrjaecpccsfknzbpdwkw.supabase.co/storage/v1/object/sign/images/free-icon-user-account-12311784.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJpbWFnZXMvZnJlZS1pY29uLXVzZXItYWNjb3VudC0xMjMxMTc4NC5wbmciLCJpYXQiOjE3NDA5MTQ3NjksImV4cCI6ODY1NzQwODI4MzY5fQ.kFpGT0zzNqOHuyme8aku0PR9R8UgbvzfAF7NmXAzSAE" class="sidebar__profileImg" >
     <p class="sidebar__nickname" id="sidebar_nickname">${login}</p>
     <div class="sidebar__buttons">
@@ -176,7 +177,7 @@ export function renderMovieCardModalHtml(element, ind) {
     // }
 
     let overview = element.overview
-    const url = 'http://localhost:8000/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
+    const url = consts.BACKEND_URL+'/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
     const params = new URLSearchParams({
         "url": element.poster_path,
     });
@@ -194,8 +195,44 @@ export function renderMovieCardModalHtml(element, ind) {
         </div>
         <div class="modalButtonsCont">
             <button id="addToDashboard">Add to dashboard</button>
-            <button name="addToCollection">Add to collection</button>
         </div>`
+}
+
+export function renderCollectionCardHtml(name) {
+    modal.innerHTML = `
+    <div>
+        <h2>${name}</h2>
+        <ul id="modalMoviesList"><div class="loader"></div></ul>
+    </div>`
+}
+
+export function renderPhotoHtml() {
+    modal.innerHTML = `
+    <form class="findPhotoForm" id="findByPhotoForm">
+        <div>
+            <h2>Find by photo</h2>
+            <p>Paste your photo</p>
+            <input id="image_input" type="file" accept="image/*" required>
+            <p id="res"></p>
+            <div id="loader2" class="loader"></div>
+        </div>
+        <button type="submit">Find</button>
+    </form>
+    `
+}
+
+export function renderDescHtml() {
+    modal.innerHTML = `
+    <form class="findDescForm" id="findByDescForm">
+        <div>
+            <h2>Find by description</h2>
+            <p>Paste your description</p>
+            <textarea id="input_desc" required></textarea>
+            <p id="res"></p>
+        </div>
+        <button type="submit">Find</button>
+    </form>
+    `
 }
 
 export function searchPageHtml() {
@@ -203,6 +240,10 @@ export function searchPageHtml() {
     dashboardContent.innerHTML = `
         <div class="dashboard__block">
             <h1>Search in <span>global</span></h1>
+            <div class="dashboard__rightBtns">
+                <button id="findPhotoBtn">find by photo</button>
+                <button id="findDescBtn">Find by description</button>
+            </div>
         </div>
         <div class="dashboard__botBtns">
             <button id="movies">Your movies</button>
@@ -211,7 +252,8 @@ export function searchPageHtml() {
             <button id="search">Search</button>
         </div>
         <form class="dashboard__search" id="searchInGlobalForm"><input id="search_in_all" placeholder="Find movie in global"></form>
-        <ul class="movies-search-list" id="moviesList"></ul>`  
+        <ul class="movies-search-list" id="moviesList">
+        <div id="loader" class="loader"></div></ul>`  
 }
 
 export function renderAddMovieHtml() {
@@ -275,7 +317,7 @@ export function renderGetMovieEndHtml(element) {
     if (overview.length > 140) {
         overview = `${overview.slice(0, 140)}...`
     }
-    const url = 'http://localhost:8000/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
+    const url = consts.BACKEND_URL+'/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
     const params = new URLSearchParams({
         "url": element.poster_path,
     });
@@ -327,7 +369,7 @@ export function renderModalMoviesHtml(element, ind) {
     if (overview.length > 100) {
         overview = `${overview.slice(0, 100)}...`
     }
-    const url = 'http://localhost:8000/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
+    const url = consts.BACKEND_URL+'/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
     const params = new URLSearchParams({
         "url": element.poster_path,
     });

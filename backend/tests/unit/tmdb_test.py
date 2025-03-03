@@ -10,7 +10,7 @@ class TestAPI(unittest.TestCase):
             "Authorization": "Bearer " + os.getenv("TMDB_KEY")
         }
 
-        self.requests = httpx.Client(proxy="socks5://77.81.138.114:6000", headers=headers)
+        self.requests = httpx.Client(proxy="http://user166198:dsolnu@154.16.68.39:5030", headers=headers)
 
     def test1_ping_tmdb_server(self):
         url = "https://api.themoviedb.org/"

@@ -16,6 +16,6 @@ export function loginHtml() {
             <p class="message">New to our website? <button type="reset" id="signupBtn1">sign up</button></p>
         </form>
     </div>
-    <button class="login__close" id="close"></button>
+    <button class="login__close" id="close"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/OOjs_UI_icon_close-ltr-progressive.svg/768px-OOjs_UI_icon_close-ltr-progressive.svg.png"></button>
     `
 }
