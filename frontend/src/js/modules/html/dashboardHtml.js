@@ -85,7 +85,7 @@ export function showMoviesHtml() {
             <button id="search">Search</button>
         </div>
         <form id="searchInMoviesForm" class="dashboard__search"><input id="search_in_bookmarks" placeholder="Find movie in your bookmarks"></form>
-        <ul class="movies-list" id="moviesList"></ul>
+        <ul class="movies-list" id="moviesList"><div class="loader"></div></ul>
         <button class="fixBtn" id="getMovie">GET A MOVIE</button>`
 }
 
@@ -104,8 +104,7 @@ export function showCollectionsHtml() {
             <button id="friends">Friends</button>
             <button id="search">Search</button>
         </div>
-        <ul class="collections-list" id="collectionsList">
-        </ul>
+        <ul class="collections-list" id="collectionsList"><div class="loader"></div></ul>
         <button class="fixBtn"id="getMovie">GET A MOVIE</button>`
 }
 
@@ -113,7 +112,7 @@ export function addToCollectionHtml() {
     modal.innerHTML = `
     <div>
         <h2>Add to collection</h2>
-        <ul id="collectionsList2"></ul>
+        <ul class="collections-list2" id="collectionsList2"><div class="loader"></div></ul>
     </div>`
 }
 
@@ -203,7 +202,7 @@ export function renderCollectionCardHtml(name) {
     modal.innerHTML = `
     <div>
         <h2>${name}</h2>
-        <ul id="modalMoviesList"></ul>
+        <ul id="modalMoviesList"><div class="loader"></div></ul>
     </div>`
 }
 
