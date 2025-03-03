@@ -23,7 +23,7 @@ export function dashboardHtml() {
     <div class="topDark" id="topDark"></div>`
 }
 
-export function renderMoviesHtml(element) {
+export function renderMoviesHtml(element, a=element.watched, b=element.id) {
     const url = 'http://localhost:8000/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
     const params = new URLSearchParams({
         "url": element.poster_path,
@@ -60,8 +60,8 @@ export function renderMoviesHtml(element) {
                 </div>
                 <p class="movies-element__description">${overview}</p>
                 <div class="movies-element__bottom">
-                    <button class="movies-element__btn1" id="mark_${element.id}">${element.watched}</button>
-                    <button class="movies-element__btn2" id="add_to_coll_${element.id}">Add to collection</button>
+                    <button class="movies-element__btn1" name="addToDashboardBtn" id="mark_${b}">${a}</button>
+                    <button class="movies-element__btn2" id="add_to_coll_${b}">Add to collection</button>
                 </div>
             </li>`
 }
