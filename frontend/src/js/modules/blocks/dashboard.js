@@ -735,6 +735,13 @@ function showSearch() {
 
             event.preventDefault()
             console.log('жпт решает x2')
+
+            const input_desc = document.getElementById('input_desc')
+            
+
+
+
+
         })
     }
 
