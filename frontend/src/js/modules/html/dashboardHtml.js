@@ -89,10 +89,10 @@ export function showMoviesHtml() {
             <ul class="movies-list" id="moviesList"><div class="loader"></div></ul>
             <form id="filtesForm" class="filter-form">
                 <div class="range-slider">
-                    <input id="year3" type="range" min="1800" max="2026" value="1800" id="range-min">
-                    <input id="year4" type="range" min="1800" max="2026" value="2026" id="range-max">
+                    <input id="year3" type="range" min="1900" max="2026" value="1900" id="range-min">
+                    <input id="year4" type="range" min="1900" max="2030" value="2030" id="range-max">
                 </div>
-                <div class="filter-form__years"><input value="1800" id="year1"><input id="year2" value="2026"></div>
+                <div class="filter-form__years"><input value="1900" id="year1"><input id="year2" value="2030"></div>
                 <div class="filter-form__block">
                     <span>Genre:</span>
                     <select class="select">
