@@ -9,8 +9,12 @@ port = 587
 username = os.getenv("MAIL_LOGIN")
 password = os.getenv("MAIL_PASSWORD")
 
-server = smtplib.SMTP(smtp_server, port)
-server.starttls()
+
+try:
+    server = smtplib.SMTP(smtp_server, port)
+    server.starttls()
+except:
+    pass
 
 async def send_invite(to_email:str, from_login:str):
     try:
