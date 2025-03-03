@@ -256,8 +256,8 @@ export function renderGetMovieEndHtml(element) {
         </div>
         <p class="movies-element__description">${overview}</p>
     </li>
-    <button>OK</button>
-    <button>Get another</button>
+    <button id="ok_movie">OK</button>
+    <button id="another_movie">Get another</button>
     `
 }
 

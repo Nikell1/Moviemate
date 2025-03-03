@@ -7,17 +7,8 @@ import { renderAddMovieHtml } from "../html/dashboardHtml.js";
 import { renderMovieCardModalHtml } from "../html/dashboardHtml.js";
 
 
-function renderGetMovie() {
-    const getMovie = document.getElementById('getMovie')
-
-    getMovie.onclick = () => {
-        showAddMovieModal(1, 'visible', 0.3)
-        dashboardHtml.getMovieHtml()
-
-        const getMovieModal = document.getElementById('getMovieModal')
-        getMovieModal.onclick = () => {
-
-            const token = localStorage.getItem("token")
+function getRand() {
+    const token = localStorage.getItem("token")
                 const url = 'http://localhost:8000/api/films/get_rand_film'; // Замените на ваш URL FastAPI сервера
                 let mood = document.getElementById('mood').value
                 console.log(mood)
@@ -61,6 +52,17 @@ function renderGetMovie() {
                     .then(data => {
                         console.log(data); // Логируем данные
                         modal.innerHTML = dashboardHtml.renderGetMovieEndHtml(data)
+                        const ok_movie = document.getElementById("ok_movie")
+                        ok_movie.onclick = () => {
+                            showAddMovieModal(0, 'none', 0)
+                        }
+                        const another_movie = document.getElementById("another_movie")
+                        another_movie.onclick = () => {
+                            dashboardHtml.getMovieHtml()
+                            getMovieModal.onclick = () =>  {
+                                getRand()
+                            }
+                        }
                     })
                     .catch(error => {
                         console.error('Error:', error); // Логируем ошибки
@@ -70,6 +72,26 @@ function renderGetMovie() {
                 } catch (error) {
                     console.error('Ошибка при авторизации пользователя:', error);
                 }
+
+
+
+
+                // сюда передать данные о фильме
+}
+
+
+
+function renderGetMovie() {
+    const getMovie = document.getElementById('getMovie')
+
+    getMovie.onclick = () => {
+        showAddMovieModal(1, 'visible', 0.3)
+        dashboardHtml.getMovieHtml()
+        
+        const getMovieModal = document.getElementById('getMovieModal')
+        getMovieModal.onclick = () => {
+            
+            getRand()
 
 
 
