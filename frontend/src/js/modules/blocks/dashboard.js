@@ -466,6 +466,7 @@ function showMovies() {
 
 function renderCollections(data, a='', b, c) {
     const collectionsList = document.getElementById(`collectionsList${a}`)
+    collectionsList.innerHTML = ''
 
 
     for (let i = 0; i < data.length; i++) {
