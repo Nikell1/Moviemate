@@ -463,19 +463,19 @@ function showMovies() {
     }
 }
 
-function renderCollections(data, a='', b) {
+function renderCollections(data, a='', b, c) {
     const collectionsList = document.getElementById(`collectionsList${a}`)
 
 
     for (let i = 0; i < data.length; i++) {
-        collectionsList.insertAdjacentHTML('beforeend', dashboardHtml.renderCollectionHtml(data[i], i, b))
+        collectionsList.insertAdjacentHTML('beforeend', dashboardHtml.renderCollectionHtml(data[i], i, b, c))
     }
 
     collectionsList.onclick = (event) => {
         let ind = event.target.dataset.index 
         let type = event.target.dataset.type
 
-        if (type = "delete") {
+        if (type == "delete") {
             console.log(ind)
             console.log('удаление коллекции')
             const token = localStorage.getItem("token")
@@ -501,11 +501,20 @@ function renderCollections(data, a='', b) {
             } catch (error) {
                 console.error('Ошибка при авторизации пользователя:', error);
             }
+        } else if (type == 'gen-collection'){
+            console.log('gen')
+            console.log('открытие окна коллекции')
+            console.log(ind)
+        }
+        else if (type == 'modal-collection') {
+            console.log('modal')
+            console.log('добавление фильма в коллекцию')
+            console.log(ind)
         }
     }
 }
 
-function serverCollectinos(a = '' , b) {
+function serverCollectinos(a = '' , b, c) {
     const token = localStorage.getItem("token")
     const url = consts.BACKEND_URL+'/api/collections/collections'; 
     try {
@@ -524,7 +533,7 @@ function serverCollectinos(a = '' , b) {
           })
           .then(data => {
               console.log("Данные:", data);
-              renderCollections(data, a, b) //  сюда передать данные всех коллекцийй
+              renderCollections(data, a, b, c) //  сюда передать данные всех коллекцийй
 
             // renderMoviesList(moviesData)
           })
@@ -723,7 +732,7 @@ function showSearch() {
 function addToCollection() {
     showAddMovieModal(1, 'visible', 0.3)
     dashboardHtml.addToCollectionHtml()
-    serverCollectinos('2', '')
+    serverCollectinos('2', '', 'data-type="modal-collection"')
 }
 
 function updateHash(req) {
