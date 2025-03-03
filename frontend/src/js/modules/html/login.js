@@ -4,8 +4,8 @@ export function loginHtml() {
         <form class="login__form" id="signForm">
             <h2>Log in to your account</h2>
             <div class="login__input-group">
-                <label for="login">Enter email or username</label>
-                <input type="text" id="login" placeholder="username/email" required>
+                <label for="login">Enter email</label>
+                <input type="text" id="login" placeholder="email" required>
             </div>
             <div class="login__input-group">
                 <label for="password">Enter your password</label>

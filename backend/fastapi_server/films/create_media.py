@@ -15,7 +15,7 @@ async def create_media(body: Film,token:str = Security(Bear)):
     user = user[0]
     adapter = DatabaseAdapter()
     adapter.connect()
-    adapter.initialize_tables()
+
     films = adapter.get_by_value('films', 'title', body.title)
     if len(films) != 0:
         raise HTTPException(status_code=409, detail="Media with this title already exist")

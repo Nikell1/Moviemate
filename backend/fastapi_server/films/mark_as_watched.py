@@ -14,7 +14,7 @@ async def mark_as_watched(id:int, token:str = Security(Bear)):
     user = user[0]
     db = DatabaseAdapter()
     db.connect()
-    db.initialize_tables()
+
     email_check = db.get_by_value('users', 'email', user["email"])
     if len(email_check) == 0:
         raise HTTPException(status_code=404, detail="User with this email does not exists")

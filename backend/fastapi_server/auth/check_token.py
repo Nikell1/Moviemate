@@ -13,7 +13,7 @@ async def add_media(token:str = Security(Bear)):
     user = user[0]
     adapter = DatabaseAdapter()
     adapter.connect()
-    adapter.initialize_tables()
+
     email_check = adapter.get_by_value('users', 'email', user["email"])
     if len(email_check) == 0:
         raise HTTPException(status_code=401, detail="Invalid token")

@@ -10,7 +10,7 @@ router = APIRouter()
 async def register(body: Register):
     adapter = DatabaseAdapter()
     adapter.connect()
-    adapter.initialize_tables()
+
     print(body)
     email_check = adapter.get_by_value('users', 'email', body.email)
     if len(email_check) != 0:

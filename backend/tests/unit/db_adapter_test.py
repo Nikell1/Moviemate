@@ -10,7 +10,7 @@ class CRUD_DB_tests(unittest.TestCase):
         self.user_info = {"email": "user@example.com", "login": "tuser", "password": "tpassword", "token": "ttoken", "profile_image": 123}
         db.connect()
         db.truncate_table("users")
-        db.initialize_tables()
+
         db.insert('users', self.user_info)
 
     def test2_read(self):

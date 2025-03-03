@@ -10,7 +10,7 @@ router = APIRouter()
 async def login(body: Token):
     adapter = DatabaseAdapter()
     adapter.connect()
-    adapter.initialize_tables()
+
 
     user = adapter.get_by_value('users', 'token', body.token)
     if len(user) == 0:

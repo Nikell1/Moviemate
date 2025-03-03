@@ -16,7 +16,6 @@ async def add_media(body: Add_media,token:str = Security(Bear)):
     user = user[0]
     adapter = DatabaseAdapter()
     adapter.connect()
-    adapter.initialize_tables()
     email_check = adapter.get_by_value('users', 'email', user["email"])
 
     if len(email_check) == 0:
@@ -45,7 +44,7 @@ async def del_media(media_id: int,token:str = Security(Bear)):
     user = user[0]
     db = DatabaseAdapter()
     db.connect()
-    db.initialize_tables()
+
     email_check = db.get_by_value('users', 'email', user["email"])
 
     if len(email_check) == 0:
