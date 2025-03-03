@@ -82,7 +82,7 @@ export function showMoviesHtml() {
             <button id="friends">Friends</button>
             <button id="search">Search</button>
         </div>
-        <form id="searchInMoviesForm" class="dashboard__search"><input placeholder="Find movie in your bookmarks"></form>
+        <form id="searchInMoviesForm" class="dashboard__search"><input id="search_in_bookmarks" placeholder="Find movie in your bookmarks"></form>
         <ul class="movies-list" id="moviesList"></ul>
         <button class="fixBtn" id="getMovie">GET A MOVIE</button>`
 }
