@@ -7,6 +7,11 @@ export function dashboardHtml() {
                 <img src="https://qrjaecpccsfknzbpdwkw.supabase.co/storage/v1/object/sign/images/free-icon-user-account-12311784.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJpbWFnZXMvZnJlZS1pY29uLXVzZXItYWNjb3VudC0xMjMxMTc4NC5wbmciLCJpYXQiOjE3NDA5MTQ3NjksImV4cCI6ODY1NzQwODI4MzY5fQ.kFpGT0zzNqOHuyme8aku0PR9R8UgbvzfAF7NmXAzSAE">
                 <span id="profile_nickname">Nickname</span>
             </button>
+            <button class="dashboard__burger">
+                <div></div>
+                <div></div>
+                <div></div>
+            </button>
         </nav> 
         <div id="dashboardContent">
         </div>
@@ -77,9 +82,9 @@ export function showMoviesHtml() {
             <button id="friends">Friends</button>
             <button id="search">Search</button>
         </div>
-        <input class="dashboard__search" placeholder="Find movie in your bookmarks">
+        <form id="searchInMoviesForm" class="dashboard__search"><input id="search_in_bookmarks" placeholder="Find movie in your bookmarks"></form>
         <ul class="movies-list" id="moviesList"></ul>
-        <button class="fixBtn">GET A MOVIE</button>`
+        <button class="fixBtn" id="getMovie">GET A MOVIE</button>`
 }
 
 export function showCollectionsHtml() {
@@ -97,8 +102,13 @@ export function showCollectionsHtml() {
             <button id="friends">Friends</button>
             <button id="search">Search</button>
         </div>
-        <ul class="movies-list" id="moviesList"></ul>
-        <button class="fixBtn">GET A MOVIE</button>`
+        <ul class="collections-list" id="collectionsList">
+        </ul>
+        <button class="fixBtn"id="getMovie">GET A MOVIE</button>`
+}
+
+export function renderCollectionHtml(data) {
+    return `<li class="collection-el"><span>title</span><div>🗑</div></li>`
 }
 
 export function sidebarProfileHtml(login) {
@@ -118,10 +128,8 @@ export function editRenderhtml() {
     <form class="editProfileForm">
         <h2>Edit profile</h2>
         <p>Enter new username</p>
-        <input>
-        <p>Enter new Email</p>
-        <input>
-        <button type="submit">Submit</button>
+        <input id="new_login">
+        <button type="submit" id="edit_login_button">Submit</button>
     </form>`
 }
 
@@ -173,12 +181,17 @@ export function renderMovieCardModalHtml(element, ind) {
 export function searchPageHtml() {
     const dashboardContent = document.getElementById('dashboardContent')
     dashboardContent.innerHTML = `
-            <div class="dashboard__botBtns">
+        <div class="dashboard__block">
+            <h1>Search in <span>global</span></h1>
+        </div>
+        <div class="dashboard__botBtns">
             <button id="movies">Your movies</button>
             <button id="collections">Collections</button>
             <button id="friends">Friends</button>
             <button id="search">Search</button>
-        </div>`
+        </div>
+        <form class="dashboard__search" id="searchInGlobalForm"><input placeholder="Find movie in global"></form>
+        <ul class="movies-list" id="moviesList"></ul>`  
 }
 
 export function renderAddMovieHtml() {
@@ -198,6 +211,69 @@ export function renderAddMovieHtml() {
         <span>Or</span>
         <button id="addOwn">Add your own</button>
     </div>`
+}
+
+export function getMovieHtml() {
+    modal.innerHTML = `
+    <div class="get-movie-top">
+        <h2>Get a movie</h2>
+        <p>Choose the mood of the movie</p>
+        <select id="mood">
+            <option>Any</option>
+            <option>Joyful</option>
+            <option>Serious</option>
+            <option>Tense</option>
+        </select>
+    </div>
+    <button class="get-a-movie-modal" id="getMovieModal">Get a movie</button>`
+}
+
+export function renderGetMovieEndHtml(element) {
+
+    let releaseDate
+    if (element.first_air_date != undefined) {
+        releaseDate = element.first_air_date
+    }
+    else if (element.release_date != undefined) {
+        releaseDate = element.release_date
+    }
+
+    let title
+
+    if (element.name != undefined) {
+        title = element.name
+    }
+    else if (element.title !=  undefined) {
+        title = element.title
+    }
+
+    if (title.length > 30) {
+        title = `${title.slice(0, 30)}...`
+    }
+
+    let overview = element.overview
+    if (overview.length > 140) {
+        overview = `${overview.slice(0, 140)}...`
+    }
+    const url = 'http://localhost:8000/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
+    const params = new URLSearchParams({
+        "url": element.poster_path,
+    });
+
+    const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
+
+    return `            
+    <li class="movies-element">
+        <div class="movies-element__img" style="background-image: url('${urlWithParams}');"></div>
+        <div class="movies-element__block">
+            <span>${title}</span>
+            <span>${releaseDate}</span> 
+        </div>
+        <p class="movies-element__description">${overview}</p>
+    </li>
+    <button id="ok_movie">OK</button>
+    <button id="another_movie">Get another</button>
+    `
 }
 
 export function renderModalMoviesHtml(element, ind) {

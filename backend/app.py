@@ -8,9 +8,18 @@ from fastapi_server.films import router as films_router
 from fastapi_server.social import router as social_router
 from fastapi_server.collections import  router as collection_router
 from fastapi_server.service import router as service_router
+from fastapi import FastAPI
+from adapters.db_source import DatabaseAdapter
 import os
+import json
 load_dotenv()
-app = FastAPI(docs_url="/api/docs")
+'''def load_custom_openapi():
+    with open("backend/openapi(1).json", "r") as file:
+        return json.load(file)'''
+
+app = FastAPI(docs_url="/api/docs",openapi_url="/api/openapi.json")
+'''app.openapi_schema = app.openapi()
+app.openapi_schema["security"] = [{"OAuth2PasswordBearer": []}]'''
 
 app.add_middleware(
     CORSMiddleware,
@@ -30,5 +39,8 @@ app.include_router(service_router, prefix="/api/service", tags=["Service"])
 
 if __name__ == "__main__":
     host, port = os.getenv("FAST_API_HOST"), os.getenv("FAST_API_PORT")
+    db = DatabaseAdapter()
+    db.connect()
+    db.initialize_tables()
     uvicorn.run(app, host=host, port=int(port))
     

@@ -12,7 +12,7 @@ async def truncate_all_tables(admin_key: str = Header(None)):
     if admin_key != os.getenv("ADMIN_KEY"):
         raise HTTPException(status_code=403, detail="Correct admin key required")
     adapter.connect()
-    adapter.initialize_tables()
+
     for i in ['collections','users','collections','films','films_to_users','friends']:
         adapter.truncate_table(i)
 

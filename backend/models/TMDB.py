@@ -39,9 +39,9 @@ class TMDBobject_Movie(BaseModel):
 
 class TMDBobject_Short(BaseModel):
     title:str
-    poster_path:str
-    overview:str
-    release_date:str
-    id:int
-    media_type:str
+    poster_path:str = None
+    overview:str = None
+    release_date:str = None
+    id:int = None
+    media_type:str = None
 

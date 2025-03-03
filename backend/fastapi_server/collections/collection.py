@@ -14,7 +14,7 @@ async def create_collections(name:str,token:str = Security(Bear)):
     user = user[0]
     adapter = DatabaseAdapter()
     adapter.connect()
-    adapter.initialize_tables()
+
     check_exist = adapter.execute_with_request(f"SELECT * from collections WHERE email = '{user['email']}' AND collection_name = '{name}'")
     if len(check_exist) > 0:
         raise HTTPException(status_code=409, detail="This collection already exists")
@@ -45,7 +45,7 @@ async def delete_collections(name:str,token:str = Security(Bear)):
     user = user[0]
     adapter = DatabaseAdapter()
     adapter.connect()
-    adapter.initialize_tables()
+
     check_exist = adapter.execute_with_request(f"SELECT * from collections WHERE email = '{user['email']}' AND collection_name = '{name}'")
     if len(check_exist) == 0:
         raise HTTPException(status_code=404, detail="This collection does not exists")

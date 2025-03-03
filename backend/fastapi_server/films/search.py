@@ -18,3 +18,4 @@ async def search_film(search: str, body: Search, token:str = Security(Bear)):
     user = user[0]
     media = await search_multi(search,limit=19,release_date_high=body.release_date_high, release_date_low=body.release_date_low, genre_ids=body.genre_ids)
     return media
+

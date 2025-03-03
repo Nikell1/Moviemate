@@ -27,12 +27,11 @@ class Film(BaseModel):
 
 class Film_to_front(BaseModel):
     title:str
-    poster_path:str
-    overview:str
-    release_date:str
+    poster_path:str = None
+    overview:str = None
+    release_date:str = None
     id:int
-    watched:bool
-
+    watched:bool = False
 class Add_media(BaseModel):
     media_id:int
     media_type:str = "movie"

@@ -15,7 +15,7 @@ async def set_collection(body:Set_collection,token:str = Security(Bear)):
     user = user[0]
     adapter = DatabaseAdapter()
     adapter.connect()
-    adapter.initialize_tables()
+
     films = adapter.get_by_value('films_to_users', 'title', body.title)
     film = adapter.execute_with_request(f"SELECT * from films_to_users WHERE email = '{user['email']}' AND media_id = {body.media_id}")
     if len(film) == 0:
