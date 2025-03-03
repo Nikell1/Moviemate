@@ -462,6 +462,10 @@ function showMovies() {
           })
           .catch(error => {
             console.error("Ошибка:", error);
+            localStorage.removeItem("token");
+            localStorage.removeItem("login");
+            localStorage.removeItem("email");
+            
             transition(consts.homeSearch)
           });
 

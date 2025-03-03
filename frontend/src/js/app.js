@@ -4,12 +4,17 @@ import * as consts from "./modules/consts.js";
 
 function render() {
     if ((new URL(window.location.href)).search == "") {
-        if (false) { //если залогинен, то перебрасвает сразу на дешборд
+        try{
+            const token = localStorage.getItem("token")
             functions.searchUpdate(consts.dashboardSearch, '')
-        }
-        else {
+        } catch (error){
+
             functions.searchUpdate(consts.homeSearch, '')
         }
+        // if (false) { //если залогинен, то перебрасвает сразу на дешборд
+        // }
+        // else {
+        // }
     }
 
     functions.isWebp();
