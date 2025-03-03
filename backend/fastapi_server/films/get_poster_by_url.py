@@ -13,15 +13,13 @@ from io import BytesIO
 router = APIRouter()
 
 
-load_dotenv()
-
 @router.get("/get-poster-by-url", status_code=status.HTTP_200_OK)
-async def get_poster(url:str):
+async def get_poster(url:str, os=None):
     try:
         if len(url) < 10:
-            return 
+            return
         if not url.endswith('jpg'):
-            return 
+            return
         headers = {
         "accept": "application/json",
         "Authorization": "Bearer " + os.getenv("TMDB_KEY")
@@ -32,6 +30,6 @@ async def get_poster(url:str):
 
         image_bytes = BytesIO(response.content)
 
-        return Response(content=image_bytes.getvalue(), media_type="image/jpg")
+        return Response(content=image_bytes.getvalue(), media_type="image/jpeg")
     except:
         raise HTTPException(status_code=404, detail="no image found with this url")
