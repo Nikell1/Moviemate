@@ -23,7 +23,7 @@ export function dashboardHtml() {
     <div class="topDark" id="topDark"></div>`
 }
 
-export function renderMoviesHtml(element) {
+export function renderMoviesHtml(element, a=element.watched, b=element.id) {
     const url = 'http://localhost:8000/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
     const params = new URLSearchParams({
         "url": element.poster_path,
@@ -60,8 +60,8 @@ export function renderMoviesHtml(element) {
                 </div>
                 <p class="movies-element__description">${overview}</p>
                 <div class="movies-element__bottom">
-                    <button class="movies-element__btn1" id="mark_${element.id}">${element.watched}</button>
-                    <button class="movies-element__btn2" id="add_to_coll_${element.id}">Add to collection</button>
+                    <button class="movies-element__btn1" name="addToDashboardBtn" id="mark_${b}">${a}</button>
+                    <button class="movies-element__btn2" id="add_to_coll_${b}">Add to collection</button>
                 </div>
             </li>`
 }
@@ -93,7 +93,7 @@ export function showCollectionsHtml() {
         <div class="dashboard__block">
             <h1>Your movie <span>Collections</span></h1>
             <div class="dashboard__rightBtns">
-                <button>New collection</button>
+                <button id="newCollectionBtn">New collection</button>
             </div>
         </div>
         <div class="dashboard__botBtns">
@@ -105,6 +105,14 @@ export function showCollectionsHtml() {
         <ul class="collections-list" id="collectionsList">
         </ul>
         <button class="fixBtn"id="getMovie">GET A MOVIE</button>`
+}
+
+export function newCollectionHtml() {
+    return `
+    <h2>New collection</h2>
+    <p>Enter the name of collection</p>
+    <input>
+    <button type="submit">Add</button>`
 }
 
 export function renderCollectionHtml(data, ind) {
@@ -263,16 +271,20 @@ export function renderGetMovieEndHtml(element) {
     const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
 
     return `            
-    <li class="movies-element">
-        <div class="movies-element__img" style="background-image: url('${urlWithParams}');"></div>
-        <div class="movies-element__block">
-            <span>${title}</span>
-            <span>${releaseDate}</span> 
+    <ul class="new-collection">
+        <li class="movies-element">
+            <div class="movies-element__img" style="background-image: url('${urlWithParams}');"></div>
+            <div class="movies-element__block">
+                <span>${title}</span>
+                <span>${releaseDate}</span>
+            </div>
+            <p class="movies-element__description">${overview}</p>
+        </li>
+        <div class="btn-cont">
+            <button id="ok_movie">OK</button>
+            <button id="another_movie">Get another</button>
         </div>
-        <p class="movies-element__description">${overview}</p>
-    </li>
-    <button id="ok_movie">OK</button>
-    <button id="another_movie">Get another</button>
+    </ul>
     `
 }
 
