@@ -259,11 +259,13 @@
     margin-bottom:15px;
     display:flex;
     justify-content: space-between;
+    cursor: pointer;
     span {
         margin-top:5px;    
     }
     div {
         font-size:3rem;
+        cursor:pointer;
     }
 }
 
