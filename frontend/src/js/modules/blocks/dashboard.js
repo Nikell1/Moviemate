@@ -366,6 +366,53 @@ function addMovieRender() {
 
 function movieSearchRender() {
     const searchInMoviesForm = document.getElementById('searchInMoviesForm')
+
+    const filtesForm = document.getElementById('filtesForm')
+    const year1 = document.getElementById('year1')
+    const year2 = document.getElementById('year2')
+    const year3 = document.getElementById('year3')
+    const year4 = document.getElementById('year4')
+    year1.addEventListener('input', () => {
+        year3.value = year1.value
+        // if (year2.value > year1.value) {
+        //     let c = year1.value
+        //     year1.value = year2.value
+        //     year2.value = c
+        // }
+    })
+    year2.addEventListener('input', () => {
+        year4.value = year2.value
+        // if (year1.value > year1.value) {
+        //     let c = year1.value
+        //     year1.value = year2.value
+        //     year2.value = c
+        // }
+    })
+    year3.addEventListener('input', () => {
+        year1.value = year3.value
+        // if (year3.value > year4.value) {
+        //     let c = year3.value
+        //     year3.value = year4.value
+        //     year4.value = c
+        // }
+    })
+    year4.addEventListener('input', () => {
+        year2.value = year4.value
+        // if (year3.value > year4.value) {
+        //     let c = year3.value
+        //     year3.value = year4.value
+        //     year4.value = c
+        // }
+    })
+
+
+    filtesForm.addEventListener('submit', (event) => {
+
+        event.preventDefault()
+
+        console.log('нефильрованное пиво')
+    })
+
     searchInMoviesForm.addEventListener('submit', (event) => {
         event.preventDefault()
         console.log('поиск закладок')
