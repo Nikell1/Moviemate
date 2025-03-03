@@ -7,6 +7,11 @@ export function dashboardHtml() {
                 <img src="https://qrjaecpccsfknzbpdwkw.supabase.co/storage/v1/object/sign/images/free-icon-user-account-12311784.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJpbWFnZXMvZnJlZS1pY29uLXVzZXItYWNjb3VudC0xMjMxMTc4NC5wbmciLCJpYXQiOjE3NDA5MTQ3NjksImV4cCI6ODY1NzQwODI4MzY5fQ.kFpGT0zzNqOHuyme8aku0PR9R8UgbvzfAF7NmXAzSAE">
                 <span id="profile_nickname">Nickname</span>
             </button>
+            <button class="dashboard__burger">
+                <div></div>
+                <div></div>
+                <div></div>
+            </button>
         </nav> 
         <div id="dashboardContent">
         </div>
@@ -39,8 +44,8 @@ export function renderMoviesHtml(element) {
 
     let overview = element.overview
 
-    if (overview.length > 50) {
-        overview = `${overview.slice(0, 50)}...`
+    if (overview.length > 100) {
+        overview = `${overview.slice(0, 100)}...`
     }
 
 
@@ -77,7 +82,7 @@ export function showMoviesHtml() {
             <button id="friends">Friends</button>
             <button id="search">Search</button>
         </div>
-        <input class="dashboard__search" placeholder="Find movie in your bookmarks">
+        <div class="dashboard__search"><input placeholder="Find movie in your bookmarks"></div>
         <ul class="movies-list" id="moviesList"></ul>
         <button class="fixBtn" id="getMovie">GET A MOVIE</button>`
 }

@@ -5,12 +5,15 @@ from fastapi.security import HTTPBearer
 from utils.functions import get_user
 from models.schemas import Film_to_front
 import random
+from fuzzywuzzy import fuzz
+
 router = APIRouter()
 Bear = HTTPBearer(auto_error=False)
 
-@router.get("/get_films", status_code=status.HTTP_200_OK)
-async def get_films(token:str = Security(Bear)):
-    # print(token)
+
+@router.get("/get_films_by_title", status_code=status.HTTP_200_OK)
+async def get_films_by_title(search:str, token: str = Security(Bear)):
+    print(token)
     user = get_user(token.credentials)
     if user == []:
         raise HTTPException(status_code=401, detail="Invalid token")
@@ -20,21 +23,64 @@ async def get_films(token:str = Security(Bear)):
     adapter.initialize_tables()
     email_check = adapter.get_by_value('users', 'email', user["email"])
     if len(email_check) == 0:
-        # print(2)
+        print(2)
         raise HTTPException(status_code=409, detail="User with this email does not exist")
     films = adapter.get_by_value('films_to_users', 'email', user["email"])
     result = []
-    # print(films)
+    print(films)
     for i in range(len(films)):
-        
         if films[i]["media_id"] >= 0:
-            film =  await get_by_id(films[i]["media_id"],films[i]["media_type"])
-            new_film = Film_to_front(title=film.title,poster_path=film.poster_path,overview=film.overview,release_date=film.release_date,id=films[i]["media_id"],watched=films[i]["watched"])
+            film = await get_by_id(films[i]["media_id"], films[i]["media_type"])
+            print(fuzz.partial_ratio(film.title, search))
+
+            if fuzz.partial_ratio(film.title, search) < 75:
+                continue
+
+            new_film = Film_to_front(title=film.title, poster_path=film.poster_path, overview=film.overview,
+                                     release_date=film.release_date, id=films[i]["media_id"],
+                                     watched=films[i]["watched"])
         else:
-            film = adapter.get_by_value('films', 'id',-1*films[i]["media_id"])[0]
-            new_film = Film_to_front(title=film["title"],poster_path=film["image_url"],overview=film["description"],release_date=film["date"],id=films[i]["media_id"],watched=films[i]["watched"])
+            film = adapter.get_by_value('films', 'id', -1 * films[i]["media_id"])[0]
+
+            if fuzz.partial_ratio(film['title'], search) < 75:
+                continue
+
+            new_film = Film_to_front(title=film["title"], poster_path=film["image_url"], overview=film["description"],
+                                     release_date=film["date"], id=films[i]["media_id"], watched=films[i]["watched"])
         result.append(new_film)
-    #возвращает список айдишников фильмов
+    return result
+
+
+@router.get("/get_films", status_code=status.HTTP_200_OK)
+async def get_films(token: str = Security(Bear)):
+    print(token)
+    user = get_user(token.credentials)
+    if user == []:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    user = user[0]
+    adapter = DatabaseAdapter()
+    adapter.connect()
+    adapter.initialize_tables()
+    email_check = adapter.get_by_value('users', 'email', user["email"])
+    if len(email_check) == 0:
+        print(2)
+        raise HTTPException(status_code=409, detail="User with this email does not exist")
+    films = adapter.get_by_value('films_to_users', 'email', user["email"])
+    result = []
+    print(films)
+    for i in range(len(films)):
+
+        if films[i]["media_id"] >= 0:
+            film = await get_by_id(films[i]["media_id"], films[i]["media_type"])
+            new_film = Film_to_front(title=film.title, poster_path=film.poster_path, overview=film.overview,
+                                     release_date=film.release_date, id=films[i]["media_id"],
+                                     watched=films[i]["watched"])
+        else:
+            film = adapter.get_by_value('films', 'id', -1 * films[i]["media_id"])[0]
+            new_film = Film_to_front(title=film["title"], poster_path=film["image_url"], overview=film["description"],
+                                     release_date=film["date"], id=films[i]["media_id"], watched=films[i]["watched"])
+        result.append(new_film)
+    # возвращает список айдишников фильмов
     return result
 
 @router.get("/get_rand_film", status_code=status.HTTP_200_OK)
@@ -56,9 +102,9 @@ async def get_rand_film(mood:str=None,token:str = Security(Bear)):
 
 
     films = db.execute_with_request(request)
-    # print(films)
+    print(films)
     result = []
-    # print(await get_by_id(2))
+    print(await get_by_id(2))
     for i in range(len(films)):
         if films[i]["media_id"] >= 0:
             film =  await get_by_id(films[i]["media_id"],films[i]["media_type"])

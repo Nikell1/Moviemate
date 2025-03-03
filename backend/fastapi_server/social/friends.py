@@ -16,7 +16,7 @@ async def add_friend(friend_login:str, token:str = Security(Bear)):
     user = user[0]
     db = DatabaseAdapter()
     db.connect()
-    db.initialize_tables()
+
 
     email_check = db.get_by_value('users', 'email', user["email"])
     friend = db.get_by_value('users', 'login', friend_login)
@@ -65,7 +65,7 @@ async def add_friend(friend_login:str, token:str = Security(Bear)):
     user = user[0]
     db = DatabaseAdapter()
     db.connect()
-    db.initialize_tables()
+
 
     email_check = db.get_by_value('users', 'email', user["email"])
     friend = db.get_by_value('users', 'login', friend_login)
