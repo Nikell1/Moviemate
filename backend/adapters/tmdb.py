@@ -255,3 +255,79 @@ async def get_moods_by_genres(genre_ids):
 
     return list(suitable_moods)
 
+def filter(film, release_date_low, release_date_high, genre_ids, watched, email):
+    c_res = film
+
+    if watched != None:
+        name_l = "title"
+        if "name" in c_res:
+            name_l = "name"
+
+        film_db = db.execute_with_request(
+            f"""SELECT * FROM films_to_users WHERE media_id='{c_res["id"]}' and email='{email}'""")
+
+        if film_db == [] and watched == True:
+            return False
+
+        elif film_db != [] and film_db[0]['watched'] != watched:
+            return False
+
+    try:
+
+        if release_date_low != None:
+            if "first_air_date" in c_res and c_res["first_air_date"] != '' and datetime.fromisoformat(
+                    release_date_low) > datetime.fromisoformat(
+                    c_res["first_air_date"]):
+                return False
+            if "release_date" in c_res and c_res["release_date"] != '' and datetime.fromisoformat(
+                    release_date_low) > datetime.fromisoformat(
+                    c_res["release_date"]):
+                return False
+        if release_date_high != None:
+            if "first_air_date" in c_res and c_res["first_air_date"] != '' and datetime.fromisoformat(
+                    release_date_high) < datetime.fromisoformat(c_res["first_air_date"]):
+                return False
+            if "release_date" in c_res and c_res["release_date"] != '' and datetime.fromisoformat(
+                    release_date_high) < datetime.fromisoformat(c_res["release_date"]):
+                return False
+    except Exception as e:
+        print(c_res)
+        raise HTTPException(status_code=400, detail="incorrect date format")
+
+    if "genres" not in c_res:
+        c_res["genres"] = []
+
+    if genre_ids != None:
+        ok = False
+        for id in c_res["genre_ids"]:
+            if str(id) not in genres_:
+                continue
+            if id in genre_ids:
+                ok = True
+            name = genres_[str(id)]
+            c_res["genres"].append(
+                TMDBobject_Genre(**{"id": id, "name": name})
+            )
+
+        if not ok:
+            return False
+
+    else:
+        if "genre_ids" not in c_res:
+            c_res["genre_ids"] = []
+        for id in c_res["genre_ids"]:
+            if str(id) not in genres_:
+                continue
+            name = genres_[str(id)]
+            c_res["genres"].append(
+                TMDBobject_Genre(**{"id": id, "name": name})
+            )
+    return True
+
+    # print(c_res)
+    none_keys = []
+    for param in c_res.keys():
+        if c_res[param] == None:
+            none_keys.append(param)
+    for i in none_keys:
+        del c_res[i]
