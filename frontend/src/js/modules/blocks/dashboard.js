@@ -479,34 +479,23 @@ function renderCollections(data, a='') {
             console.log('удаление коллекции')
             const token = localStorage.getItem("token")
             const url = consts.BACKEND_URL+'/api/collections/collections'; 
-            const params = new URLSearchParams({
-                "name": ind,
-            });
+            const reqbody = {
+                name: ind,
+            }
     
-            const urlWithParams = `${url}?${params}`; 
+
                 try {
-                    const response = fetch(urlWithParams, {
+                    const response = fetch(url, {
                     method: 'DELETE',
                     headers: {
                         "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
                         "Content-Type": "application/json", // Указываем тип содержимого
                     },
+                    body: JSON.stringify(reqbody)
 
-                }).then(response => {
-                    if (!response.ok) {
-                        console.log(response)
-                      throw new Error(`Ошибка: ${response.status}`);
-                    }
-                    return response.json();
-                  })
-                  .then(data => {
-                      console.log("Данные:", data);
-                      transition(consts.collectionsHash)
-                  })
-                  .catch(error => {
-                    console.error("Ошибка:", error);
-                    // transition(consts.homeSearch)
-                  });
+                })
+                transition(consts.dashboardSearch)
+
         
             } catch (error) {
                 console.error('Ошибка при авторизации пользователя:', error);
