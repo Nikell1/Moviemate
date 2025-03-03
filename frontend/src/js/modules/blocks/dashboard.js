@@ -717,6 +717,20 @@ function showSearch() {
     searchBtn.style.color = consts.accentColor
 
     const findPhotoBtn = document.getElementById('findPhotoBtn')
+    const findDescBtn = document.getElementById('findDescBtn')
+
+    findDescBtn.onclick = () => {
+        showAddMovieModal(1, 'visible', 0.3)
+        dashboardHtml.renderDescHtml()
+
+        const findByDescForm = document.getElementById('findByDescForm')
+        
+        findByDescForm.addEventListener('submit', (event) => {
+
+            event.preventDefault()
+            console.log('жпт решает x2')
+        })
+    }
 
     findPhotoBtn.onclick = () => {
         showAddMovieModal(1, 'visible', 0.3)

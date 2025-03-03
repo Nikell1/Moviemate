@@ -219,6 +219,19 @@ export function renderPhotoHtml() {
     `
 }
 
+export function renderDescHtml() {
+    modal.innerHTML = `
+    <form class="findDescForm" id="findByDescForm">
+        <div>
+            <h2>Find by description</h2>
+            <p>Paste your description</p>
+            <textarea required></textarea>
+        </div>
+        <button type="submit">Find</button>
+    </form>
+    `
+}
+
 export function searchPageHtml() {
     const dashboardContent = document.getElementById('dashboardContent')
     dashboardContent.innerHTML = `
