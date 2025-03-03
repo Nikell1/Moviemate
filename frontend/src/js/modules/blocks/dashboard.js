@@ -73,14 +73,7 @@ function getRand() {
                 } catch (error) {
                     console.error('Ошибка при авторизации пользователя:', error);
                 }
-
-
-
-
-                // сюда передать данные о фильме
 }
-
-
 
 function renderGetMovie() {
     const getMovie = document.getElementById('getMovie')
@@ -93,11 +86,6 @@ function renderGetMovie() {
         getMovieModal.onclick = () => {
             
             getRand()
-
-
-
-
-                // сюда передать данные о фильме
         }
     }
 }
