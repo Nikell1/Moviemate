@@ -8,6 +8,7 @@ from fastapi_server.films import router as films_router
 from fastapi_server.social import router as social_router
 from fastapi_server.collections import  router as collection_router
 from fastapi_server.service import router as service_router
+from fastapi_server.ai import router as ai_router
 from fastapi import FastAPI
 from adapters.db_source import DatabaseAdapter
 import os
@@ -35,6 +36,7 @@ app.include_router(films_router, prefix="/api/films", tags=["Films"])
 app.include_router(collection_router, prefix="/api/collections", tags=["Collections"])
 app.include_router(social_router, prefix="/api/social", tags=["Social"])
 app.include_router(service_router, prefix="/api/service", tags=["Service"])
+app.include_router(ai_router, prefix="/api/ai", tags=["AI"])
 
 
 if __name__ == "__main__":
