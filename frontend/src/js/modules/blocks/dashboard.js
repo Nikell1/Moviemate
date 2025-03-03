@@ -425,6 +425,12 @@ function movieSearchRender() {
         event.preventDefault()
 
         console.log('нефильрованное пиво')
+
+        
+
+        
+
+
     })
 
     searchInMoviesForm.addEventListener('submit', (event) => {
