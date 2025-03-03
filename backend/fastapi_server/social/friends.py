@@ -57,7 +57,7 @@ async def add_friend(friend_login:str, token:str = Security(Bear)):
     return {"ok": True, "detail": "Invitation Sent"}
 
 
-@router.delete("/friend", status_code=status.HTTP_200_OK)
+@router.delete("/friend", status_code=status.HTTP_204_NO_CONTENT)
 async def add_friend(friend_login:str, token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:
@@ -91,7 +91,6 @@ async def add_friend(friend_login:str, token:str = Security(Bear)):
     request = f"""DELETE FROM friends WHERE user1='{check_friendship['user1']}' and user2='{check_friendship['user2']}'"""
     db.execute_with_request(request)
 
-    return {"ok": True, "detail": "Friend deleted"}
 
 
 @router.get("/friend", status_code=status.HTTP_200_OK)
