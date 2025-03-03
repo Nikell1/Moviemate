@@ -191,7 +191,7 @@ export function searchPageHtml() {
             <button id="search">Search</button>
         </div>
         <form class="dashboard__search" id="searchInGlobalForm"><input id="search_in_all" placeholder="Find movie in global"></form>
-        <ul class="movies-list" id="moviesList"></ul>`  
+        <ul class="movies-search-list" id="moviesList"></ul>`  
 }
 
 export function renderAddMovieHtml() {
