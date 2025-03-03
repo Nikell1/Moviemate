@@ -6,6 +6,7 @@ import { transition } from "../functions.js"
 import { renderAddMovieHtml } from "../html/dashboardHtml.js";
 import { renderMovieCardModalHtml } from "../html/dashboardHtml.js";
 
+console.log('получение .env')
 
 function getRand() {
     const token = localStorage.getItem("token")
@@ -42,7 +43,7 @@ function getRand() {
                     })
                     .then(response => {
                         console.log(response); // Логируем объект ответа
-                
+                        console.log(response.status)
                         if (!response.ok) {
                             throw new Error(`HTTP error! Status: ${response.status}`);
                         }
@@ -72,14 +73,7 @@ function getRand() {
                 } catch (error) {
                     console.error('Ошибка при авторизации пользователя:', error);
                 }
-
-
-
-
-                // сюда передать данные о фильме
 }
-
-
 
 function renderGetMovie() {
     const getMovie = document.getElementById('getMovie')
@@ -92,11 +86,6 @@ function renderGetMovie() {
         getMovieModal.onclick = () => {
             
             getRand()
-
-
-
-
-                // сюда передать данные о фильме
         }
     }
 }
@@ -231,10 +220,16 @@ function renderModalMoviesList(data) {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify(requestBody)
+                    })
+                    .then(data => {
+                        transition(consts.dashboardSearch)
+                        
+                    })
+                    .catch(error => {
+                        console.error('Error:', error); // Логируем ошибки
                     });
             
 
-                    transition(consts.dashboardSearch)
                     
                 } catch (error) {
                     console.error('Ошибка при авторизации пользователя:', error);
@@ -284,17 +279,18 @@ function addMovieRender() {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify(requestBody)
+                    })
+                    .then(data => {
+                        transition(consts.dashboardSearch)
+                        
+                    })
+                    .catch(error => {
+                        console.error('Error:', error); // Логируем ошибки
                     });
             
                     // if (!response.ok) {
                     //     throw new Error(`Ошибка: ${response.status}`);
-                    // }
-            
-                    // const data = response.json();
-                    // console.log(data)
-
-                    transition(consts.dashboardSearch)
-                    return data.token;
+                    // 
                 } catch (error) {
                     console.error('Ошибка при авторизации пользователя:', error);
                 }
