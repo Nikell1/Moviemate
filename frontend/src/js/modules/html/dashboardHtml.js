@@ -102,8 +102,13 @@ export function showCollectionsHtml() {
             <button id="friends">Friends</button>
             <button id="search">Search</button>
         </div>
-        <ul class="movies-list" id="moviesList"></ul>
+        <ul class="collections-list" id="collectionsList">
+        </ul>
         <button class="fixBtn"id="getMovie">GET A MOVIE</button>`
+}
+
+export function renderCollectionHtml(data) {
+    return `<li class="collection-el"><span>title</span><div>🗑</div></li>`
 }
 
 export function sidebarProfileHtml(login) {

@@ -107,12 +107,12 @@ async def get_rand_film(mood:str=None,token:str = Security(Bear)):
     print(await get_by_id(2))
     for i in range(len(films)):
         if films[i]["media_id"] >= 0:
-            film =  await get_by_id(films[i]["media_id"],films[i]["media_type"])
-            new_film = Film_to_front(title=film.title,poster_path=film.poster_path,overview=film.overview,release_date=film.release_date,id=films[i]["media_id"],watched=films[i]["watched"])
+            film =  (await get_by_id(films[i]["media_id"],films[i]["media_type"])).model_dump()
+            new_film = Film_to_front(**film)
         else:
             film = db.get_by_value('films', 'id',-1*films[i]["media_id"])[0]
             print(film)
-            new_film = Film_to_front(title=film["title"],poster_path=film["poster_path"],overview=film["overview"],release_date=film["release_date"],id=films[i]["media_id"],watched=films[i]["watched"])
+            new_film = Film_to_front(**film)
 
         result.append(new_film)
     if result != []:
@@ -122,7 +122,9 @@ async def get_rand_film(mood:str=None,token:str = Security(Bear)):
             return await get_by_id(157336, media_type='movie')
         elif mood == "Весёлое":
             return await get_by_id(387, media_type='tv')
-        elif mood == "Весёлое":
+        elif mood == "Напряжённое":
             return await get_by_id(680, media_type='movie')
         else:
-            return HTTPException(status_code=422, detail="Incorrect mood")
+            return await get_by_id(132030, media_type='movie')
+
+# 👍

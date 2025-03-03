@@ -451,8 +451,16 @@ function showMovies() {
     }
 }
 
+function renderCollections(data) {
+    for (let i = 0; i < data; i++) {
+        dashboardHtml.renderCollectionHtml(data[i])
+    }
+
+}
+
 function showCollections() {
     dashboardHtml.showCollectionsHtml()
+    renderCollections()
     clearColor()
     const collectionsBtn = document.getElementById('collections')
     collectionsBtn.style.color = consts.accentColor

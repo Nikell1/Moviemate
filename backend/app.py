@@ -28,7 +28,7 @@ app.add_middleware(
     allow_methods=["*"],    
     allow_headers=["*"],
 )
-
+    
 app.include_router(authorization_router, prefix="/api/auth", tags=["Auth"])
 app.include_router(screenshots_router, prefix="/api/screenshots", tags=["Screenshots"])
 app.include_router(films_router, prefix="/api/films", tags=["Films"])
