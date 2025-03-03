@@ -81,7 +81,6 @@ export function showMoviesHtml() {
         <div class="dashboard__botBtns">
             <button id="movies">Your movies</button>
             <button id="collections">Collections</button>
-            <button id="friends">Friends</button>
             <button id="search">Search</button>
         </div>
         <form id="searchInMoviesForm" class="dashboard__search"><input id="search_in_bookmarks" placeholder="Find movie in your bookmarks"></form>
@@ -139,7 +138,6 @@ export function showCollectionsHtml() {
         <div class="dashboard__botBtns">
             <button id="movies">Your movies</button>
             <button id="collections">Collections</button>
-            <button id="friends">Friends</button>
             <button id="search">Search</button>
         </div>
         <ul class="collections-list" id="collectionsList"><div class="loader"></div></ul>
@@ -286,7 +284,6 @@ export function searchPageHtml() {
         <div class="dashboard__botBtns">
             <button id="movies">Your movies</button>
             <button id="collections">Collections</button>
-            <button id="friends">Friends</button>
             <button id="search">Search</button>
         </div>
             <form class="dashboard__search" id="searchInGlobalForm"><input id="search_in_all" placeholder="Find movie in global"></form>

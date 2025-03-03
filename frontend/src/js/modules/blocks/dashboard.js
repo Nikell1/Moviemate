@@ -790,12 +790,6 @@ function renderNewCollectionBtn() {
     }
 }
 
-function showFriends() {
-    clearColor()
-    const friendsBtn = document.getElementById('friends')
-    friendsBtn.style.color = consts.accentColor
-}
-
 function renderFilters() {
     const filtesForm = document.getElementById('filtesForm')
     const year1 = document.getElementById('year1')
@@ -1086,7 +1080,6 @@ function updateHash(req) {
 function dashboardBtnOnclick() {
     const moviesBtn = document.getElementById('movies')
     const collectionsBtn = document.getElementById('collections')
-    const friendsBtn = document.getElementById('friends')
     const searchBtn = document.getElementById('search')
 
     moviesBtn.onclick = () => {
@@ -1096,11 +1089,6 @@ function dashboardBtnOnclick() {
 
     collectionsBtn.onclick = () => {
         updateHash(consts.collectionsHash)
-        showDashboardBlocks()
-    }
-
-    friendsBtn.onclick = () => {
-        updateHash(consts.friendsHash)
         showDashboardBlocks()
     }
 
@@ -1120,7 +1108,6 @@ function showDashboardBlocks() {
 
     if (url2.hash == `#${consts.moviesHash}`) {showMovies()}
     if (url2.hash == `#${consts.collectionsHash}`) {showCollections()}
-    if (url2.hash == `#${consts.friendsHash}`) {showFriends()}
     if (url2.hash == `#${consts.searchHash}`) {showSearch()}
 
     dashboardBtnOnclick()
