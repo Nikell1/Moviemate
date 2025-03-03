@@ -309,6 +309,7 @@
         font-size:1.7rem;
         span {
             font-family: $text-font;
+            word-break: break-all;
         }
 	}
 
