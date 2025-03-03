@@ -504,6 +504,13 @@ function showCollections() {
         console.error('Ошибка при авторизации пользователя:', error);
     }
 
+    const newCollectionBtn = document.getElementById('newCollectionBtn')
+
+    newCollectionBtn.onclick = () => {
+        showAddMovieModal(1, 'visible', 0.3)
+        modal.innerHTML = dashboardHtml.newCollectionHtml()
+    }
+
 
     clearColor()
     const collectionsBtn = document.getElementById('collections')
