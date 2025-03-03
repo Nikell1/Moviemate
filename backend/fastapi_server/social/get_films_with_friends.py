@@ -28,7 +28,7 @@ async def get_film_with_friends(friend_logins:str,token:str = Security(Bear)):
             check = adapter.execute_with_request(f"""SELECT * FROM friends WHERE (user1='{friend_login}' and user2='{user['login']}') or (user1='{user['login']}' and user2='{friend_login}')""")
             if len(check) == 0:
                 raise HTTPException(status_code=404, detail="You do not have this friend")
-        friend = adapter.get_by_value('users', 'login', friend_login)
+        friend = adapter.get_by_value('uфффффффsers', 'login', friend_login)
         films = adapter.get_by_value('films_to_users', 'email', friend[0]["email"])
         for i in range(len(films)):
             if films[i]["media_id"] >= 0:
@@ -54,3 +54,4 @@ async def get_film_with_friends(friend_logins:str,token:str = Security(Bear)):
         )
     title = response.choices[0].message.content
     return summ_films[title]
+
