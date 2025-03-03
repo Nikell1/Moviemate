@@ -353,6 +353,45 @@ function movieSearchRender() {
     searchInMoviesForm.addEventListener('submit', (event) => {
         event.preventDefault()
         console.log('поиск закладок')
+        const token = localStorage.getItem("token")
+        const search_in_bookmarks = document.getElementById("search_in_bookmarks")
+        console.log(search_in_bookmarks.value)
+        const url = 'http://localhost:8000/api/films/get_films_by_title'; // Замените на ваш URL FastAPI сервера
+        const params = new URLSearchParams({
+            "search": search_in_bookmarks.value,
+        });
+
+        const urlWithParams = `${url}?${params}`; 
+            try {
+                const response = fetch(urlWithParams, {
+                    method: 'GET',
+                    headers: {
+                        "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                        "Content-Type": "application/json", // Указываем тип содержимого
+                    }
+                }).then(response => {
+                    if (!response.ok) {
+                        console.log(response)
+                      throw new Error(`Ошибка: ${response.status}`);
+                    }
+                    return response.json();
+                  })
+                  .then(data => {
+                    console.log("Данные:", data);
+                    console.log(data.results)
+                    renderMoviesList(data)
+
+                
+                  })
+                  .catch(error => {
+                    console.error("Ошибка:", error);
+                    // transition(consts.homeSearch)
+                  });
+        
+            } catch (error) {
+                console.error('Ошибка при авторизации пользователя:', error);
+            }
+
     })
 }
 
@@ -432,7 +471,38 @@ function renderCollections(data) {
 
 function showCollections() {
     dashboardHtml.showCollectionsHtml()
-    renderCollections([1, 2, 3, 4]) //  сюда передать данные всех коллекцийй
+    const token = localStorage.getItem("token")
+    const url = 'http://localhost:8000/api/collections/collections'; 
+    try {
+        const response = fetch(url, {
+            method: 'GET',
+            headers: {
+                "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                "Content-Type": "application/json", // Указываем тип содержимого
+            }
+        }).then(response => {
+            if (!response.ok) {
+                console.log(response)
+              throw new Error(`Ошибка: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+              console.log("Данные:", data);
+              renderCollections(data) //  сюда передать данные всех коллекцийй
+
+            // renderMoviesList(moviesData)
+          })
+          .catch(error => {
+            console.error("Ошибка:", error);
+            // transition(consts.homeSearch)
+          });
+
+    } catch (error) {
+        console.error('Ошибка при авторизации пользователя:', error);
+    }
+
+
     clearColor()
     const collectionsBtn = document.getElementById('collections')
     collectionsBtn.style.color = consts.accentColor
@@ -486,6 +556,7 @@ function showSearch() {
                     console.log("Данные:", data);
                     console.log(data.results)
                     // Отрендерить рещультаты глобального поиска
+                    renderMoviesList(data.results)
 
                 
                   })

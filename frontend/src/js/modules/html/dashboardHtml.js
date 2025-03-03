@@ -108,7 +108,7 @@ export function showCollectionsHtml() {
 }
 
 export function renderCollectionHtml(data, ind) {
-    return `<li data-index="${ind}" data-type="collection" class="collection-el"><span>title</span><div data-index="${ind}" data-type="delete">🗑</div></li>`
+    return `<li data-index="${ind}" data-type="collection" class="collection-el"><span>${data}</span><div data-index="${ind}" data-type="delete">🗑</div></li>`
 }
 
 export function sidebarProfileHtml(login) {
@@ -191,7 +191,7 @@ export function searchPageHtml() {
             <button id="search">Search</button>
         </div>
         <form class="dashboard__search" id="searchInGlobalForm"><input id="search_in_all" placeholder="Find movie in global"></form>
-        <ul class="movies-list" id="moviesList"></ul>`  
+        <ul class="movies-search-list" id="moviesList"></ul>`  
 }
 
 export function renderAddMovieHtml() {
