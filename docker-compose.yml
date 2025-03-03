@@ -10,6 +10,9 @@ services:
       POSTGRES_DB: ${DBNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     command: -p ${DB_PORT}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
 
   app_api:
     image: backend:master
@@ -34,6 +37,7 @@ services:
       - ${FAST_API_PORT}:${FAST_API_PORT}
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    restart: unless-stopped
 
   app_frontend:
     image: frontend:master
@@ -48,3 +52,7 @@ services:
       - 3000:3000
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

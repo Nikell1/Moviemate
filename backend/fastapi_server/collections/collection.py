@@ -81,7 +81,7 @@ async def get_collection_media(body: Body, token:str = Security(Bear)):
     adapter = DatabaseAdapter()
     adapter.connect()
     result = []
-    request = f"SELECT media_id FROM films_to_users WHERE email = '{user["email"]}' AND collection = '{name}' "
+    request = f"SELECT media_id FROM films_to_users WHERE email = '{user['email']}' AND collection = '{name}' "
     film_ids = adapter.execute_with_request(request=request)
     for film_id in film_ids:
         if film_id["media_id"]>=0:
