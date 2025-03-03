@@ -10,7 +10,7 @@ export const searchHash = 'search'
 
 export const accentColor = '#003BBE'
 
-export const BACKEND_URL='http://localhost:8000' 
+export const BACKEND_URL='https://prod-team-24-jhaklm26.final.prodcontest.ru' 
 
 //https://prod-team-24-jhaklm26.final.prodcontest.ru
 
