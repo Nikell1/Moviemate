@@ -533,10 +533,15 @@ function renderNewCollectionBtn() {
 
         const newCollectionForm = document.getElementById('newCollectionForm')
         newCollectionForm.addEventListener('submit', (event) => {
-            event.preventDefault()
-            console.log('колекшен добавлейшен')
+        event.preventDefault()
+        console.log('колекшен добавлейшен')
 
-            const url = consts.BACKEND_URL + '/api/collections/collections'
+        const url = consts.BACKEND_URL + '/api/collections/collections'
+        const new_coll_name = document.getElementById('new_coll_name')
+        const token = localStorage.getItem("token")
+        const reqbody = {
+            name: new_coll_name.value
+        }
 
             try {
                 const response = fetch(url, {
@@ -544,7 +549,8 @@ function renderNewCollectionBtn() {
                     headers: {
                         "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
                         "Content-Type": "application/json", // Указываем тип содержимого
-                    }
+                    },
+                    body: JSON.stringify(reqbody)
                 }).then(response => {
                     if (!response.ok) {
                         console.log(response)
@@ -555,7 +561,7 @@ function renderNewCollectionBtn() {
                   .then(data => {
                     console.log("Данные:", data);
                     console.log(data.results)
-                    renderMoviesList(data)
+                    transition(consts.dashboardSearch)
 
                 
                   })
