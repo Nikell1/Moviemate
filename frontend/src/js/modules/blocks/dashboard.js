@@ -164,6 +164,7 @@ export function renderMoviesList(moviesData, a) {
     const addToCollectionList = Array.from(document.getElementsByName('addToCollection'))
 
     addToCollectionList.forEach(el => el.onclick = () => {
+        localStorage.setItem("cur_movie", el.id)
         addToCollection()
     })
 }
@@ -510,6 +511,53 @@ function renderCollections(data, a='', b, c) {
             console.log('modal')
             console.log('добавление фильма в коллекцию')
             console.log(ind)
+            let cur_movie = localStorage.getItem("cur_movie")
+            console.log(cur_movie)
+            cur_movie = cur_movie.substring(12)
+
+            // cur_movie = parseInt(cur_movie)
+
+        const url = consts.BACKEND_URL + '/api/films/set_collection'
+        const new_coll_name = document.getElementById('new_coll_name')
+        const token = localStorage.getItem("token")
+        const reqbody = {
+            media_id: cur_movie,
+            collection: ind
+        }
+
+            try {
+                const response = fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                        "Content-Type": "application/json", // Указываем тип содержимого
+                    },
+                    body: JSON.stringify(reqbody)
+                }).then(response => {
+                    if (!response.ok) {
+                        console.log(response)
+                      throw new Error(`Ошибка: ${response.status}`);
+                    }
+                    return response.json();
+                  })
+                  .then(data => {
+                    console.log("Данные:", data);
+                    console.log(data.results)
+                    transition(consts.dashboardSearch)
+
+                
+                  })
+                  .catch(error => {
+                    console.error("Ошибка:", error);
+                    // transition(consts.homeSearch)
+                  });
+        
+            } catch (error) {
+                console.error('Ошибка при авторизации пользователя:', error);
+            }
+
+
+
         }
     }
 }
