@@ -529,6 +529,13 @@ function renderNewCollectionBtn() {
         newCollectionForm.addEventListener('submit', (event) => {
             event.preventDefault()
             console.log('колекшен добавлейшен')
+
+            
+
+
+
+
+
         })
     }
 }
