@@ -28,7 +28,7 @@ async def get_poster(url:str):
         }
         requests = httpx.Client(proxy="socks5://77.81.138.114:6000", headers=headers)
 
-        response = requests.get('https://image.tmdb.org/t/p/w200'+url)
+        response = requests.get('https://image.tmdb.org/t/p/w100'+url)
 
         image_bytes = BytesIO(response.content)
 
