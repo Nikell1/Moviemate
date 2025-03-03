@@ -1,9 +1,11 @@
 from fastapi import APIRouter, HTTPException, status,Security
+
+from adapters import tmdb
 from adapters.db_source import DatabaseAdapter
 from adapters.tmdb import get_by_id
 from fastapi.security import HTTPBearer
 from utils.functions import get_user
-from models.schemas import Film_to_front
+from models.schemas import Film_to_front, Search
 import random
 from fuzzywuzzy import fuzz
 
@@ -12,7 +14,7 @@ Bear = HTTPBearer(auto_error=False)
 
 
 @router.get("/get_films_by_title", status_code=status.HTTP_200_OK)
-async def get_films_by_title(search:str, token: str = Security(Bear)):
+async def get_films_by_title(body:Search, search:str, token: str = Security(Bear)):
     print(token)
     user = get_user(token.credentials)
     if user == []:
@@ -31,6 +33,8 @@ async def get_films_by_title(search:str, token: str = Security(Bear)):
     for i in range(len(films)):
         if films[i]["media_id"] >= 0:
             film = await get_by_id(films[i]["media_id"], films[i]["media_type"])
+            if not tmdb.filter(film.model_dump(), release_date_low=body.release_date_low, release_date_high=body.release_date_high, genre_ids=body.genre_ids, watched=body.watched, email=user["email"] ):
+                continue
             print(fuzz.partial_ratio(film.title, search))
 
             if fuzz.partial_ratio(film.title, search) < 75:
@@ -41,6 +45,9 @@ async def get_films_by_title(search:str, token: str = Security(Bear)):
                                      watched=films[i]["watched"])
         else:
             film = adapter.get_by_value('films', 'id', -1 * films[i]["media_id"])[0]
+            if not tmdb.filter(film, release_date_low=body.release_date_low, release_date_high=body.release_date_high, genre_ids=body.genre_ids, watched=body.watched, email=user["email"] ):
+                continue
+
 
             if fuzz.partial_ratio(film['title'], search) < 75:
                 continue
