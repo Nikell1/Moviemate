@@ -16,12 +16,11 @@ async def set_collection(body:Set_collection,token:str = Security(Bear)):
     adapter = DatabaseAdapter()
     adapter.connect()
 
-    films = adapter.get_by_value('films_to_users', 'title', body.title)
     film = adapter.execute_with_request(f"SELECT * from films_to_users WHERE email = '{user['email']}' AND media_id = {body.media_id}")
     if len(film) == 0:
         raise HTTPException(status_code=404, detail="Media not found")
     film = film[0]
-    check_exist = adapter.execute_with_request(f"SELECT * from films_to_users WHERE email = '{user['email']}' AND collection = {body.collection} AND media_id = {body.media_id}")
+    check_exist = adapter.execute_with_request(f"SELECT * from films_to_users WHERE email = '{user['email']}' AND collection = '{body.collection}' AND media_id = '{body.media_id}'")
     if len(check_exist) >= 0:
         raise HTTPException(status_code=409, detail="Media is already in collection")
     film["collection"] = body.collection
