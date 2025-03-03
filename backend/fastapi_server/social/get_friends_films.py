@@ -15,7 +15,7 @@ async def get_friends_films(friend_login:str,token:str = Security(Bear)):
     user = user[0]
     adapter = DatabaseAdapter()
     adapter.connect()
-    adapter.initialize_tables()
+
 
     email_check = adapter.get_by_value('users', 'email', user["email"])
     if email_check == []:

@@ -17,7 +17,7 @@ async def get_films(token:str = Security(Bear)):
     user = user[0]
     adapter = DatabaseAdapter()
     adapter.connect()
-    adapter.initialize_tables()
+
     email_check = adapter.get_by_value('users', 'email', user["email"])
     if len(email_check) == 0:
         # print(2)
@@ -45,7 +45,7 @@ async def get_rand_film(mood:str=None,token:str = Security(Bear)):
     user = user[0]
     db = DatabaseAdapter()
     db.connect()
-    db.initialize_tables()
+
     email_check = db.get_by_value('users', 'email', user["email"])
     if len(email_check) == 0:
         raise HTTPException(status_code=409, detail="User with this email does not exists")

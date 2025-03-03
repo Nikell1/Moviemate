@@ -15,7 +15,6 @@ async def change_login(login:str, token:str = Security(Bear)):
     user = user[0]
     adapter = DatabaseAdapter()
     adapter.connect()
-    adapter.initialize_tables()
     check_login = adapter.get_by_value('users', 'login', login)
     if len(check_login) != 0:
         raise HTTPException(status_code=409, detail="there is already an user with this login")
