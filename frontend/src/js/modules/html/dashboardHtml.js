@@ -185,7 +185,8 @@ export function searchPageHtml() {
             <button id="friends">Friends</button>
             <button id="search">Search</button>
         </div>
-        <div class="dashboard__search"><input placeholder="Find movie in your "></div>`
+        <form class="dashboard__search" id="searchInGlobalForm"><input placeholder="Find movie in global"></form>
+        <ul class="movies-list" id="moviesList"></ul>`  
 }
 
 export function renderAddMovieHtml() {
