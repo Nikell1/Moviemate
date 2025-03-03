@@ -85,7 +85,45 @@ export function showMoviesHtml() {
             <button id="search">Search</button>
         </div>
         <form id="searchInMoviesForm" class="dashboard__search"><input id="search_in_bookmarks" placeholder="Find movie in your bookmarks"></form>
-        <ul class="movies-list" id="moviesList"><div class="loader"></div></ul>
+        <div class="movies-block">
+            <ul class="movies-list" id="moviesList"><div class="loader"></div></ul>
+            <form id="filtesForm" class="filter-form">
+                <div class="range-slider">
+                    <input id="year3" type="range" min="1800" max="2026" value="1800" id="range-min">
+                    <input id="year4" type="range" min="1800" max="2026" value="2026" id="range-max">
+                </div>
+                <div class="filter-form__years"><input value="1800" id="year1"><input id="year2" value="2026"></div>
+                <div class="filter-form__block">
+                    <span>Genre:</span>
+                    <select class="select">
+                        <option>Any</option>
+                        <option>Action</option>
+                        <option>Adventure</option>
+                        <option>Animation</option>
+                        <option>Comedy</option>
+                        <option>Crime</option>
+                        <option>Documentary</option>
+                        <option>Drama</option>
+                        <option>Family</option>
+                        <option>Fantasy</option>
+                        <option>History</option>
+                        <option>Horror</option>
+                        <option>Music</option>
+                        <option>Mystery</option>
+                        <option>Romance</option>
+                        <option>Science Fiction</option>
+                        <option>TV Movie</option>
+                        <option>Thriller</option>
+                        <option>War</option>
+                        <option>Western</option>
+                        <option>Talk</option>
+                    </select>
+                </div>
+                <div class="filter-form__checkbox"><input type="checkbox"><span>Watched</span></div>
+                <div class="filter-form__checkbox"><input type="checkbox"><span>Unwatched</span></div>
+                <button>Search</button>
+            </form>
+        </div>
         <button class="fixBtn" id="getMovie">GET A MOVIE</button>`
 }
 

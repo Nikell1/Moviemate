@@ -149,7 +149,7 @@
 
 .movies-list {
     margin:3vh 0 0 20px;
-    max-width:640px;
+    width:640px;    
     padding-bottom: 2vh;
     display:flex;
     flex-wrap: wrap;
@@ -171,6 +171,54 @@
     overflow-y: scroll;
     p {
         font-size: 1rem;
+    }
+}
+
+.filter-form {
+    display:flex;
+    flex-direction: column;
+    background: $grey-color;
+    padding: 40px 20px;
+    border-radius: 10px;
+    select {
+        margin-bottom: 20px;
+    }
+    button {
+        padding:10px 20px;
+        background: $main-color;
+        border-radius: 50px;
+        font-size: 1.5rem;
+        margin:20px 0;
+
+    }
+    &__block {
+        display:flex;
+        margin-bottom: 20px;
+        span {
+            margin-top:45px;
+            font-size: 1.5rem;
+            margin-right: 20px;
+        }
+        margin-bottom:20px;
+    }
+    &__checkbox {
+        margin-bottom:15px;
+        input {
+            margin-right:10px;
+        }
+        span {
+            font-size:1.5rem;
+        }
+    }
+    &__years {
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+        input {
+            font-size:1.5rem;
+            background: none;
+            width:70px;
+        }
     }
 }
 
@@ -409,6 +457,60 @@
         }
     }
 }
+
+.movies-block {
+    display:flex;
+    justify-content: space-between;
+}
+.range-slider {
+    position: relative;
+    width: 300px;
+  }
+
+  .range-slider input[type="range"] {
+    position: absolute;
+    width: 100%;
+    pointer-events: none; /* Отключаем взаимодействие с обоими ползунками одновременно */
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius:10px;
+  }
+
+  .range-slider input[type="range"]::-webkit-slider-thumb {
+    pointer-events: all; /* Включаем взаимодействие с каждым ползунком */
+    width: 20px;
+    height: 20px;
+    background: $main-color;
+    z-index:2;
+    position:relative;
+    transform: translateY(-7px);
+    border-radius: 50%;
+    border: 2px solid #fff;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .select {
+    max-height:50px;
+    overflow-y: auto;
+    background: none;
+    border: 1px solid #fff;
+    padding: 10px 20px;
+    margin-top:30px;
+    border-radius: 50px;
+    font-size: 1.5rem;
+    option {
+        color: #000;
+        max-height:200px;
+    }
+  }
+
+  .range-slider input[type="range"]::-webkit-slider-runnable-track {
+    height: 5px;
+    background: #fff;
+    border-radius:10px;
+  }
 
 .findPhotoForm {
     display: flex;

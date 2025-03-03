@@ -65,3 +65,9 @@
         }
     }
 }
+.custom-popup {
+    background-color: black; /* Черный фон */
+    color: white; /* Белый текст */
+    border: 1px solid white; /* Белая рамка */
+    font-family: $text-font;
+}

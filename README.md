@@ -31,3 +31,12 @@ https://gitlab.prodcontest.ru/team-24/films/-/blob/master/.gitlab-ci.yml?ref_typ
 
 # 4. Исходный код
 https://gitlab.prodcontest.ru/team-24/films/-/blob/master
+
+# 5. Спецификация
+
+Сссылка на swagger - https://prod-team-24-jhaklm26.final.prodcontest.ru/api/docs перед использованием запросов необходимо авторизоватся в сваггере ( логин - admin, пароль - lVqTVwClGZDFoKXPGGdv )
+
+# 6. Тесты
+
+E2e тесты покрывают основную часть функционала апи, unit тесты покрывают методы адаптера субд и ещё есть коллекция в постмане, в которой описан основной сценарий использования эндпоинтов, где можно потыкать реквесты (тыкать нужно по порядку, так как в некоторых запросах есть зависимости от переменных, заданных в предыдущих запросах). В конце коллекции есть эндпоинт /api/service/truncate, который удаляет ВСЕ данные из субд. Его нужно прожимать только тогда, когда есть необходимость заново протестить эндпоинты и не получить 409. Чтобы использовать truncate, в заголовке под названием admin_key нужно указать ключ lVqTVwClGZDFoKXPGGdv . 
+Ссылка на коллекцию - https://www.postman.com/team-24-prod/workspace/prod-postman-collection-test-scenario/collection/39570277-88045825-8a68-403b-9174-726371913176?action=share&creator=39570277

@@ -46,6 +46,16 @@ export function renderLogin() {
                 transition(consts.dashboardSearch)
                 return data.token;
             } catch (error) {
+                // alert('Invalid credentials')
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Invalid credentials',
+                    icon: 'error', // Иконка ошибки
+                    confirmButtonText: 'ОК',
+                    customClass: {
+                        popup: 'custom-popup' // Добавляем класс для окна
+                    }
+                });
                 console.error('Ошибка при авторизации пользователя:', error);
             }
         }
