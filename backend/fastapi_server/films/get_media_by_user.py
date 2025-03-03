@@ -112,6 +112,14 @@ async def get_rand_film(mood:str=None,token:str = Security(Bear)):
         else:
             film = db.get_by_value('films', 'id',-1*films[i]["media_id"])[0]
             print(film)
+            film = {
+                "title": film["title"],
+                "poster_path": film["image_url"],
+                "overview": film["description"],
+                "release_date": film["date"],
+                "id": films[i]["media_id"],
+                "watched": films[i]["watched"],
+            }
             new_film = Film_to_front(**film)
 
         result.append(new_film)
