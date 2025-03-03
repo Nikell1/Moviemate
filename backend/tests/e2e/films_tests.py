@@ -129,7 +129,7 @@ class TestAPI(unittest.TestCase):
         query = '?id='
 
 
-        response = requests.get(self.api_url + "films/mark_as_watched" + query, headers=headers)
+        response = requests.get(self.api_url + "films/mark_as_watched " + query, headers=headers)
         self.assertEqual(response.status_code, 200)
 
 
