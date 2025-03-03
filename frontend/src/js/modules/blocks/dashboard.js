@@ -737,11 +737,48 @@ function showSearch() {
         dashboardHtml.renderPhotoHtml()
 
         const findByPhotoForm = document.getElementById('findByPhotoForm')
-        
+        const image_input = document.getElementById("image_input")
         findByPhotoForm.addEventListener('submit', (event) => {
 
             event.preventDefault()
+            const file = image_input.files[0];
+
             console.log('жпт решает')
+
+            const formData = new FormData();
+            const url = consts.BACKEND_URL + '/api/ai/recognition'
+            formData.append('file', file);
+
+            try {
+                const response = fetch(url, {
+                    method: 'POST',
+                    body: formData
+                }).then(response => {
+                    if (!response.ok) {
+                        console.log(response)
+                      throw new Error(`Ошибка: ${response.status}`);
+                    }
+                    return response.json();
+                  })
+                  .then(data => {
+                    console.log("Данные:", data);
+                    // Вернуть название фильма
+
+
+                
+                  })
+                  .catch(error => {
+                    console.error("Ошибка:", error);
+                    // transition(consts.homeSearch)
+                  });
+        
+            } catch (error) {
+                console.error('Ошибка при авторизации пользователя:', error);
+            }
+
+
+
+
         })
     }
 
