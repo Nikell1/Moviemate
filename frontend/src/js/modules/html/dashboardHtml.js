@@ -44,8 +44,8 @@ export function renderMoviesHtml(element) {
 
     let overview = element.overview
 
-    if (overview.length > 100) {
-        overview = `${overview.slice(0, 100)}...`
+    if (overview.length > 50) {
+        overview = `${overview.slice(0, 50)}...`
     }
 
 
@@ -262,7 +262,7 @@ export function renderGetMovieEndHtml(element) {
         <div class="movies-element__img" style="background-image: url('${urlWithParams}');"></div>
         <div class="movies-element__block">
             <span>${title}</span>
-            <span>${releaseDate}</span>
+            <span>${releaseDate}</span> 
         </div>
         <p class="movies-element__description">${overview}</p>
     </li>
