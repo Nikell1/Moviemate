@@ -1,3 +1,5 @@
+import * as consts from '../consts.js'
+
 export function dashboardHtml() {
     wrapper.innerHTML = `
     <div class="dashboard">
@@ -24,7 +26,7 @@ export function dashboardHtml() {
 }
 
 export function renderMoviesHtml(element, a=element.watched, b=element.id) {
-    const url = 'http://localhost:8000/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
+    const url = consts.BACKEND_URL+'/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
     const params = new URLSearchParams({
         "url": element.poster_path,
     });
@@ -111,7 +113,7 @@ export function addToCollectionHtml() {
     modal.innerHTML = `
     <div>
         <h2>Add to collection</h2>
-        <ul></ul>
+        <ul id="collectionsList2"></ul>
     </div>`
 }
 
@@ -127,8 +129,8 @@ export function newCollectionHtml() {
     </form>`
 }
 
-export function renderCollectionHtml(data, ind) {
-    return `<li data-index="${ind}" data-type="collection" class="collection-el"><span>${data}</span><div data-index="${ind}" data-type="delete">🗑</div></li>`
+export function renderCollectionHtml(data, ind, b=`<div id="delete_${data}_button" data-index="${data}" data-type="delete">🗑</div>`) {
+    return `<li data-index="${ind}" data-type="collection" class="collection-el"><span>${data}</span>${b}</li>`
 }
 
 export function sidebarProfileHtml(login) {
@@ -176,7 +178,7 @@ export function renderMovieCardModalHtml(element, ind) {
     // }
 
     let overview = element.overview
-    const url = 'http://localhost:8000/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
+    const url = consts.BACKEND_URL+'/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
     const params = new URLSearchParams({
         "url": element.poster_path,
     });
@@ -275,7 +277,7 @@ export function renderGetMovieEndHtml(element) {
     if (overview.length > 140) {
         overview = `${overview.slice(0, 140)}...`
     }
-    const url = 'http://localhost:8000/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
+    const url = consts.BACKEND_URL+'/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
     const params = new URLSearchParams({
         "url": element.poster_path,
     });
@@ -327,7 +329,7 @@ export function renderModalMoviesHtml(element, ind) {
     if (overview.length > 100) {
         overview = `${overview.slice(0, 100)}...`
     }
-    const url = 'http://localhost:8000/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
+    const url = consts.BACKEND_URL+'/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
     const params = new URLSearchParams({
         "url": element.poster_path,
     });
