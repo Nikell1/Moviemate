@@ -13,3 +13,5 @@ export const accentColor = '#003BBE'
 export const BACKEND_URL='http://localhost:8000' 
 
 //https://prod-team-24-jhaklm26.final.prodcontest.ru
+
+//http://localhost:8000

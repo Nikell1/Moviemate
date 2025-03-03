@@ -463,11 +463,12 @@ function showMovies() {
     }
 }
 
-function renderCollections(data, a='') {
+function renderCollections(data, a='', b) {
     const collectionsList = document.getElementById(`collectionsList${a}`)
 
+
     for (let i = 0; i < data.length; i++) {
-        collectionsList.insertAdjacentHTML('beforeend', dashboardHtml.renderCollectionHtml(data[i], i))
+        collectionsList.insertAdjacentHTML('beforeend', dashboardHtml.renderCollectionHtml(data[i], i, b))
     }
 
     collectionsList.onclick = (event) => {
@@ -476,46 +477,11 @@ function renderCollections(data, a='') {
 
         if (type = "delete") {
             console.log(ind)
-            console.log('удаление коллекции')
-            const token = localStorage.getItem("token")
-            const url = consts.BACKEND_URL+'/api/collections/collections'; 
-            const params = new URLSearchParams({
-                "name": ind,
-            });
-    
-            const urlWithParams = `${url}?${params}`; 
-                try {
-                    const response = fetch(urlWithParams, {
-                    method: 'DELETE',
-                    headers: {
-                        "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
-                        "Content-Type": "application/json", // Указываем тип содержимого
-                    },
-
-                }).then(response => {
-                    if (!response.ok) {
-                        console.log(response)
-                      throw new Error(`Ошибка: ${response.status}`);
-                    }
-                    return response.json();
-                  })
-                  .then(data => {
-                      console.log("Данные:", data);
-                      transition(consts.collectionsHash)
-                  })
-                  .catch(error => {
-                    console.error("Ошибка:", error);
-                    // transition(consts.homeSearch)
-                  });
-        
-            } catch (error) {
-                console.error('Ошибка при авторизации пользователя:', error);
-            }
         }
     }
 }
 
-function serverCollectinos(a = '') {
+function serverCollectinos(a = '', b) {
     const token = localStorage.getItem("token")
     const url = consts.BACKEND_URL+'/api/collections/collections'; 
     try {
@@ -534,7 +500,7 @@ function serverCollectinos(a = '') {
           })
           .then(data => {
               console.log("Данные:", data);
-              renderCollections(data, a) //  сюда передать данные всех коллекцийй
+              renderCollections(data, a, b) //  сюда передать данные всех коллекцийй
 
             // renderMoviesList(moviesData)
           })
@@ -733,7 +699,7 @@ function showSearch() {
 function addToCollection() {
     showAddMovieModal(1, 'visible', 0.3)
     dashboardHtml.addToCollectionHtml()
-    serverCollectinos('2')
+    serverCollectinos('2', '')
 }
 
 function updateHash(req) {
