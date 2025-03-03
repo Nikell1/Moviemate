@@ -729,6 +729,13 @@ function showSearch() {
 
             event.preventDefault()
             console.log('жпт решает x2')
+
+            const input_desc = document.getElementById('input_desc')
+            
+
+
+
+
         })
     }
 
@@ -738,6 +745,8 @@ function showSearch() {
 
         const findByPhotoForm = document.getElementById('findByPhotoForm')
         const image_input = document.getElementById("image_input")
+        const loader = document.getElementById('loader')
+        loader.style.display = 'none'
         findByPhotoForm.addEventListener('submit', (event) => {
 
             event.preventDefault()
@@ -750,6 +759,7 @@ function showSearch() {
             formData.append('file', file);
 
             try {
+                loader.style.display  = 'block'
                 const response = fetch(url, {
                     method: 'POST',
                     body: formData
@@ -763,8 +773,10 @@ function showSearch() {
                   .then(data => {
                     console.log("Данные:", data);
                     // Вернуть название фильма
-
-
+                    
+                    const res = document.getElementById('res')
+                    res.textContent = `Result: ${data}`
+                    loader.style.display = 'none'
                 
                   })
                   .catch(error => {
@@ -775,16 +787,15 @@ function showSearch() {
             } catch (error) {
                 console.error('Ошибка при авторизации пользователя:', error);
             }
-
-
-
-
         })
     }
 
     const searchInGlobal = document.getElementById('searchInGlobalForm')
+    const loader = document.getElementById('loader')
+    loader.style.display = 'none'
     searchInGlobal.addEventListener('submit', (event) => {
         event.preventDefault()
+        loader.style.display = 'block'
         console.log('поиск еще один')
         /////////////////////////////////////////////////////////////////////////////////////////
         const token = localStorage.getItem("token")
@@ -819,6 +830,7 @@ function showSearch() {
                     console.log(data.results)
                     // Отрендерить рещультаты глобального поиска
                     renderMoviesList(data.results, 'add to dashboard')
+                    loader.style.display = 'none'
                     let moviesData = data.results
                     for (let i = 0; i < moviesData.length; i++){
                         console.log(`mark_${moviesData[i].id}`)
