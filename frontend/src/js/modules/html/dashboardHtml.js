@@ -119,9 +119,9 @@ export function showMoviesHtml() {
                         <option>Talk</option>
                     </select>
                 </div>
-                <div class="filter-form__checkbox"><input type="checkbox"><span>Watched</span></div>
-                <div class="filter-form__checkbox"><input type="checkbox"><span>Unwatched</span></div>
-                <button>Search</button>
+                <div class="filter-form__checkbox"><input type="checkbox" checked><span>Watched</span></div>
+                <div class="filter-form__checkbox"><input type="checkbox" checked><span>Unwatched</span></div>
+                <button id="apply_filters">Search</button>
             </form>
         </div>
         <button class="fixBtn" id="getMovie">GET A MOVIE</button>`
