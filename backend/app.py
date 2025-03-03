@@ -9,8 +9,15 @@ from fastapi_server.social import router as social_router
 from fastapi_server.collections import  router as collection_router
 from fastapi_server.service import router as service_router
 import os
+import json
 load_dotenv()
+'''def load_custom_openapi():
+    with open("backend/openapi(1).json", "r") as file:
+        return json.load(file)'''
+
 app = FastAPI(docs_url="/api/docs",openapi_url="/api/openapi.json")
+'''app.openapi_schema = app.openapi()
+app.openapi_schema["security"] = [{"OAuth2PasswordBearer": []}]'''
 
 app.add_middleware(
     CORSMiddleware,

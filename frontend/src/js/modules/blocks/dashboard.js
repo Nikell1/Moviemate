@@ -6,6 +6,7 @@ import { transition } from "../functions.js"
 import { renderAddMovieHtml } from "../html/dashboardHtml.js";
 import { renderMovieCardModalHtml } from "../html/dashboardHtml.js";
 
+console.log('получение .env')
 
 function getRand() {
     const token = localStorage.getItem("token")
@@ -42,7 +43,7 @@ function getRand() {
                     })
                     .then(response => {
                         console.log(response); // Логируем объект ответа
-                
+                        console.log(response.status)
                         if (!response.ok) {
                             throw new Error(`HTTP error! Status: ${response.status}`);
                         }

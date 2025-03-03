@@ -17,6 +17,6 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
 def get_user(token: str):
     adapter = DatabaseAdapter()
     adapter.connect()
-    adapter.initialize_tables()
+
     user = adapter.get_by_value('users', 'token', token)
     return user
