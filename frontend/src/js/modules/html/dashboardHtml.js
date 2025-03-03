@@ -229,7 +229,7 @@ export function getMovieHtml() {
 }
 
 export function renderGetMovieEndHtml(element) {
-
+    console.log(element)
     let releaseDate
     if (element.first_air_date != undefined) {
         releaseDate = element.first_air_date
