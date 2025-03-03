@@ -113,7 +113,7 @@ export function addToCollectionHtml() {
     modal.innerHTML = `
     <div>
         <h2>Add to collection</h2>
-        <ul></ul>
+        <ul id="collectionsList2"></ul>
     </div>`
 }
 
