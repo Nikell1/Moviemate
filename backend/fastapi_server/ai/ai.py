@@ -72,7 +72,7 @@ async def get_movie_by_screenshot(file: UploadFile):
         messages=[{
             "role": "user",
             "content": [
-                {"type": "text", "text": "Дай мне только название фильма, скриншот из которого на изображении"},
+                {"type": "text", "text": "Дай мне только название фильма, скриншот из которого на изображении "},
                 {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}
             ]
         }],
