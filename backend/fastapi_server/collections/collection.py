@@ -71,7 +71,7 @@ async def delete_collections(body: Body3,token:str = Security(Bear)):
 
 
 
-@router.get("/get_films", status_code=status.HTTP_200_OK)
+@router.post("/get_films", status_code=status.HTTP_200_OK)
 async def get_collection_media(body: Body, token:str = Security(Bear)):
     user = get_user(token.credentials)
     name = body.collection
