@@ -4,19 +4,26 @@ from fastapi.security import HTTPBearer
 from utils.functions import get_user
 from adapters.tmdb import get_by_id
 import json
+from pydantic import BaseModel
+
+class Body(BaseModel):
+    collection: str
+
+class Body2(BaseModel):
+    name: str
 
 router = APIRouter()
 Bear = HTTPBearer(auto_error=False)
 
 @router.post("/collections", status_code=status.HTTP_201_CREATED) 
-async def create_collections(name:str,token:str = Security(Bear)):
+async def create_collections(body: Body2,token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:  
         raise HTTPException(status_code=401, detail="Invalid token")
     user = user[0]
     adapter = DatabaseAdapter()
     adapter.connect()
-
+    name = body.name
     check_exist = adapter.execute_with_request(f"SELECT * from collections WHERE email = '{user['email']}' AND collection_name = '{name}'")
     if len(check_exist) > 0:
         raise HTTPException(status_code=409, detail="This collection already exists")
@@ -54,21 +61,25 @@ async def delete_collections(name:str,token:str = Security(Bear)):
     adapter.execute_with_request(f"DELETE  from collections WHERE email = '{user['email']}' AND collection_name = '{name}'")
     return {"success": True}
 
-@router.get("/collections/{name}", status_code=status.HTTP_200_OK)
-async def get_collection_media(name:str, token:str = Security(Bear)):
+
+
+@router.get("/get_films", status_code=status.HTTP_200_OK)
+async def get_collection_media(body: Body, token:str = Security(Bear)):
     user = get_user(token.credentials)
+    name = body.collection
     if user == []:
         raise HTTPException(status_code=401, detail="Invalid token")
     user = user[0]
     adapter = DatabaseAdapter()
     adapter.connect()
     result = []
-    film_ids = adapter.execute_with_request(request=f"SELECT media_id FROM films_to_users WHERE email = {user} AND collection = {name}")
+    request = f"SELECT media_id FROM films_to_users WHERE email = '{user["email"]}' AND collection = '{name}' "
+    film_ids = adapter.execute_with_request(request=request)
     for film_id in film_ids:
-        if film_id>=0:
-            film = get_by_id(film_id)
-            result.append(film)
+        if film_id["media_id"]>=0:
+            film = await get_by_id(film_id["media_id"])
+            result.append(film.model_dump())
         else:
-            adapter.get_by_id(table_name="films", id = film_id)
+            film = adapter.get_by_id(table_name="films", id = -1 * film_id["media_id"])[0]
             result.append(film)
     return Response(status_code=200, content=json.dumps(result), media_type="application/json")
