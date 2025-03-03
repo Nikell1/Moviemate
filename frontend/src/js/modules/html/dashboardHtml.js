@@ -206,11 +206,28 @@ export function renderCollectionCardHtml(name) {
     </div>`
 }
 
+export function renderPhotoHtml() {
+    modal.innerHTML = `
+    <form class="findPhotoForm" id="findByPhotoForm">
+        <div>
+            <h2>Find by photo</h2>
+            <p>Paste your photo</p>
+            <input type="file" required>
+        </div>
+        <button type="submit">Find</button>
+    </form>
+    `
+}
+
 export function searchPageHtml() {
     const dashboardContent = document.getElementById('dashboardContent')
     dashboardContent.innerHTML = `
         <div class="dashboard__block">
             <h1>Search in <span>global</span></h1>
+            <div class="dashboard__rightBtns">
+                <button id="findPhotoBtn">find by photo</button>
+                <button id="findDescBtn">Find by description</button>
+            </div>
         </div>
         <div class="dashboard__botBtns">
             <button id="movies">Your movies</button>

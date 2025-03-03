@@ -407,6 +407,16 @@
     }
 }
 
+.findPhotoForm {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height:100%;
+    button {
+        
+    }
+}
+
 .modal {
     position:fixed;
     background: $grey-color;
@@ -429,6 +439,11 @@
         font-size: 2rem;
         text-align:center;
         margin-bottom: 20px;
+    }
+    h2 {
+        font-family: $accent-font;
+        font-size:2rem;
+        text-align: center;
     }
 
     &__search {

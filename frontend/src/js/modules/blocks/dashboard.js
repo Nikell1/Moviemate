@@ -716,6 +716,21 @@ function showSearch() {
     const searchBtn = document.getElementById('search')
     searchBtn.style.color = consts.accentColor
 
+    const findPhotoBtn = document.getElementById('findPhotoBtn')
+
+    findPhotoBtn.onclick = () => {
+        showAddMovieModal(1, 'visible', 0.3)
+        dashboardHtml.renderPhotoHtml()
+
+        const findByPhotoForm = document.getElementById('findByPhotoForm')
+
+        findByPhotoForm.addEventListener('submit', (event) => {
+
+            event.preventDefault()
+            console.log('жпт решает')
+        })
+    }
+
     const searchInGlobal = document.getElementById('searchInGlobalForm')
     searchInGlobal.addEventListener('submit', (event) => {
         event.preventDefault()
