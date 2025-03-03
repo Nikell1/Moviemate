@@ -214,7 +214,7 @@ export function renderPhotoHtml() {
             <p>Paste your photo</p>
             <input id="image_input" type="file" accept="image/*" required>
             <p id="res"></p>
-            <div id="loader" class="loader"></div>
+            <div id="loader2" class="loader"></div>
         </div>
         <button type="submit">Find</button>
     </form>

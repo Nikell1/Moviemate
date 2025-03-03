@@ -259,6 +259,7 @@ function addMovieRender() {
         const moviesForm = document.getElementById('moviesForm')
         const addOwnBtn = document.getElementById('addOwn')
         
+        
         addOwnBtn.onclick = () => {
             modal.innerHTML = dashboardHtml.addOwnHtml()
             const addOwnForm = document.getElementById('addOwnForm')
@@ -307,8 +308,12 @@ function addMovieRender() {
             })
         }
 
+
         moviesForm.addEventListener('submit', (event) => {
+        modalMoviesList.innerHTML = '<div id="loader2" class="loader"></div>'
+        const loader = document.getElementById('loader2')
         event.preventDefault()
+        loader.style.display = 'block'
         const search_input = document.getElementById('search__input')
         const token = localStorage.getItem('token')
         console.log('считывание списка фильмов')
@@ -341,6 +346,7 @@ function addMovieRender() {
                   .then(data => {
                     console.log("Данные:", data);
                     console.log(data.results)
+                    loader.style.display = 'none'
                     renderModalMoviesList(data.results)
 
                     // renderMoviesList(moviesData)
@@ -456,6 +462,10 @@ function showMovies() {
           })
           .catch(error => {
             console.error("Ошибка:", error);
+            localStorage.removeItem("token");
+            localStorage.removeItem("login");
+            localStorage.removeItem("email");
+            
             transition(consts.homeSearch)
           });
 
@@ -729,9 +739,44 @@ function showSearch() {
 
             event.preventDefault()
             console.log('жпт решает x2')
-
+            const url = consts.BACKEND_URL + "/api/ai/search_desc"
             const input_desc = document.getElementById('input_desc')
+            const params = new URLSearchParams({
+                "description": input_desc.value,
+            });
+            let urlWithParams = `${url}?${params}`; 
+                
+
             
+        
+            try {
+                const response = fetch(urlWithParams, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => {
+                    console.log(response); // Логируем объект ответа
+                    console.log(response.status)
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+            
+                    return response.json(); // Парсим тело ответа как JSON
+                })
+                .then(data => {
+                    console.log(data); // Логируем данные
+                })
+                .catch(error => {
+                    console.error('Error:', error); // Логируем ошибки
+                });
+                // transition(consts.dashboardSearch)
+                
+            } catch (error) {
+                console.error('Ошибка при авторизации пользователя:', error);
+            }
+
 
 
 
@@ -745,7 +790,7 @@ function showSearch() {
 
         const findByPhotoForm = document.getElementById('findByPhotoForm')
         const image_input = document.getElementById("image_input")
-        const loader = document.getElementById('loader')
+        const loader = document.getElementById('loader2')
         loader.style.display = 'none'
         findByPhotoForm.addEventListener('submit', (event) => {
 
