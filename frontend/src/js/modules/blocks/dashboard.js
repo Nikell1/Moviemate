@@ -391,6 +391,7 @@ function movieSearchRender() {
             } catch (error) {
                 console.error('Ошибка при авторизации пользователя:', error);
             }
+
     })
 }
 
@@ -451,8 +452,26 @@ function showMovies() {
     }
 }
 
+function renderCollections(data) {
+    const collectionsList = document.getElementById('collectionsList')
+
+    for (let i = 0; i < data.length; i++) {
+        collectionsList.insertAdjacentHTML('beforeend', dashboardHtml.renderCollectionHtml(data[i], i))
+    }
+
+    collectionsList.onclick = (event) => {
+        let ind = event.target.dataset.index 
+        let type = event.target.dataset.type
+
+        if (type = "delete") {
+            console.log(ind)
+        }
+    }
+}
+
 function showCollections() {
     dashboardHtml.showCollectionsHtml()
+    renderCollections([1, 2, 3, 4]) //  сюда передать данные всех коллекцийй
     clearColor()
     const collectionsBtn = document.getElementById('collections')
     collectionsBtn.style.color = consts.accentColor
@@ -474,6 +493,50 @@ function showSearch() {
     searchInGlobal.addEventListener('submit', (event) => {
         event.preventDefault()
         console.log('поиск еще один')
+        /////////////////////////////////////////////////////////////////////////////////////////
+        const token = localStorage.getItem("token")
+        const search_in_all = document.getElementById("search_in_all")
+        console.log(search_in_all.value)
+        const url = 'http://localhost:8000/api/films/search_film'; // Замените на ваш URL FastAPI сервера
+        const params = new URLSearchParams({
+            "search": search_in_all.value,
+        });
+        const rbody = {
+            release_date_low: "0001-01-01",
+        }
+
+        const urlWithParams = `${url}?${params}`; 
+            try {
+                const response = fetch(urlWithParams, {
+                    method: 'POST',
+                    headers: {
+                        "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                        "Content-Type": "application/json", // Указываем тип содержимого
+                    },
+                    body:  JSON.stringify(rbody)
+                }).then(response => {
+                    if (!response.ok) {
+                        console.log(response)
+                      throw new Error(`Ошибка: ${response.status}`);
+                    }
+                    return response.json();
+                  })
+                  .then(data => {
+                    console.log("Данные:", data);
+                    console.log(data.results)
+                    // Отрендерить рещультаты глобального поиска
+                    renderMoviesList(data.results)
+
+                
+                  })
+                  .catch(error => {
+                    console.error("Ошибка:", error);
+                    // transition(consts.homeSearch)
+                  });
+        
+            } catch (error) {
+                console.error('Ошибка при авторизации пользователя:', error);
+            }
     })
 }
 

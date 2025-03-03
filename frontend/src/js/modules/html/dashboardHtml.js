@@ -102,8 +102,13 @@ export function showCollectionsHtml() {
             <button id="friends">Friends</button>
             <button id="search">Search</button>
         </div>
-        <ul class="movies-list" id="moviesList"></ul>
+        <ul class="collections-list" id="collectionsList">
+        </ul>
         <button class="fixBtn"id="getMovie">GET A MOVIE</button>`
+}
+
+export function renderCollectionHtml(data, ind) {
+    return `<li data-index="${ind}" data-type="collection" class="collection-el"><span>title</span><div data-index="${ind}" data-type="delete">🗑</div></li>`
 }
 
 export function sidebarProfileHtml(login) {
@@ -185,8 +190,8 @@ export function searchPageHtml() {
             <button id="friends">Friends</button>
             <button id="search">Search</button>
         </div>
-        <form class="dashboard__search" id="searchInGlobalForm"><input placeholder="Find movie in global"></form>
-        <ul class="movies-list" id="moviesList"></ul>`  
+        <form class="dashboard__search" id="searchInGlobalForm"><input id="search_in_all" placeholder="Find movie in global"></form>
+        <ul class="movies-search-list" id="moviesList"></ul>`  
 }
 
 export function renderAddMovieHtml() {
@@ -224,7 +229,7 @@ export function getMovieHtml() {
 }
 
 export function renderGetMovieEndHtml(element) {
-
+    console.log(element)
     let releaseDate
     if (element.first_air_date != undefined) {
         releaseDate = element.first_air_date
