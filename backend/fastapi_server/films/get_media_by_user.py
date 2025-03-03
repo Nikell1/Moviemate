@@ -125,4 +125,4 @@ async def get_rand_film(mood:str=None,token:str = Security(Bear)):
         elif mood == "Весёлое":
             return await get_by_id(680, media_type='movie')
         else:
-            return HTTPException(status_code=422, detail="Incorrect mood")
+            return await get_by_id(132030, media_type='movie')
