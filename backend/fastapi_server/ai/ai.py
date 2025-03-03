@@ -21,7 +21,7 @@ async def search_by_description(description: str):
         timeout=100,
     )
     title = response.choices[0].message.content
-
+    print(title)
     if len(title) > 20:
         return {"title": "Не найдено"}
 
