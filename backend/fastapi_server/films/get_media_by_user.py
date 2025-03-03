@@ -50,7 +50,6 @@ async def get_films_by_title(search:str, token: str = Security(Bear)):
         result.append(new_film)
     return result
 
-
 @router.get("/get_films", status_code=status.HTTP_200_OK)
 async def get_films(token: str = Security(Bear)):
     print(token)
@@ -102,9 +101,9 @@ async def get_rand_film(mood:str=None,token:str = Security(Bear)):
 
 
     films = db.execute_with_request(request)
-    print(films)
+
     result = []
-    print(await get_by_id(2))
+
     for i in range(len(films)):
         if films[i]["media_id"] >= 0:
             film =  (await get_by_id(films[i]["media_id"],films[i]["media_type"])).model_dump()
