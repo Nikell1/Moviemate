@@ -113,7 +113,7 @@ export function newCollectionHtml() {
         <div>
             <h2>New collection</h2>
             <p>Enter the name of collection</p>
-            <input placeholder="Sad films">
+            <input id="new_coll_name" placeholder="Sad films">
         </div>
         <div class="new-collection__btnCont"><button type="submit">Add</button></div>
     </form>`
