@@ -134,7 +134,7 @@ export function renderCollectionHtml(data, ind, b=`<div id="delete_${data}_butto
 
 export function sidebarProfileHtml(login) {
     return `
-    <div class="sidebar__close" id="sidebarClose"></div>
+    <div class="sidebar__close" id="sidebarClose"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/OOjs_UI_icon_close-ltr-progressive.svg/768px-OOjs_UI_icon_close-ltr-progressive.svg.png"></div>
     <img src="https://qrjaecpccsfknzbpdwkw.supabase.co/storage/v1/object/sign/images/free-icon-user-account-12311784.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJpbWFnZXMvZnJlZS1pY29uLXVzZXItYWNjb3VudC0xMjMxMTc4NC5wbmciLCJpYXQiOjE3NDA5MTQ3NjksImV4cCI6ODY1NzQwODI4MzY5fQ.kFpGT0zzNqOHuyme8aku0PR9R8UgbvzfAF7NmXAzSAE" class="sidebar__profileImg" >
     <p class="sidebar__nickname" id="sidebar_nickname">${login}</p>
     <div class="sidebar__buttons">
