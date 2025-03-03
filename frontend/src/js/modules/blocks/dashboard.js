@@ -10,7 +10,7 @@ console.log('получение .env')
 
 function getRand() {
     const token = localStorage.getItem("token")
-                const url = 'http://localhost:8000/api/films/get_rand_film'; // Замените на ваш URL FastAPI сервера
+                const url = consts.BACKEND_URL+'/api/films/get_rand_film'; // Замените на ваш URL FastAPI сервера
                 let mood = document.getElementById('mood').value
                 console.log(mood)
                 if (mood == "Joyful"){
@@ -121,10 +121,11 @@ export function renderMoviesList(moviesData, a, b) {
     
                 try {
                     const token = localStorage.getItem("token")
-                    const url = 'http://localhost:8000/api/films/mark_as_watched'; // Замените на ваш URL FastAPI сервера
+                    const url = consts.BACKEND_URL+'/api/films/mark_as_watched'; // Замените на ваш URL FastAPI сервера
                     const params = new URLSearchParams({
                         "id": moviesData[i].id,
                     });
+                    
                 
                     const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
                     const response = fetch(urlWithParams, {
@@ -206,7 +207,7 @@ function renderModalMoviesList(data) {
 
                 console.log('добавление фильма')
                 const token = localStorage.getItem("token")
-                const url = 'http://localhost:8000/api/films/film'; // Замените на ваш URL FastAPI сервера
+                const url = consts.BACKEND_URL+'/api/films/film'; // Замените на ваш URL FastAPI сервера
                 console.log(data)
                 console.log(data[ind].media_type)
                 const requestBody = {
@@ -264,7 +265,7 @@ function addMovieRender() {
                 let description_input = document.getElementById("description_input")
 
                 const token = localStorage.getItem("token")
-                const url = 'http://localhost:8000/api/films/create_film'; // Замените на ваш URL FastAPI сервера
+                const url = consts.BACKEND_URL+'/api/films/create_film'; // Замените на ваш URL FastAPI сервера
                         
                 const requestBody = {
                     "title": title_input.value,
@@ -305,7 +306,7 @@ function addMovieRender() {
         const token = localStorage.getItem('token')
         console.log('считывание списка фильмов')
 
-        const url = 'http://localhost:8000/api/films/search_film'; // Замените на ваш URL FastAPI сервера
+        const url = consts.BACKEND_URL+'/api/films/search_film'; // Замените на ваш URL FastAPI сервера
         const params = new URLSearchParams({
             "search": search_input.value,
         });
@@ -358,7 +359,7 @@ function movieSearchRender() {
         const token = localStorage.getItem("token")
         const search_in_bookmarks = document.getElementById("search_in_bookmarks")
         console.log(search_in_bookmarks.value)
-        const url = 'http://localhost:8000/api/films/get_films_by_title'; // Замените на ваш URL FastAPI сервера
+        const url = consts.BACKEND_URL+'/api/films/get_films_by_title'; // Замените на ваш URL FastAPI сервера
         const params = new URLSearchParams({
             "search": search_in_bookmarks.value,
         });
@@ -412,7 +413,7 @@ function showMovies() {
     
 
     let token = ''
-    const url = 'http://localhost:8000/api/films/get_films'; 
+    const url = consts.BACKEND_URL+'/api/films/get_films'; 
     const profile_nickname = document.getElementById('profile_nickname')
     try{
         console.log(1)
@@ -476,7 +477,7 @@ function renderCollections(data) {
 function showCollections() {
     dashboardHtml.showCollectionsHtml()
     const token = localStorage.getItem("token")
-    const url = 'http://localhost:8000/api/collections/collections'; 
+    const url = consts.BACKEND_URL+'/api/collections/collections'; 
     try {
         const response = fetch(url, {
             method: 'GET',
@@ -552,7 +553,7 @@ function showSearch() {
         const token = localStorage.getItem("token")
         const search_in_all = document.getElementById("search_in_all")
         console.log(search_in_all.value)
-        const url = 'http://localhost:8000/api/films/search_film'; // Замените на ваш URL FastAPI сервера
+        const url = consts.BACKEND_URL+'/api/films/search_film'; // Замените на ваш URL FastAPI сервера
         const params = new URLSearchParams({
             "search": search_in_all.value,
         });
@@ -671,7 +672,7 @@ export function renderDashboard() {
         const logoutBtn = document.getElementById('logoutBtn')
         logoutBtn.onclick = () => {
             const token = localStorage.getItem("token")
-            const url = 'http://localhost:8000/api/auth/logout'; // Замените на ваш URL FastAPI сервера
+            const url = consts.BACKEND_URL+'/api/auth/logout'; // Замените на ваш URL FastAPI сервера
                     
             const requestBody = {
                 "token": token,
@@ -708,7 +709,7 @@ export function renderDashboard() {
             edit_login_button.onclick = () => {
                 console.log('Изменение юзернейма')
                 const token = localStorage.getItem("token")
-                const url = 'http://localhost:8000/api/auth/change_login'; // Замените на ваш URL FastAPI сервера
+                const url = consts.BACKEND_URL+'/api/auth/change_login'; // Замените на ваш URL FastAPI сервера
                 const new_login = document.getElementById('new_login')
                 const params = new URLSearchParams({
                     "login": new_login.value,

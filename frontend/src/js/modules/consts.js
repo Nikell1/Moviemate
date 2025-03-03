@@ -10,7 +10,4 @@ export const searchHash = 'search'
 
 export const accentColor = '#003BBE'
 
-// import dotenv from 'dotenv'
-
-// console.log(process.env.DB_PORT)
-
+export const BACKEND_URL='http://localhost:8000'
