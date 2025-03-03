@@ -13,6 +13,7 @@ class TestAPI(unittest.TestCase):
         db.truncate_table('films_to_users')
         db.truncate_table('users')
         db.truncate_table('films')
+        db.truncate_table('collections')
         db.initialize_tables()
 
     def setUp(self):
@@ -152,7 +153,7 @@ class TestAPI(unittest.TestCase):
         query = "?media_id=2"
 
         response = requests.delete(self.api_url + "films/film" + query, headers=headers)
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 204)
         self.assertIn("success", response.json())
 
     def test7_create_film(self):
