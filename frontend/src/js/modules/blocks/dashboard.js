@@ -536,6 +536,40 @@ function renderNewCollectionBtn() {
             event.preventDefault()
             console.log('колекшен добавлейшен')
 
+            const url = consts.BACKEND_URL + '/api/collections/collections'
+
+
+
+            try {
+                const response = fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                        "Content-Type": "application/json", // Указываем тип содержимого
+                    }
+                }).then(response => {
+                    if (!response.ok) {
+                        console.log(response)
+                      throw new Error(`Ошибка: ${response.status}`);
+                    }
+                    return response.json();
+                  })
+                  .then(data => {
+                    console.log("Данные:", data);
+                    console.log(data.results)
+                    renderMoviesList(data)
+
+                
+                  })
+                  .catch(error => {
+                    console.error("Ошибка:", error);
+                    // transition(consts.homeSearch)
+                  });
+        
+            } catch (error) {
+                console.error('Ошибка при авторизации пользователя:', error);
+            }
+
             
 
 
