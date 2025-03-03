@@ -208,7 +208,7 @@ export function getMovieHtml() {
     <div class="get-movie-top">
         <h2>Get a movie</h2>
         <p>Choose the mood of the movie</p>
-        <select>
+        <select id="mood">
             <option>Any</option>
             <option>Joyful</option>
             <option>Serious</option>
@@ -219,15 +219,51 @@ export function getMovieHtml() {
 }
 
 export function renderGetMovieEndHtml(element) {
+
+    let releaseDate
+    if (element.first_air_date != undefined) {
+        releaseDate = element.first_air_date
+    }
+    else if (element.release_date != undefined) {
+        releaseDate = element.release_date
+    }
+
+    let title
+
+    if (element.name != undefined) {
+        title = element.name
+    }
+    else if (element.title !=  undefined) {
+        title = element.title
+    }
+
+    if (title.length > 30) {
+        title = `${title.slice(0, 30)}...`
+    }
+
+    let overview = element.overview
+    if (overview.length > 140) {
+        overview = `${overview.slice(0, 140)}...`
+    }
+    const url = 'http://localhost:8000/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
+    const params = new URLSearchParams({
+        "url": element.poster_path,
+    });
+
+    const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
+
     return `            
     <li class="movies-element">
-        <div class="movies-element__img" style="background-image: url('');"></div>
+        <div class="movies-element__img" style="background-image: url('${urlWithParams}');"></div>
         <div class="movies-element__block">
-            <span>dfsdfsdf</span>
-            <span>sdfdsfsdf</span>
+            <span>${title}</span>
+            <span>${releaseDate}</span>
         </div>
-        <p class="movies-element__description">sdfsdfsdf</p>
-    </li>`
+        <p class="movies-element__description">${overview}</p>
+    </li>
+    <button id="ok_movie">OK</button>
+    <button id="another_movie">Get another</button>
+    `
 }
 
 export function renderModalMoviesHtml(element, ind) {

@@ -7,16 +7,96 @@ import { renderAddMovieHtml } from "../html/dashboardHtml.js";
 import { renderMovieCardModalHtml } from "../html/dashboardHtml.js";
 
 
+function getRand() {
+    const token = localStorage.getItem("token")
+                const url = 'http://localhost:8000/api/films/get_rand_film'; // Замените на ваш URL FastAPI сервера
+                let mood = document.getElementById('mood').value
+                console.log(mood)
+                if (mood == "Joyful"){
+                    mood = "Весёлое"
+                } else if (mood == "Serious") {
+                    mood = "Серьёзное"
+                } else if (mood == "Tense"){
+                    mood = "Напряжённое"
+                }
+                
+                const params = new URLSearchParams({
+                    "mood": mood,
+                });
+                
+                let urlWithParams = `${url}?${params}`; 
+                
+                if (mood == "Any") {
+                    urlWithParams = url
+                }
+
+                console.log(urlWithParams, mood)
+            
+                try {
+                    const response = fetch(urlWithParams, {
+                        method: 'GET',
+                        headers: {
+                            "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                            'Content-Type': 'application/json'
+                        },
+                    })
+                    .then(response => {
+                        console.log(response); // Логируем объект ответа
+                
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                
+                        return response.json(); // Парсим тело ответа как JSON
+                    })
+                    .then(data => {
+                        console.log(data); // Логируем данные
+                        modal.innerHTML = dashboardHtml.renderGetMovieEndHtml(data)
+                        const ok_movie = document.getElementById("ok_movie")
+                        ok_movie.onclick = () => {
+                            showAddMovieModal(0, 'none', 0)
+                        }
+                        const another_movie = document.getElementById("another_movie")
+                        another_movie.onclick = () => {
+                            dashboardHtml.getMovieHtml()
+                            getMovieModal.onclick = () =>  {
+                                getRand()
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error); // Логируем ошибки
+                    });
+                    // transition(consts.dashboardSearch)
+                    
+                } catch (error) {
+                    console.error('Ошибка при авторизации пользователя:', error);
+                }
+
+
+
+
+                // сюда передать данные о фильме
+}
+
+
+
 function renderGetMovie() {
     const getMovie = document.getElementById('getMovie')
 
     getMovie.onclick = () => {
         showAddMovieModal(1, 'visible', 0.3)
         dashboardHtml.getMovieHtml()
-
+        
         const getMovieModal = document.getElementById('getMovieModal')
         getMovieModal.onclick = () => {
-            modal.innerHTML = dashboardHtml.renderGetMovieEndHtml()    // сюда передать данные о фильме
+            
+            getRand()
+
+
+
+
+                // сюда передать данные о фильме
         }
     }
 }
@@ -153,7 +233,6 @@ function renderModalMoviesList(data) {
                         body: JSON.stringify(requestBody)
                     });
             
-
 
                     transition(consts.dashboardSearch)
                     
