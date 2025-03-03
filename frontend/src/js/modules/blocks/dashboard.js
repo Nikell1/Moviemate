@@ -121,10 +121,11 @@ export function renderMoviesList(moviesData, a, b) {
     
                 try {
                     const token = localStorage.getItem("token")
-                    const url = 'http://localhost:8000/api/films/mark_as_watched'; // Замените на ваш URL FastAPI сервера
+                    const url = consts.BACKEND_URL+'/api/films/mark_as_watched'; // Замените на ваш URL FastAPI сервера
                     const params = new URLSearchParams({
                         "id": moviesData[i].id,
                     });
+                    
                 
                     const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
                     const response = fetch(urlWithParams, {
