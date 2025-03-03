@@ -129,8 +129,8 @@ export function newCollectionHtml() {
     </form>`
 }
 
-export function renderCollectionHtml(data, ind, b=`<div id="delete_${data}_button" data-index="${data}" data-type="delete">🗑</div>`) {
-    return `<li data-index="${ind}" data-type="collection" class="collection-el"><span>${data}</span>${b}</li>`
+export function renderCollectionHtml(data, ind, b=`<div id="delete_${data}_button" data-index="${data}" data-type="delete">🗑</div>`, c = 'data-type="gen-collection"') {
+    return `<li data-index="${data}" ${c} class="collection-el"><span>${data}</span>${b}</li>`
 }
 
 export function sidebarProfileHtml(login) {
