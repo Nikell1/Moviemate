@@ -244,6 +244,12 @@
 .collections-list {
     width:750px;
     padding:20px 0;
+    height:580px;
+    overflow-y: scroll;
+}
+
+.collections-list::-webkit-scrollbar {
+    width: 0;
 }
 .collection-el {
     border: 1px solid #fff;
