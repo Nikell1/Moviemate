@@ -242,6 +242,8 @@
 }
 
 .collections-list {
+    display: flex;
+    flex-direction: column;
     width:750px;
     padding:20px 0;
     height:580px;
@@ -251,6 +253,19 @@
 .collections-list::-webkit-scrollbar {
     width: 0;
 }
+
+.collections-list2 {
+    display: flex;
+    flex-direction: column;
+    padding:20px 0;
+    height:580px;
+    overflow-y: scroll;
+}
+
+.collections-list2::-webkit-scrollbar {
+    width: 0;
+}
+
 .collection-el {
     border: 1px solid #fff;
     padding: 10px 20px;
@@ -294,6 +309,7 @@
         font-size:1.7rem;
         span {
             font-family: $text-font;
+            word-break: break-all;
         }
 	}
 
@@ -506,6 +522,7 @@
     height: 100%;
     justify-content: space-between;
     flex-direction: column;
+    margin:auto;
     p {
         font-size:1.5rem;
         font-family:$text-font;
