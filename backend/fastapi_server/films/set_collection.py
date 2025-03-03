@@ -21,7 +21,7 @@ async def set_collection(body:Set_collection,token:str = Security(Bear)):
         raise HTTPException(status_code=404, detail="Media not found")
     film = film[0]
     check_exist = adapter.execute_with_request(f"SELECT * from films_to_users WHERE email = '{user['email']}' AND collection = '{body.collection}' AND media_id = '{body.media_id}'")
-    if len(check_exist) >= 0:
+    if len(check_exist) > 0:
         raise HTTPException(status_code=409, detail="Media is already in collection")
     film["collection"] = body.collection
     adapter.update('films_to_users',film,film["id"])
