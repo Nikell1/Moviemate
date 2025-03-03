@@ -486,6 +486,7 @@ function showSearch() {
                     console.log("Данные:", data);
                     console.log(data.results)
                     // Отрендерить рещультаты глобального поиска
+                    renderMoviesList(data.results)
 
                 
                   })
