@@ -24,7 +24,7 @@
 
 Когда пользователь заходит на сайт. его браузер делает запрос на Frontend сервис. Сервер отвечает браузеру информацией, которую ему надо отобразить на странице. Когда пользователь взаимодействует со странице, то браузер отправляет запрос на бэкенд, который после некоторого взаимодействия с СУБД, отправляет ответ frontend части, которая на основе ответа собирает страницу пользователю.
 
-![](https://gitlab.prodcontest.ru/team-24/films/-/raw/development/readme_data/oleg.png)
+![](https://gitlab.prodcontest.ru/team-24/films/-/raw/development/readme_data/kiril.png)
 
 # 3. CI/CD
 https://gitlab.prodcontest.ru/team-24/films/-/blob/master/.gitlab-ci.yml?ref_type=head
