@@ -462,6 +462,10 @@ function showMovies() {
           })
           .catch(error => {
             console.error("Ошибка:", error);
+            localStorage.removeItem("token");
+            localStorage.removeItem("login");
+            localStorage.removeItem("email");
+            
             transition(consts.homeSearch)
           });
 
@@ -735,9 +739,44 @@ function showSearch() {
 
             event.preventDefault()
             console.log('жпт решает x2')
-
+            const url = consts.BACKEND_URL + "/api/ai/search_desc"
             const input_desc = document.getElementById('input_desc')
+            const params = new URLSearchParams({
+                "description": input_desc.value,
+            });
+            let urlWithParams = `${url}?${params}`; 
+                
+
             
+        
+            try {
+                const response = fetch(urlWithParams, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => {
+                    console.log(response); // Логируем объект ответа
+                    console.log(response.status)
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+            
+                    return response.json(); // Парсим тело ответа как JSON
+                })
+                .then(data => {
+                    console.log(data); // Логируем данные
+                })
+                .catch(error => {
+                    console.error('Error:', error); // Логируем ошибки
+                });
+                // transition(consts.dashboardSearch)
+                
+            } catch (error) {
+                console.error('Ошибка при авторизации пользователя:', error);
+            }
+
 
 
 
