@@ -384,35 +384,39 @@ function movieSearchRender() {
     const year4 = document.getElementById('year4')
     year1.addEventListener('input', () => {
         year3.value = year1.value
-        // if (year2.value > year1.value) {
-        //     let c = year1.value
-        //     year1.value = year2.value
-        //     year2.value = c
-        // }
+        if (parseInt(year1.value) > parseInt(year2.value)) {
+            year1.value = year2.value;
+          }
+          if (parseInt(year3.value) > parseInt(year4.value)) {
+              year3.value = year4.value;
+            }
     })
     year2.addEventListener('input', () => {
         year4.value = year2.value
-        // if (year1.value > year1.value) {
-        //     let c = year1.value
-        //     year1.value = year2.value
-        //     year2.value = c
-        // }
+        if (year2.value < year1.value) {
+            year2.value = year1.value
+        }
+        if (year4 > year3) {
+            year4 = year3
+        }
     })
     year3.addEventListener('input', () => {
         year1.value = year3.value
-        // if (year3.value > year4.value) {
-        //     let c = year3.value
-        //     year3.value = year4.value
-        //     year4.value = c
-        // }
+        if (parseInt(year3.value) > parseInt(year4.value)) {
+            year3.value = year4.value;
+          }
+          if (parseInt(year1.value) > parseInt(year2.value)) {
+            year1.value = year2.value;
+          }
     })
     year4.addEventListener('input', () => {
         year2.value = year4.value
-        // if (year3.value > year4.value) {
-        //     let c = year3.value
-        //     year3.value = year4.value
-        //     year4.value = c
-        // }
+        if (parseInt(year3.value) > parseInt(year4.value)) {
+            year4.value = year3.value;
+          }
+          if (parseInt(year1.value) > parseInt(year2.value)) {
+            year2.value = year1.value;
+          }
     })
 
 
@@ -421,6 +425,12 @@ function movieSearchRender() {
         event.preventDefault()
 
         console.log('нефильрованное пиво')
+
+
+
+        
+
+
     })
 
     searchInMoviesForm.addEventListener('submit', (event) => {
