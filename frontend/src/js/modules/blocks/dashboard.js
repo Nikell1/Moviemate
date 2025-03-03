@@ -10,7 +10,7 @@ console.log('получение .env')
 
 function getRand() {
     const token = localStorage.getItem("token")
-                const url = 'http://localhost:8000/api/films/get_rand_film'; // Замените на ваш URL FastAPI сервера
+                const url = consts.BACKEND_URL+'/api/films/get_rand_film'; // Замените на ваш URL FastAPI сервера
                 let mood = document.getElementById('mood').value
                 console.log(mood)
                 if (mood == "Joyful"){
@@ -90,7 +90,7 @@ function renderGetMovie() {
     }
 }
 
-export function renderMoviesList(moviesData) {
+export function renderMoviesList(moviesData, a, b) {
     moviesList.innerHTML = ''
 
     for (let i = 0; i < moviesData.length; i++) {
@@ -100,61 +100,64 @@ export function renderMoviesList(moviesData) {
         } else if (moviesData[i].watched == true){
             moviesData[i].watched = "Mark as unwatched"
         }
-        moviesList.insertAdjacentHTML('beforeend', renderMoviesHtml(moviesData[i]))
+        moviesList.insertAdjacentHTML('beforeend', renderMoviesHtml(moviesData[i], a, b))
     }
 
     if (moviesData.length == 0) {
         moviesList.innerHTML = `<p>You haven't added any movies to your bookmarks yet</p>`
     }
-    for (let i = 0; i < moviesData.length; i++){
-        console.log(`mark_${moviesData[i].id}`)
-        const current_mark_button = document.getElementById(`mark_${moviesData[i].id}`)
-        current_mark_button.onclick = () => {
-            console.log(current_mark_button.textContent)
-            if (current_mark_button.textContent == "Mark as watched"){
-                current_mark_button.textContent = "Mark as unwatched"
-            }
-            else{
-                current_mark_button.textContent = "Mark as watched" 
-            }
-
-            try {
-                const token = localStorage.getItem("token")
-                const url = 'http://localhost:8000/api/films/mark_as_watched'; // Замените на ваш URL FastAPI сервера
-                const params = new URLSearchParams({
-                    "id": moviesData[i].id,
-                });
+    if (new URL(window.location.href).hash != `#${consts.searchHash}`) {
+        for (let i = 0; i < moviesData.length; i++){
+            console.log(`mark_${moviesData[i].id}`)
+            const current_mark_button = document.getElementById(`mark_${moviesData[i].id}`)
+            current_mark_button.onclick = () => {
+                console.log(current_mark_button.textContent)
+                if (current_mark_button.textContent == "Mark as watched"){
+                    current_mark_button.textContent = "Mark as unwatched"
+                }
+                else{
+                    current_mark_button.textContent = "Mark as watched" 
+                }
+    
+                try {
+                    const token = localStorage.getItem("token")
+                    const url = consts.BACKEND_URL+'/api/films/mark_as_watched'; // Замените на ваш URL FastAPI сервера
+                    const params = new URLSearchParams({
+                        "id": moviesData[i].id,
+                    });
+                    
+                
+                    const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
+                    const response = fetch(urlWithParams, {
+                        method: 'PUT',
+                        headers: {
+                            "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                            "Content-Type": "application/json" // Указываем тип содержимого
+                        }
+                    }).then(response => {
+                        if (!response.ok) {
+                          throw new Error(`Ошибка: ${response.status}`);
+                        }
+                        return response.json();
+                      })
+                      .then(data => {
+                        console.log("Данные:", data);
+                        console.log(data.results)
+                        let moviesData = data
+                        // renderMoviesList(moviesData)
+                      })
+                      .catch(error => {
+                        console.error("Ошибка:", error);
+                        // transition(consts.homeSearch)
+                      });
             
-                const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
-                const response = fetch(urlWithParams, {
-                    method: 'PUT',
-                    headers: {
-                        "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
-                        "Content-Type": "application/json" // Указываем тип содержимого
-                    }
-                }).then(response => {
-                    if (!response.ok) {
-                      throw new Error(`Ошибка: ${response.status}`);
-                    }
-                    return response.json();
-                  })
-                  .then(data => {
-                    console.log("Данные:", data);
-                    console.log(data.results)
-                    let moviesData = data
-                    // renderMoviesList(moviesData)
-                  })
-                  .catch(error => {
-                    console.error("Ошибка:", error);
-                    // transition(consts.homeSearch)
-                  });
-        
-            } catch (error) {
-                console.error('Ошибка при авторизации пользователя:', error);
+                } catch (error) {
+                    console.error('Ошибка при авторизации пользователя:', error);
+                }
+    
+    
+    
             }
-
-
-
         }
     }
 }
@@ -204,7 +207,7 @@ function renderModalMoviesList(data) {
 
                 console.log('добавление фильма')
                 const token = localStorage.getItem("token")
-                const url = 'http://localhost:8000/api/films/film'; // Замените на ваш URL FastAPI сервера
+                const url = consts.BACKEND_URL+'/api/films/film'; // Замените на ваш URL FastAPI сервера
                 console.log(data)
                 console.log(data[ind].media_type)
                 const requestBody = {
@@ -262,7 +265,7 @@ function addMovieRender() {
                 let description_input = document.getElementById("description_input")
 
                 const token = localStorage.getItem("token")
-                const url = 'http://localhost:8000/api/films/create_film'; // Замените на ваш URL FastAPI сервера
+                const url = consts.BACKEND_URL+'/api/films/create_film'; // Замените на ваш URL FastAPI сервера
                         
                 const requestBody = {
                     "title": title_input.value,
@@ -303,7 +306,7 @@ function addMovieRender() {
         const token = localStorage.getItem('token')
         console.log('считывание списка фильмов')
 
-        const url = 'http://localhost:8000/api/films/search_film'; // Замените на ваш URL FastAPI сервера
+        const url = consts.BACKEND_URL+'/api/films/search_film'; // Замените на ваш URL FastAPI сервера
         const params = new URLSearchParams({
             "search": search_input.value,
         });
@@ -353,6 +356,45 @@ function movieSearchRender() {
     searchInMoviesForm.addEventListener('submit', (event) => {
         event.preventDefault()
         console.log('поиск закладок')
+        const token = localStorage.getItem("token")
+        const search_in_bookmarks = document.getElementById("search_in_bookmarks")
+        console.log(search_in_bookmarks.value)
+        const url = consts.BACKEND_URL+'/api/films/get_films_by_title'; // Замените на ваш URL FastAPI сервера
+        const params = new URLSearchParams({
+            "search": search_in_bookmarks.value,
+        });
+
+        const urlWithParams = `${url}?${params}`; 
+            try {
+                const response = fetch(urlWithParams, {
+                    method: 'GET',
+                    headers: {
+                        "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                        "Content-Type": "application/json", // Указываем тип содержимого
+                    }
+                }).then(response => {
+                    if (!response.ok) {
+                        console.log(response)
+                      throw new Error(`Ошибка: ${response.status}`);
+                    }
+                    return response.json();
+                  })
+                  .then(data => {
+                    console.log("Данные:", data);
+                    console.log(data.results)
+                    renderMoviesList(data)
+
+                
+                  })
+                  .catch(error => {
+                    console.error("Ошибка:", error);
+                    // transition(consts.homeSearch)
+                  });
+        
+            } catch (error) {
+                console.error('Ошибка при авторизации пользователя:', error);
+            }
+
     })
 }
 
@@ -369,7 +411,7 @@ function showMovies() {
     movieSearchRender()
 
     let token = ''
-    const url = 'http://localhost:8000/api/films/get_films'; 
+    const url = consts.BACKEND_URL+'/api/films/get_films'; 
     const profile_nickname = document.getElementById('profile_nickname')
     try{
         console.log(1)
@@ -432,7 +474,45 @@ function renderCollections(data) {
 
 function showCollections() {
     dashboardHtml.showCollectionsHtml()
-    renderCollections([1, 2, 3, 4]) //  сюда передать данные всех коллекцийй
+    const token = localStorage.getItem("token")
+    const url = consts.BACKEND_URL+'/api/collections/collections'; 
+    try {
+        const response = fetch(url, {
+            method: 'GET',
+            headers: {
+                "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                "Content-Type": "application/json", // Указываем тип содержимого
+            }
+        }).then(response => {
+            if (!response.ok) {
+                console.log(response)
+              throw new Error(`Ошибка: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+              console.log("Данные:", data);
+              renderCollections(data) //  сюда передать данные всех коллекцийй
+
+            // renderMoviesList(moviesData)
+          })
+          .catch(error => {
+            console.error("Ошибка:", error);
+            // transition(consts.homeSearch)
+          });
+
+    } catch (error) {
+        console.error('Ошибка при авторизации пользователя:', error);
+    }
+
+    const newCollectionBtn = document.getElementById('newCollectionBtn')
+
+    newCollectionBtn.onclick = () => {
+        showAddMovieModal(1, 'visible', 0.3)
+        modal.innerHTML = dashboardHtml.newCollectionHtml()
+    }
+
+
     clearColor()
     const collectionsBtn = document.getElementById('collections')
     collectionsBtn.style.color = consts.accentColor
@@ -458,7 +538,7 @@ function showSearch() {
         const token = localStorage.getItem("token")
         const search_in_all = document.getElementById("search_in_all")
         console.log(search_in_all.value)
-        const url = 'http://localhost:8000/api/films/search_film'; // Замените на ваш URL FastAPI сервера
+        const url = consts.BACKEND_URL+'/api/films/search_film'; // Замените на ваш URL FastAPI сервера
         const params = new URLSearchParams({
             "search": search_in_all.value,
         });
@@ -486,6 +566,10 @@ function showSearch() {
                     console.log("Данные:", data);
                     console.log(data.results)
                     // Отрендерить рещультаты глобального поиска
+                    renderMoviesList(data.results, 'add to dashboard', '')
+
+                    const addToDashboardSearch = document.getElementsByName('addToDashboardBtn')
+                    
 
                 
                   })
@@ -573,7 +657,7 @@ export function renderDashboard() {
         const logoutBtn = document.getElementById('logoutBtn')
         logoutBtn.onclick = () => {
             const token = localStorage.getItem("token")
-            const url = 'http://localhost:8000/api/auth/logout'; // Замените на ваш URL FastAPI сервера
+            const url = consts.BACKEND_URL+'/api/auth/logout'; // Замените на ваш URL FastAPI сервера
                     
             const requestBody = {
                 "token": token,
@@ -610,7 +694,7 @@ export function renderDashboard() {
             edit_login_button.onclick = () => {
                 console.log('Изменение юзернейма')
                 const token = localStorage.getItem("token")
-                const url = 'http://localhost:8000/api/auth/change_login'; // Замените на ваш URL FastAPI сервера
+                const url = consts.BACKEND_URL+'/api/auth/change_login'; // Замените на ваш URL FastAPI сервера
                 const new_login = document.getElementById('new_login')
                 const params = new URLSearchParams({
                     "login": new_login.value,

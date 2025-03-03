@@ -160,6 +160,46 @@
         font-size: 1rem;
     }
 }
+.movies-search-list {
+    margin:3vh 0 0 20px;
+    max-width:640px;
+    padding-bottom: 2vh;
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    height: 60vh;
+    overflow-y: scroll;
+    p {
+        font-size: 1rem;
+    }
+}
+
+.new-collection {
+    display:flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height:100%;
+    .movies-element {
+        margin: 0 auto;
+    }
+    button {
+        padding:10px 20px;
+        background: $main-color;
+        font-size:1.5rem;
+        font-family: $text-font;
+        border-radius: 50px;
+    }
+    .btn-cont {
+        display: flex;
+        width:300px;
+        justify-content: space-between;
+        margin:0 auto;
+    }
+}
+
+.movies-search-list::-webkit-scrollbar {
+    width:0;
+}
 .movies-list::-webkit-scrollbar {
     width:0;
 }
