@@ -538,8 +538,6 @@ function renderNewCollectionBtn() {
 
             const url = consts.BACKEND_URL + '/api/collections/collections'
 
-
-
             try {
                 const response = fetch(url, {
                     method: 'POST',
@@ -569,13 +567,6 @@ function renderNewCollectionBtn() {
             } catch (error) {
                 console.error('Ошибка при авторизации пользователя:', error);
             }
-
-            
-
-
-
-
-
         })
     }
 }
