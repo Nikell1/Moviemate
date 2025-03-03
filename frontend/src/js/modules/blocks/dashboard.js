@@ -463,8 +463,8 @@ function showMovies() {
     }
 }
 
-function renderCollections(data) {
-    const collectionsList = document.getElementById('collectionsList')
+function renderCollections(data, a='') {
+    const collectionsList = document.getElementById(`collectionsList${a}`)
 
     for (let i = 0; i < data.length; i++) {
         collectionsList.insertAdjacentHTML('beforeend', dashboardHtml.renderCollectionHtml(data[i], i))
@@ -480,8 +480,7 @@ function renderCollections(data) {
     }
 }
 
-function showCollections() {
-    dashboardHtml.showCollectionsHtml()
+function serverCollectinos(a = '') {
     const token = localStorage.getItem("token")
     const url = consts.BACKEND_URL+'/api/collections/collections'; 
     try {
@@ -500,7 +499,7 @@ function showCollections() {
           })
           .then(data => {
               console.log("Данные:", data);
-              renderCollections(data) //  сюда передать данные всех коллекцийй
+              renderCollections(data, a) //  сюда передать данные всех коллекцийй
 
             // renderMoviesList(moviesData)
           })
@@ -512,6 +511,11 @@ function showCollections() {
     } catch (error) {
         console.error('Ошибка при авторизации пользователя:', error);
     }
+}
+
+function showCollections() {
+    dashboardHtml.showCollectionsHtml()
+    serverCollectinos()
 
     renderNewCollectionBtn()
 
@@ -694,6 +698,7 @@ function showSearch() {
 function addToCollection() {
     showAddMovieModal(1, 'visible', 0.3)
     dashboardHtml.addToCollectionHtml()
+    serverCollectinos('2')
 }
 
 function updateHash(req) {
