@@ -1,11 +1,18 @@
 import unittest
 import requests
+from netaddr.ip.iana import query
 
+from adapters import db_source
 
 class TestAPI(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.auth_token = None
+        db = db_source.DatabaseAdapter()
+        db.connect()
+        db.truncate_table('films_to_users')
+        db.truncate_table('users')
+        db.initialize_tables()
 
     def setUp(self):
         self.api_url = "http://localhost:8000/api/"
@@ -36,6 +43,98 @@ class TestAPI(unittest.TestCase):
         self.assertEqual(response.status_code, 201)
         self.assertIn("success", response.json())
 
+
+    def test2_search_film(self):
+        data = {
+            "email": "test@test.com",
+            "password": "test123"
+        }
+
+        response = requests.post(self.api_url + "auth/login", json=data)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("token", response.json())
+        TestAPI.auth_token = response.json()["token"]
+
+        headers = {
+            "accept": "Application/json",
+            "Authorization": f"Bearer {TestAPI.auth_token}"
+        }
+
+        data = {
+            "release_date_low": "1999-12-07",
+            "release_date_high": "2050-01-01",
+            "genres": [18, 53]
+        }
+
+        query = "?search=елейный слоник"
+
+        response = requests.get(self.api_url + "films/search_film" + query, json=data, headers=headers)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("total_results", response.json())
+
+    def test3_get_films(self):
+        data = {
+            "email": "test@test.com",
+            "password": "test123"
+        }
+
+        response = requests.post(self.api_url + "auth/login", json=data)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("token", response.json())
+        TestAPI.auth_token = response.json()["token"]
+
+        headers = {
+            "accept": "Application/json",
+            "Authorization": f"Bearer {TestAPI.auth_token}"
+        }
+
+        response = requests.get(self.api_url + "films/get_films", headers=headers)
+        self.assertEqual(response.status_code, 200)
+
+    def test4_get_rand_film(self):
+        data = {
+            "email": "test@test.com",
+            "password": "test123"
+        }
+
+        response = requests.post(self.api_url + "auth/login", json=data)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("token", response.json())
+        TestAPI.auth_token = response.json()["token"]
+
+        headers = {
+            "accept": "Application/json",
+            "Authorization": f"Bearer {TestAPI.auth_token}"
+        }
+
+        response = requests.get(self.api_url + "films/get_rand_film", headers=headers)
+        self.assertEqual(response.status_code, 200)
+
+    def test5_mark_as_watched(self):
+        data = {
+            "email": "test@test.com",
+            "password": "test123"
+        }
+
+        response = requests.post(self.api_url + "auth/login", json=data)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("token", response.json())
+        TestAPI.auth_token = response.json()["token"]
+
+        headers = {
+            "accept": "Application/json",
+            "Authorization": f"Bearer {TestAPI.auth_token}"
+        }
+
+        query = '?id='
+
+
+        response = requests.get(self.api_url + "films/mark_as_watched" + query, headers=headers)
+        self.assertEqual(response.status_code, 200)
+
+
+
+
     def test2_del_film(self):
         data = {
             "email": "test@test.com",
@@ -56,67 +155,6 @@ class TestAPI(unittest.TestCase):
         response = requests.delete(self.api_url + "films/film" + query, headers=headers)
         self.assertEqual(response.status_code, 201)
         self.assertIn("success", response.json())
-
-    def test3_search_film(self):
-        data = {
-            "email": "test@test.com",
-            "password": "test123"
-        }
-
-        response = requests.post(self.api_url + "auth/login", json=data)
-        self.assertEqual(response.status_code, 200)
-        self.assertIn("token", response.json())
-        TestAPI.auth_token = response.json()["token"]
-
-        headers = {
-            "accept": "Application/json",
-            "Authorization": f"Bearer {TestAPI.auth_token}"
-        }
-
-        query = "?search=смешарики"
-
-        response = requests.get(self.api_url + "films/search_film" + query, headers=headers)
-        self.assertEqual(response.status_code, 200)
-        self.assertIn("total_results", response.json())
-
-    def test4_get_films(self):
-        data = {
-            "email": "test@test.com",
-            "password": "test123"
-        }
-
-        response = requests.post(self.api_url + "auth/login", json=data)
-        self.assertEqual(response.status_code, 200)
-        self.assertIn("token", response.json())
-        TestAPI.auth_token = response.json()["token"]
-
-        headers = {
-            "accept": "Application/json",
-            "Authorization": f"Bearer {TestAPI.auth_token}"
-        }
-
-        response = requests.get(self.api_url + "films/get_films", headers=headers)
-        self.assertEqual(response.status_code, 200)
-
-    def test5_get_rand_film(self):
-        data = {
-            "email": "test@test.com",
-            "password": "test123"
-        }
-
-        response = requests.post(self.api_url + "auth/login", json=data)
-        self.assertEqual(response.status_code, 200)
-        self.assertIn("token", response.json())
-        TestAPI.auth_token = response.json()["token"]
-
-        headers = {
-            "accept": "Application/json",
-            "Authorization": f"Bearer {TestAPI.auth_token}"
-        }
-
-
-        response = requests.get(self.api_url + "films/get_rand_film", headers=headers)
-        self.assertEqual(response.status_code, 200)
 
 
 
