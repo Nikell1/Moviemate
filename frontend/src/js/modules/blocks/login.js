@@ -17,7 +17,7 @@ export function renderLogin() {
         console.log('считывание данных логина')
 
         async function logInUser(email, password) {
-            const url = 'http://localhost:8000/api/auth/login'; // Замените на ваш URL FastAPI сервера
+            const url = consts.BACKEND_URL+'/api/auth/login'; // Замените на ваш URL FastAPI сервера
         
             const requestBody = {
                 email: email,

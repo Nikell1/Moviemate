@@ -61,7 +61,7 @@ export function renderMoviesHtml(element, a=element.watched, b=element.id) {
                 <p class="movies-element__description">${overview}</p>
                 <div class="movies-element__bottom">
                     <button class="movies-element__btn1" name="addToDashboardBtn" id="mark_${b}">${a}</button>
-                    <button class="movies-element__btn2" id="add_to_coll_${b}">Add to collection</button>
+                    <button class="movies-element__btn2" id="add_to_coll_${b}" name="addToCollection">Add to collection</button>
                 </div>
             </li>`
 }
@@ -73,7 +73,7 @@ export function showMoviesHtml() {
             <h1>Your movie <span>dashboard</span></h1>
             <div class="dashboard__rightBtns">
                 <button id="addMovie">Add movie</button>
-                <button>New collection</button>
+                <button id="newCollectionBtn">New collection</button>
             </div>
         </div>
         <div class="dashboard__botBtns">
@@ -107,12 +107,24 @@ export function showCollectionsHtml() {
         <button class="fixBtn"id="getMovie">GET A MOVIE</button>`
 }
 
+export function addToCollectionHtml() {
+    modal.innerHTML = `
+    <div>
+        <h2>Add to collection</h2>
+        <ul></ul>
+    </div>`
+}
+
 export function newCollectionHtml() {
     return `
-    <h2>New collection</h2>
-    <p>Enter the name of collection</p>
-    <input>
-    <button type="submit">Add</button>`
+    <form class="new-collection" id="newCollectionForm">
+        <div>
+            <h2>New collection</h2>
+            <p>Enter the name of collection</p>
+            <input id="new_coll_name" placeholder="Sad films">
+        </div>
+        <div class="new-collection__btnCont"><button type="submit">Add</button></div>
+    </form>`
 }
 
 export function renderCollectionHtml(data, ind) {
@@ -182,7 +194,7 @@ export function renderMovieCardModalHtml(element, ind) {
         </div>
         <div class="modalButtonsCont">
             <button id="addToDashboard">Add to dashboard</button>
-            <button>Add to collection</button>
+            <button name="addToCollection">Add to collection</button>
         </div>`
 }
 
@@ -271,7 +283,7 @@ export function renderGetMovieEndHtml(element) {
     const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
 
     return `            
-    <ul class="new-collection">
+    <ul class="get-movie">
         <li class="movies-element">
             <div class="movies-element__img" style="background-image: url('${urlWithParams}');"></div>
             <div class="movies-element__block">
