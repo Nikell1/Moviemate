@@ -160,6 +160,12 @@ export function renderMoviesList(moviesData, a) {
             }
         }
     }
+
+    const addToCollectionList = Array.from(document.getElementsByName('addToCollection'))
+
+    addToCollectionList.forEach(el => el.onclick = () => {
+        addToCollection()
+    })
 }
 
 function showAddMovieModal(a, b, c) {
@@ -690,6 +696,11 @@ function showSearch() {
                 console.error('Ошибка при авторизации пользователя:', error);
             }
     })
+}
+
+function addToCollection() {
+    showAddMovieModal(1, 'visible', 0.3)
+    dashboardHtml.addToCollectionHtml()
 }
 
 function updateHash(req) {

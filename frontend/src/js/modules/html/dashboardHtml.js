@@ -61,7 +61,7 @@ export function renderMoviesHtml(element, a=element.watched, b=element.id) {
                 <p class="movies-element__description">${overview}</p>
                 <div class="movies-element__bottom">
                     <button class="movies-element__btn1" name="addToDashboardBtn" id="mark_${b}">${a}</button>
-                    <button class="movies-element__btn2" id="add_to_coll_${b}">Add to collection</button>
+                    <button class="movies-element__btn2" id="add_to_coll_${b}" name="addToCollection">Add to collection</button>
                 </div>
             </li>`
 }
@@ -105,6 +105,14 @@ export function showCollectionsHtml() {
         <ul class="collections-list" id="collectionsList">
         </ul>
         <button class="fixBtn"id="getMovie">GET A MOVIE</button>`
+}
+
+export function addToCollectionHtml() {
+    modal.innerHTML = `
+    <div>
+        <h2>Add to collection</h2>
+        <ul></ul>
+    </div>`
 }
 
 export function newCollectionHtml() {
@@ -186,7 +194,7 @@ export function renderMovieCardModalHtml(element, ind) {
         </div>
         <div class="modalButtonsCont">
             <button id="addToDashboard">Add to dashboard</button>
-            <button>Add to collection</button>
+            <button name="addToCollection">Add to collection</button>
         </div>`
 }
 

@@ -11,7 +11,7 @@ from fastapi_server.service import router as service_router
 from fastapi import FastAPI
 from adapters.db_source import DatabaseAdapter
 import os
-import json
+import time
 load_dotenv()
 '''def load_custom_openapi():
     with open("backend/openapi(1).json", "r") as file:
@@ -39,6 +39,7 @@ app.include_router(service_router, prefix="/api/service", tags=["Service"])
 
 if __name__ == "__main__":
     host, port = os.getenv("FAST_API_HOST"), os.getenv("FAST_API_PORT")
+    time.sleep(10)
     db = DatabaseAdapter()
     db.connect()
     db.initialize_tables()
