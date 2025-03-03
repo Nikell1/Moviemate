@@ -13,7 +13,7 @@ router = APIRouter()
 Bear = HTTPBearer(auto_error=False)
 
 
-@router.get("/get_films_by_title", status_code=status.HTTP_200_OK)
+@router.post("/get_films_by_title", status_code=status.HTTP_200_OK)
 async def get_films_by_title(body:Search, search:str, token: str = Security(Bear)):
     print(token)
     user = get_user(token.credentials)
