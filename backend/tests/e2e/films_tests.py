@@ -12,6 +12,7 @@ class TestAPI(unittest.TestCase):
         db.connect()
         db.truncate_table('films_to_users')
         db.truncate_table('users')
+        db.truncate_table('films')
         db.initialize_tables()
 
     def setUp(self):
@@ -68,7 +69,7 @@ class TestAPI(unittest.TestCase):
 
         query = "?search=елейный слоник"
 
-        response = requests.get(self.api_url + "films/search_film" + query, json=data, headers=headers)
+        response = requests.post(self.api_url + "films/search_film" + query, json=data, headers=headers)
         self.assertEqual(response.status_code, 200)
         self.assertIn("total_results", response.json())
 
@@ -129,13 +130,11 @@ class TestAPI(unittest.TestCase):
         query = '?id=2'
 
 
-        response = requests.get(self.api_url + "films/mark_as_watched" + query, headers=headers)
+        response = requests.put(self.api_url + "films/mark_as_watched" + query, headers=headers)
         self.assertEqual(response.status_code, 200)
 
 
-
-
-    def test2_del_film(self):
+    def test6_del_film(self):
         data = {
             "email": "test@test.com",
             "password": "test123"
@@ -156,6 +155,67 @@ class TestAPI(unittest.TestCase):
         self.assertEqual(response.status_code, 201)
         self.assertIn("success", response.json())
 
+    def test7_create_film(self):
+        data = {
+            "email": "test@test.com",
+            "password": "test123"
+        }
+        response = requests.post(self.api_url + "auth/login", json=data)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("token", response.json())
+        TestAPI.auth_token = response.json()["token"]
+
+        headers = {
+            "accept": "Application/json",
+            "Authorization": f"Bearer {TestAPI.auth_token}"
+        }
+
+        data = {
+            "title": "Зеленый слоник 2",
+            "description": "Шкильник",
+            "date": "2025-03-05",
+            "image_url": "netu"
+        }
+
+        response = requests.post(self.api_url + "films/create_film", headers=headers, json=data)
+        self.assertEqual(response.status_code, 201)
+        self.assertIn("media_id", response.json())
+
+    def test8_add_film_collection(self):
+        data = {
+            "email": "test@test.com",
+            "password": "test123"
+        }
+        response = requests.post(self.api_url + "auth/login", json=data)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("token", response.json())
+        TestAPI.auth_token = response.json()["token"]
+
+        headers = {
+            "accept": "Application/json",
+            "Authorization": f"Bearer {TestAPI.auth_token}"
+        }
+
+        data = {
+            "name": "skibidi"
+        }
+
+        response = requests.post(self.api_url + "collections/collections", headers=headers, json=data)
+        self.assertEqual(response.status_code, 201)
+        self.assertIn("media_id", response.json())
+
+        headers = {
+            "accept": "Application/json",
+            "Authorization": f"Bearer {TestAPI.auth_token}"
+        }
+
+        data = {
+            "media_id": 2,
+            "collection": "skibidi"
+        }
+
+        response = requests.post(self.api_url + "collections/collections", headers=headers, json=data)
+        self.assertEqual(response.status_code, 201)
 
 
 if __name__ == '__main__':

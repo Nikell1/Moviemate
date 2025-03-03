@@ -92,3 +92,31 @@ async def add_friend(friend_login:str, token:str = Security(Bear)):
     db.execute_with_request(request)
 
     return {"ok": True, "detail": "Friend deleted"}
+
+
+@router.get("/friend", status_code=status.HTTP_200_OK)
+async def add_friend(token:str = Security(Bear)):
+    user = get_user(token.credentials)
+    if user == []:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    user = user[0]
+    db = DatabaseAdapter()
+    db.connect()
+
+
+    email_check = db.get_by_value('users', 'email', user["email"])
+
+    if len(email_check) == 0:
+        raise HTTPException(status_code=404, detail="User with this email does not exists")
+
+    request = f"""SELECT * FROM friends WHERE user1='{user['login']}' or user2='{user['login']}'"""
+    friends = db.execute_with_request(request)
+
+    n_fr = []
+    for i in friends:
+        if i["use1"] == user['login']:
+            n_fr.append(i['user2'])
+        else:
+            n_fr.append(i['user1'])
+
+    return n_fr

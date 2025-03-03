@@ -45,3 +45,6 @@ class Search(BaseModel):
 class Set_collection(BaseModel):
     media_id:str
     collection:str = None
+
+class Friend(BaseModel):
+    login:str
