@@ -87,19 +87,21 @@ async def search_multi(query:str, genre_ids:list[int], release_date_low:str=None
                 continue
 
         try:
+
             if release_date_low != None:
-                if "first_air_date" in c_res and datetime.fromisoformat(release_date_low) > datetime.fromisoformat(
+                if "first_air_date" in c_res and c_res["first_air_date"] != '' and datetime.fromisoformat(release_date_low) > datetime.fromisoformat(
                         c_res["first_air_date"]):
                     continue
-                if "release_date" in c_res and datetime.fromisoformat(release_date_low) > datetime.fromisoformat(
+                if "release_date" in c_res and c_res["release_date"] != '' and datetime.fromisoformat(release_date_low) > datetime.fromisoformat(
                         c_res["release_date"]):
                     continue
             if release_date_high != None:
-                if "first_air_date" in c_res and datetime.fromisoformat(release_date_high) < datetime.fromisoformat(c_res["first_air_date"]):
+                if "first_air_date" in c_res and c_res["first_air_date"] != '' and datetime.fromisoformat(release_date_high) < datetime.fromisoformat(c_res["first_air_date"]):
                     continue
-                if "release_date" in c_res and datetime.fromisoformat(release_date_high) < datetime.fromisoformat(c_res["release_date"]):
+                if "release_date" in c_res and c_res["release_date"] != '' and datetime.fromisoformat(release_date_high) < datetime.fromisoformat(c_res["release_date"]):
                     continue
-        except ValueError:
+        except Exception as e:
+            print(c_res)
             raise HTTPException(status_code=400, detail="incorrect date format")
 
 
