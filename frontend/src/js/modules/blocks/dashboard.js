@@ -469,6 +469,12 @@ function showSearch() {
     clearColor()
     const searchBtn = document.getElementById('search')
     searchBtn.style.color = consts.accentColor
+
+    const searchInGlobal = document.getElementById('searchInGlobalForm')
+    searchInGlobal.addEventListener('submit', (event) => {
+        event.preventDefault()
+        console.log('поиск еще один')
+    })
 }
 
 function updateHash(req) {
