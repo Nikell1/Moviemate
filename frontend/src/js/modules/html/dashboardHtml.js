@@ -213,6 +213,8 @@ export function renderPhotoHtml() {
             <h2>Find by photo</h2>
             <p>Paste your photo</p>
             <input id="image_input" type="file" accept="image/*" required>
+            <p id="res"></p>
+            <div id="loader" class="loader"></div>
         </div>
         <button type="submit">Find</button>
     </form>
@@ -226,6 +228,7 @@ export function renderDescHtml() {
             <h2>Find by description</h2>
             <p>Paste your description</p>
             <textarea required></textarea>
+            <p id="res"></p>
         </div>
         <button type="submit">Find</button>
     </form>
@@ -249,7 +252,8 @@ export function searchPageHtml() {
             <button id="search">Search</button>
         </div>
         <form class="dashboard__search" id="searchInGlobalForm"><input id="search_in_all" placeholder="Find movie in global"></form>
-        <ul class="movies-search-list" id="moviesList"></ul>`  
+        <ul class="movies-search-list" id="moviesList">
+        <div id="loader" class="loader"></div></ul>`  
 }
 
 export function renderAddMovieHtml() {
