@@ -19,7 +19,7 @@ async def get_friends_films(friend_login:str,token:str = Security(Bear)):
 
     email_check = adapter.get_by_value('users', 'email', user["email"])
     if email_check == []:
-        raise HTTPException(status_code=404, detail="No email found")
+        raise HTTPException(status_code=404, detail="No user with that email found")
 
     check = adapter.execute_with_request(f"""SELECT * FROM friends WHERE (user1='{friend_login}' and user2='{user['login']}') or (user1='{user['login']}' and user2='{friend_login}')""")
     if len(check) == 0:
