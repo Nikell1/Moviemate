@@ -108,7 +108,7 @@ export function showCollectionsHtml() {
 }
 
 export function renderCollectionHtml(data, ind) {
-    return `<li data-index="${ind}" data-type="collection" class="collection-el"><span>title</span><div data-index="${ind}" data-type="delete">🗑</div></li>`
+    return `<li data-index="${ind}" data-type="collection" class="collection-el"><span>${data}</span><div data-index="${ind}" data-type="delete">🗑</div></li>`
 }
 
 export function sidebarProfileHtml(login) {

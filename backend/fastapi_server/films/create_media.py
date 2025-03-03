@@ -19,12 +19,7 @@ async def create_media(body: Film,token:str = Security(Bear)):
     films = adapter.get_by_value('films', 'title', body.title)
     if len(films) != 0:
         raise HTTPException(status_code=409, detail="Media with this title already exist")
-    adapter.insert('films', {
-        'title': body.title,
-        'description':  body.description,
-        "date": body.date,
-        "image_url": body.image_url
-    })
+    adapter.insert('films', body.model_dump())
     films = adapter.get_by_value('films', 'title', body.title)[0]
     film_id = -1 * films["id"]
     adapter.insert('films_to_users', {
