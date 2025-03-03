@@ -573,13 +573,6 @@ function renderNewCollectionBtn() {
             } catch (error) {
                 console.error('Ошибка при авторизации пользователя:', error);
             }
-
-            
-
-
-
-
-
         })
     }
 }
