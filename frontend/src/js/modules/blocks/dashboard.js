@@ -476,6 +476,41 @@ function renderCollections(data) {
 
         if (type = "delete") {
             console.log(ind)
+            console.log('удаление коллекции')
+            const token = localStorage.getItem("token")
+            const url = consts.BACKEND_URL+'/api/collections/collections'; 
+            const params = new URLSearchParams({
+                "name": ind,
+            });
+    
+            const urlWithParams = `${url}?${params}`; 
+                try {
+                    const response = fetch(urlWithParams, {
+                    method: 'DELETE',
+                    headers: {
+                        "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                        "Content-Type": "application/json", // Указываем тип содержимого
+                    },
+
+                }).then(response => {
+                    if (!response.ok) {
+                        console.log(response)
+                      throw new Error(`Ошибка: ${response.status}`);
+                    }
+                    return response.json();
+                  })
+                  .then(data => {
+                      console.log("Данные:", data);
+                      transition(consts.collectionsHash)
+                  })
+                  .catch(error => {
+                    console.error("Ошибка:", error);
+                    // transition(consts.homeSearch)
+                  });
+        
+            } catch (error) {
+                console.error('Ошибка при авторизации пользователя:', error);
+            }
         }
     }
 }
