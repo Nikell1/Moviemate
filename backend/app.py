@@ -11,8 +11,10 @@ from fastapi_server.service import router as service_router
 from fastapi_server.ai import router as ai_router
 from fastapi import FastAPI
 from adapters.db_source import DatabaseAdapter
+from utils.functions import create_access_token
 import os
 import time
+import bcrypt
 load_dotenv()
 '''def load_custom_openapi():
     with open("backend/openapi(1).json", "r") as file:
@@ -45,5 +47,13 @@ if __name__ == "__main__":
     db = DatabaseAdapter()
     db.connect()
     db.initialize_tables()
+    hash_password = bcrypt.hashpw(os.getenv("ADMIN_PASSWORD").encode('utf-8'), bcrypt.gensalt(rounds=7))
+    hash_password = str(hash_password)[2:-1]
+    try:
+        db.insert("users", {"email": "admin@example.com", "password": hash_password, "login": "admin"})
+    except: pass
+    try:
+        db.insert("users", {"email": "friend@example.com", "password": hash_password, "login": "friend"})
+    except: pass
     uvicorn.run(app, host=host, port=int(port))
     
