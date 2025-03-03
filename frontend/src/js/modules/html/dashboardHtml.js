@@ -199,6 +199,14 @@ export function renderMovieCardModalHtml(element, ind) {
         </div>`
 }
 
+export function renderCollectionCardHtml(name) {
+    modal.innerHTML = `
+    <div>
+        <h2>${name}</h2>
+        <ul id="modalMoviesList"></ul>
+    </div>`
+}
+
 export function searchPageHtml() {
     const dashboardContent = document.getElementById('dashboardContent')
     dashboardContent.innerHTML = `

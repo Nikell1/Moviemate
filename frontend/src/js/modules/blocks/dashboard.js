@@ -502,12 +502,13 @@ function renderCollections(data, a='', b, c) {
                 console.error('Ошибка при авторизации пользователя:', error);
             }
         } else if (type == 'gen-collection'){
-            console.log('gen')
             console.log('открытие окна коллекции')
             console.log(ind)
+            showAddMovieModal(1, 'visible', 0.3)
+            dashboardHtml.renderCollectionCardHtml(ind)
+            renderModalMoviesList([{title: '3434', resease_date: '4545', overview: 'fdgfd'}])
         }
         else if (type == 'modal-collection') {
-            console.log('modal')
             console.log('добавление фильма в коллекцию')
             console.log(ind)
         }
