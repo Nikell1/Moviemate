@@ -36,7 +36,7 @@ async def add_media(body: Add_media,token:str = Security(Bear)):
     })
     return {"success": True}
 
-@router.delete("/film", status_code=status.HTTP_201_CREATED)
+@router.delete("/film", status_code=status.HTTP_204_NO_CONTENT)
 async def del_media(media_id: int,token:str = Security(Bear)):
     user = get_user(token.credentials)
     if user == []:
@@ -49,11 +49,20 @@ async def del_media(media_id: int,token:str = Security(Bear)):
 
     if len(email_check) == 0:
         raise HTTPException(status_code=404, detail="User with this email does not exists")
-    check_exist = db.execute_with_request(f"SELECT * from films_to_users WHERE email = '{user['email']}' AND media_id = {media_id}")
+    check_exist = db.execute_with_request(f"SELECT * from films_to_users WHERE media_id = {media_id}")
     if len(check_exist) == 0:
-        raise HTTPException(status_code=404, detail="No Film Found")
-
-    request = f"""DELETE FROM films_to_users WHERE email='{email_check[0]["email"]}' and media_id={media_id}"""
-    db.execute_with_request(request)
+        raise HTTPException(status_code=404, detail="No media Found")
+    check_available = db.execute_with_request(f"SELECT * from films_to_users WHERE media_id = {media_id} AND email = '{user['email']}' ")
+    if media_id >= 0:
+        request = f"""DELETE FROM films_to_users WHERE email='{email_check[0]["email"]}' and media_id={media_id}"""
+        db.execute_with_request(request)
+    else:
+        if len(check_available) > 0:
+            request = f"""DELETE FROM films WHERE id= ( {media_id} * -1 )"""
+            db.execute_with_request(request)
+            request = f"""DELETE FROM films_to_users WHERE email='{email_check[0]["email"]}' and media_id={media_id}"""
+            db.execute_with_request(request)
+        else:
+            raise HTTPException(status_code=403, detail="This media is not available for you")
 
     return {"success": True}

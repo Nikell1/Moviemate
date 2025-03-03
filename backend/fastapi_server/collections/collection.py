@@ -12,6 +12,9 @@ class Body(BaseModel):
 class Body2(BaseModel):
     name: str
 
+class Body3(BaseModel):
+    name: str
+
 router = APIRouter()
 Bear = HTTPBearer(auto_error=False)
 
@@ -46,25 +49,25 @@ async def get_collections(token:str = Security(Bear)):
         collections[i] = collections[i]["collection_name"]
     return collections
 
-@router.delete("/collections", status_code=status.HTTP_200_OK)
-async def delete_collections(name:str,token:str = Security(Bear)):
+@router.delete("/collections", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_collections(body: Body3,token:str = Security(Bear)):
     user = get_user(token.credentials)
+    name = body.name
     if user == []:
         raise HTTPException(status_code=401, detail="Invalid token")
     user = user[0]
     adapter = DatabaseAdapter()
     adapter.connect()
-
+    request = f"SELECT * from collections WHERE email = '{user['email']}' AND collection_name = '{name}'"
+    print(request)
     check_exist = adapter.execute_with_request(f"SELECT * from collections WHERE email = '{user['email']}' AND collection_name = '{name}'")
     if len(check_exist) == 0:
         raise HTTPException(status_code=404, detail="This collection does not exists")
-    adapter.execute_with_request(f"DELETE  from collections WHERE email = '{user['email']}' AND collection_name = '{name}'")
+    request = f"DELETE  from collections WHERE email = '{user['email']}' AND collection_name = '{name}'"
+    print(request)
+    adapter.execute_with_request(request)
     #films_to_Users collection = None
-    check_exist = adapter.execute_with_request(f"UPDATE films_to_users SET collection = null WHERE email = '{user['email']}' AND collection ='{name}'")
-    if len(check_exist) == 0:
-        return {"success": True}
-    
-    return {"success": True}
+    check_exist = adapter.execute_with_request(f"UPDATE films_to_users SET collection = null WHERE email = '{user['email']}' AND collection ='{name}' RETURNING *")
 
 
 
