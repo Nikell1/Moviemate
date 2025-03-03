@@ -122,7 +122,7 @@ async def get_rand_film(mood:str=None,token:str = Security(Bear)):
             return await get_by_id(157336, media_type='movie')
         elif mood == "Весёлое":
             return await get_by_id(387, media_type='tv')
-        elif mood == "Весёлое":
+        elif mood == "Напряжённое":
             return await get_by_id(680, media_type='movie')
         else:
             return await get_by_id(132030, media_type='movie')
