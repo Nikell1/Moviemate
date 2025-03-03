@@ -259,6 +259,7 @@ function addMovieRender() {
         const moviesForm = document.getElementById('moviesForm')
         const addOwnBtn = document.getElementById('addOwn')
         
+        
         addOwnBtn.onclick = () => {
             modal.innerHTML = dashboardHtml.addOwnHtml()
             const addOwnForm = document.getElementById('addOwnForm')
@@ -307,8 +308,12 @@ function addMovieRender() {
             })
         }
 
+
         moviesForm.addEventListener('submit', (event) => {
+        modalMoviesList.innerHTML = '<div id="loader2" class="loader"></div>'
+        const loader = document.getElementById('loader2')
         event.preventDefault()
+        loader.style.display = 'block'
         const search_input = document.getElementById('search__input')
         const token = localStorage.getItem('token')
         console.log('считывание списка фильмов')
@@ -341,6 +346,7 @@ function addMovieRender() {
                   .then(data => {
                     console.log("Данные:", data);
                     console.log(data.results)
+                    loader.style.display = 'none'
                     renderModalMoviesList(data.results)
 
                     // renderMoviesList(moviesData)
@@ -738,7 +744,7 @@ function showSearch() {
 
         const findByPhotoForm = document.getElementById('findByPhotoForm')
         const image_input = document.getElementById("image_input")
-        const loader = document.getElementById('loader')
+        const loader = document.getElementById('loader2')
         loader.style.display = 'none'
         findByPhotoForm.addEventListener('submit', (event) => {
 
