@@ -466,6 +466,7 @@ function showMovies() {
 
 function renderCollections(data, a='', b, c) {
     const collectionsList = document.getElementById(`collectionsList${a}`)
+    collectionsList.innerHTML = ''
 
 
     for (let i = 0; i < data.length; i++) {
@@ -507,8 +508,46 @@ function renderCollections(data, a='', b, c) {
             console.log(ind)
             showAddMovieModal(1, 'visible', 0.3)
             dashboardHtml.renderCollectionCardHtml(ind)
+
+            const url = consts.BACKEND_URL + '/api/collections/get_films'
+            const new_coll_name = document.getElementById('new_coll_name')
+            const token = localStorage.getItem("token")
+            const reqbody = {
+                collection: ind
+            }
+
+                try {
+                    const response = fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                            "Content-Type": "application/json", // Указываем тип содержимого
+                        },
+                        body: JSON.stringify(reqbody)
+                    }).then(response => {
+                        if (!response.ok) {
+                            console.log(response)
+                        throw new Error(`Ошибка: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log("Данные:", data);
+                        console.log(data.results)
+                        renderModalMoviesList(data)
+                    })
+                    .catch(error => {
+                        console.error("Ошибка:", error);
+                        // transition(consts.homeSearch)
+                    });
             
-            renderModalMoviesList([{title: '3434', resease_date: '4545', overview: 'fdgfd'}])
+                } catch (error) {
+                    console.error('Ошибка при авторизации пользователя:', error);
+                }
+
+
+
+
         }
         else if (type == 'modal-collection') {
             console.log('добавление фильма в коллекцию')
