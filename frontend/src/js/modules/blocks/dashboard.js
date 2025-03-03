@@ -339,7 +339,17 @@ function addMovieRender() {
                 }).then(response => {
                     if (!response.ok) {
                         console.log(response)
-                      throw new Error(`Ошибка: ${response.status}`);
+                        Swal.fire({
+                          title: 'Error!',
+                          text: 'Something went wrong',
+                          icon: 'error', // Иконка ошибки
+                          confirmButtonText: 'ОК',
+                          customClass: {
+                              popup: 'custom-popup' // Добавляем класс для окна
+                          }
+                      });
+                      transition(consts.dashboardSearch)
+                        throw new Error(`Ошибка: ${response.status}`);
                     }
                     return response.json();
                   })
