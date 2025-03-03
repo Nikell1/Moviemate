@@ -126,10 +126,10 @@ class TestAPI(unittest.TestCase):
             "Authorization": f"Bearer {TestAPI.auth_token}"
         }
 
-        query = '?id='
+        query = '?id=2'
 
 
-        response = requests.get(self.api_url + "films/mark_as_watched " + query, headers=headers)
+        response = requests.get(self.api_url + "films/mark_as_watched" + query, headers=headers)
         self.assertEqual(response.status_code, 200)
 
 
