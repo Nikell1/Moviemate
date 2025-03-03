@@ -42,5 +42,8 @@ async def search_by_description(description: str,token:str = Security(Bear)):
     )
     title = response.choices[0].message.content
 
+    if len(title) > 20:
+        return {"title": "Не найдено"}
+
     return {"title": title}
 
