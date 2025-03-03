@@ -7,7 +7,7 @@ export function dashboardHtml() {
             <span class="logo">MOVIEMATE</span>
             <button id="profileBtn" class="dashboard__profile">
                 <img src="https://qrjaecpccsfknzbpdwkw.supabase.co/storage/v1/object/sign/images/free-icon-user-account-12311784.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJpbWFnZXMvZnJlZS1pY29uLXVzZXItYWNjb3VudC0xMjMxMTc4NC5wbmciLCJpYXQiOjE3NDA5MTQ3NjksImV4cCI6ODY1NzQwODI4MzY5fQ.kFpGT0zzNqOHuyme8aku0PR9R8UgbvzfAF7NmXAzSAE">
-                <span id="profile_nickname">Nickname</span>
+                <span id="profile_nickname">${localStorage.getItem('login')}</span>
             </button>
             <button class="dashboard__burger">
                 <div></div>
@@ -196,7 +196,6 @@ export function renderMovieCardModalHtml(element, ind) {
         </div>
         <div class="modalButtonsCont">
             <button id="addToDashboard">Add to dashboard</button>
-            <button name="addToCollection">Add to collection</button>
         </div>`
 }
 
