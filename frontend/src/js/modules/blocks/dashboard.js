@@ -507,6 +507,7 @@ function renderCollections(data, a='', b, c) {
             console.log(ind)
             showAddMovieModal(1, 'visible', 0.3)
             dashboardHtml.renderCollectionCardHtml(ind)
+            
             renderModalMoviesList([{title: '3434', resease_date: '4545', overview: 'fdgfd'}])
         }
         else if (type == 'modal-collection') {

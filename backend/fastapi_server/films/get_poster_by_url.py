@@ -26,12 +26,12 @@ async def get_poster(url:str):
         "accept": "application/json",
         "Authorization": "Bearer " + os.getenv("TMDB_KEY")
         }
-        requests = httpx.Client(proxy="socks5://142.54.237.38:4145", headers=headers)
+        requests = httpx.Client(proxy="socks5://77.81.138.114:6000", headers=headers)
 
         response = requests.get('https://image.tmdb.org/t/p/w200'+url)
 
         image_bytes = BytesIO(response.content)
 
-        return Response(content=image_bytes.getvalue(), media_type="image/jpeg")
+        return Response(content=image_bytes.getvalue(), media_type="image/jpg")
     except:
         raise HTTPException(status_code=404, detail="no image found with this url")
