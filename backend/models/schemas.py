@@ -41,6 +41,7 @@ class Search(BaseModel):
     release_date_low: str = None
     release_date_high: str = None
     genre_ids: list[int] = None
+    watched: bool = None
 
 class Set_collection(BaseModel):
     media_id:str
