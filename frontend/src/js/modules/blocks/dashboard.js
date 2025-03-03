@@ -220,10 +220,16 @@ function renderModalMoviesList(data) {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify(requestBody)
+                    })
+                    .then(data => {
+                        transition(consts.dashboardSearch)
+                        
+                    })
+                    .catch(error => {
+                        console.error('Error:', error); // Логируем ошибки
                     });
             
 
-                    transition(consts.dashboardSearch)
                     
                 } catch (error) {
                     console.error('Ошибка при авторизации пользователя:', error);
@@ -273,17 +279,18 @@ function addMovieRender() {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify(requestBody)
+                    })
+                    .then(data => {
+                        transition(consts.dashboardSearch)
+                        
+                    })
+                    .catch(error => {
+                        console.error('Error:', error); // Логируем ошибки
                     });
             
                     // if (!response.ok) {
                     //     throw new Error(`Ошибка: ${response.status}`);
-                    // }
-            
-                    // const data = response.json();
-                    // console.log(data)
-
-                    transition(consts.dashboardSearch)
-                    return data.token;
+                    // 
                 } catch (error) {
                     console.error('Ошибка при авторизации пользователя:', error);
                 }
