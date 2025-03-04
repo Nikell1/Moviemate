@@ -124,7 +124,7 @@ export function showMoviesHtml() {
                 </div>
                 <div class="filter-form__checkbox"><input id="watched_checkbox" type="checkbox" checked><span>Watched</span></div>
                 <div class="filter-form__checkbox"><input id="unwatched_checkbox" type="checkbox" checked><span>Unwatched</span></div>
-                <button id="apply_filters">Apply filters</button>
+                <button id="apply_filters">Search with filters</button>
             </form>
         </div>
         <button class="fixBtn" id="getMovie">GET A MOVIE</button>`
@@ -330,7 +330,7 @@ export function searchPageHtml() {
                     </div>
                     <div class="filter-form__checkbox"><input id="watched_checkbox" type="checkbox" checked><span>Watched</span></div>
                     <div class="filter-form__checkbox"><input id="unwatched_checkbox" type="checkbox" checked><span>Unwatched</span></div>
-                    <button id="apply_filters_global">Apply filters</button>
+                    <button id="apply_filters_global">Search with filters</button>
                 </form>
         </div>`  
 }
