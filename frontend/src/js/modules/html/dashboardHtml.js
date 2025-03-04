@@ -25,7 +25,7 @@ export function dashboardHtml() {
     <div class="topDark" id="topDark"></div>`
 }
 
-export function renderMoviesHtml(element, a=element.watched, b=element.id) {
+export function renderMoviesHtml(element, a=element.watched, b=element.id, c='<div class="movies-element__delete">🗑</div>') {
     const url = consts.BACKEND_URL+'/api/films/get-poster-by-url'; // Замените на ваш URL FastAPI сервера
     const params = new URLSearchParams({
         "url": element.poster_path,
@@ -55,7 +55,7 @@ export function renderMoviesHtml(element, a=element.watched, b=element.id) {
     const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
     return `            
             <li class="movies-element">
-                <div class="movies-element__delete">🗑</div>
+                ${c}
                 <div class="movies-element__img" style="background-image: url('${urlWithParams}');"></div>
                 <div class="movies-element__block">
                     <span>${title}</span>
@@ -266,6 +266,7 @@ export function renderDescHtml() {
             <p>Paste your description</p>
             <textarea id="input_desc" required></textarea>
             <p id="res"></p>
+            <div id="loader2" class="loader"></div>
         </div>
         <button type="submit">Find</button>
     </form>
@@ -343,7 +344,7 @@ export function renderAddMovieHtml() {
         </ul>
     </div>
     <div class="modal__btn-container">
-        <button>Find by photo</button>
+        <button id="findPhoto">Find by photo</button>
         <span>Or</span>
         <button id="addOwn">Add your own</button>
     </div>`
