@@ -49,13 +49,15 @@ export function renderMoviesHtml(element, a=element.watched, b=element.id, c='<d
     if (overview.length > 50) {
         overview = `${overview.slice(0, 50)}...`
     }
-
-
+    let d = c
+    if (c == '<div class="movies-element__delete">🗑</div>'){
+        d = `<div id="delete_${b}" class="movies-element__delete">🗑</div>`
+    }
 
     const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
     return `            
             <li class="movies-element">
-                ${c}
+                ${d}
                 <div class="movies-element__img" style="background-image: url('${urlWithParams}');"></div>
                 <div class="movies-element__block">
                     <span>${title}</span>

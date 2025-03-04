@@ -159,6 +159,58 @@ export function renderMoviesList(moviesData, a) {
     
             }
         }
+
+
+        for (let i = 0; i < moviesData.length; i++){
+            console.log(`delete_${moviesData[i].id}`)
+            const current_mark_button = document.getElementById(`delete_${moviesData[i].id}`)
+            current_mark_button.onclick = () => {
+                console.log(current_mark_button.textContent)
+                
+    
+                try {
+                    const token = localStorage.getItem("token")
+                    const url = consts.BACKEND_URL+'/api/films/film'; // Замените на ваш URL FastAPI сервера
+                    const params = new URLSearchParams({
+                        "media_id": moviesData[i].id,
+                    });
+
+                
+                    const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
+                    const response = fetch(urlWithParams, {
+                        method: 'DELETE',
+                        headers: {
+                            "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                            "Content-Type": "application/json" // Указываем тип содержимого
+                        }
+                    }).then(response => {
+                        if (!response.ok) {
+                          throw new Error(`Ошибка: ${response.status}`);
+                        }
+                        return response.json();
+                      })
+                      .then(data => {
+                        console.log("Данные:", data);
+                        console.log(data.results)
+                        transition(consts.dashboardSearch)
+                    })
+                    .catch(error => {
+                        transition(consts.dashboardSearch)
+                        console.error("Ошибка:", error);
+                        // transition(consts.homeSearch)
+                      });
+            
+                } catch (error) {
+                    console.error('Ошибка при авторизации пользователя:', error);
+                }
+    
+    
+    
+            }
+        }
+
+
+
     }
 
     const addToCollectionList = Array.from(document.getElementsByName('addToCollection'))
@@ -537,7 +589,7 @@ function movieSearchRender() {
                     console.log("Данные:", data);
                     console.log(data.results)
                     loader.style.display = 'none'
-                    renderMoviesList(data)
+                    renderMoviesList(data)  
 
                 
                   })
