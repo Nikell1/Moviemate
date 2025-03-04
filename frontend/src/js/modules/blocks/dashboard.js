@@ -1113,11 +1113,12 @@ function showSearch() {
     findDescBtn.onclick = () => {
         showAddMovieModal(1, 'visible', 0.3)
         dashboardHtml.renderDescHtml()
-
+        const loader = document.getElementById('loader2')
+        loader.style.display = 'none'
         const findByDescForm = document.getElementById('findByDescForm')
         
         findByDescForm.addEventListener('submit', (event) => {
-
+        loader.style.display = 'block'
             event.preventDefault()
             console.log('жпт решает x2')
             const url = consts.BACKEND_URL + "/api/ai/search_desc"
@@ -1145,6 +1146,8 @@ function showSearch() {
                 })
                 .then(data => {
                     console.log(data); // Логируем данные
+                    res.textContent = `Result: ${data.title}`
+                    loader.style.display = 'none'
                 })
                 .catch(error => {
                     console.error('Error:', error); // Логируем ошибки
@@ -1154,11 +1157,6 @@ function showSearch() {
             } catch (error) {
                 console.error('Ошибка при авторизации пользователя:', error);
             }
-
-
-
-
-
         })
     }
 
