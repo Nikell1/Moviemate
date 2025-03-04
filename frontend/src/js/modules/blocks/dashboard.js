@@ -90,7 +90,7 @@ function renderGetMovie() {
     }
 }
 
-export function renderMoviesList(moviesData, a, c) {
+export function renderMoviesList(moviesData, a) {
     moviesList.innerHTML = ''
 
     for (let i = 0; i < moviesData.length; i++) {
@@ -100,7 +100,7 @@ export function renderMoviesList(moviesData, a, c) {
         } else if (moviesData[i].watched == true){
             moviesData[i].watched = "Mark as unwatched"
         }
-        moviesList.insertAdjacentHTML('beforeend', renderMoviesHtml(moviesData[i], a, moviesData[i].id, c))
+        moviesList.insertAdjacentHTML('beforeend', renderMoviesHtml(moviesData[i], a, moviesData[i].id))
     }
 
     if (moviesData.length == 0) {
@@ -255,13 +255,6 @@ function addMovieRender() {
     addMovieBtn.onclick = () => {
         showAddMovieModal(1, 'visible', 0.3)
         renderAddMovieHtml()
-
-        const findPhoto = document.getElementById('findPhoto')
-
-        findPhoto.onclick = () => {
-            dashboardHtml.renderPhotoHtml()
-            findPhotoServer()
-        }
 
         const moviesForm = document.getElementById('moviesForm')
         const addOwnBtn = document.getElementById('addOwn')
@@ -971,53 +964,132 @@ function renderFilters() {
         event.preventDefault()
 
         console.log('нефильрованное пив2')
-    })
-}
-
-function findPhotoServer() {
-    const findByPhotoForm = document.getElementById('findByPhotoForm')
-    const image_input = document.getElementById("image_input")
-    const loader = document.getElementById('loader2')
-    loader.style.display = 'none'
-    findByPhotoForm.addEventListener('submit', (event) => {
-
-        event.preventDefault()
-        const file = image_input.files[0];
-
-        console.log('жпт решает')
-
-        const formData = new FormData();
-        const url = consts.BACKEND_URL + '/api/ai/recognition'
-        formData.append('file', file);
-
         try {
-            loader.style.display  = 'block'
-            const response = fetch(url, {
-                method: 'POST',
-                body: formData
-            }).then(response => {
-                if (!response.ok) {
-                    console.log(response)
-                  throw new Error(`Ошибка: ${response.status}`);
-                }
-                return response.json();
-              })
-              .then(data => {
-                console.log("Данные:", data);
-                // Вернуть название фильма
-                
-                const res = document.getElementById('res')
-                res.textContent = `Result: ${data}`
-                loader.style.display = 'none'
+            const token = localStorage.getItem("token")
+        } catch (error){
+            transition(consts.homeSearch)
+            console.log(error)
+        }   
+        const url = consts.BACKEND_URL + "/api/films/search_film"
+        const year1 = document.getElementById("year1")
+        const year2 = document.getElementById("year2")
+        const watched_checkbox = document.getElementById("watched_checkbox")
+        const unwatched_checkbox = document.getElementById("unwatched_checkbox")
+        const genre_filter = document.getElementById("genre_filter")
+        const search_in_bookmarks = document.getElementById('search_in_all')
+
+        console.log(year1.value)
+        console.log(watched_checkbox.checked)
+        console.log(genre_filter.value)
+        console.log(search_in_bookmarks.value)
+
+        let release_date_low = `${year1.value}-01-01`
+        let release_date_high = `${year2.value}-12-31`
+        const genre_ids = {
+            'Action': "28",
+            'Adventure': "12",
+            'Animation': "16",  
+            'Comedy': "35",
+            'Crime': "80",
+            'Documentary': "99",
+            'Drama': "18",
+            'Family': "10751",
+            'Fantasy': "14",
+            'History': "36",
+            'Horror': "27",
+            'Music': "10402",
+            'Mystery': "9648",
+            'Romance': "10749",
+            'Science Fiction': "878",
+            'TV Movie': "10770",
+            'Thriller': "53",
+            'War': "10752",
+            'Western': "37",
+            'Talk': "10767"
+        }
+        let genre_id = genre_ids[genre_filter.value]
+        let reqbody
+        if (watched_checkbox.checked && unwatched_checkbox.checked){
+            reqbody = {
+                release_date_low: release_date_low,
+                release_date_high: release_date_high,
+                genre_ids: [genre_id]
+            };
+            console.log(reqbody)
+        } else if (!watched_checkbox.checked && unwatched_checkbox.checked){
+            reqbody = {
+                release_date_low: release_date_low,
+                release_date_high: release_date_high,
+                genre_ids: [genre_id],
+                watched: false
+            };
+            console.log(reqbody)
+
+        } else if (watched_checkbox.checked && !unwatched_checkbox.checked){
+            reqbody = {
+                release_date_low: release_date_low,
+                release_date_high: release_date_high,
+                genre_ids: [genre_id],
+                watched: true
+            };
+            console.log(reqbody)
+        } else if (!watched_checkbox.checked && !unwatched_checkbox.checked){
+            console.log("пользак дурак")
+            renderMoviesList([])
+        }
+
+        if (genre_filter.value == 'Any'){
+            delete reqbody.genre_ids;
+        }
+
+        const token = localStorage.getItem("token")
+        
+        if (watched_checkbox.checked || unwatched_checkbox.checked){
+            let urlWithParams = url;
+            if (search_in_bookmarks.value == ''){
+                console.log('пустой search')
+                const params = new URLSearchParams({
+                    "search": search_in_bookmarks.value,
+                });
+                urlWithParams = `${url}?${params}`; 
+            } else {
+                const params = new URLSearchParams({
+                    "search": search_in_bookmarks.value,
+                });
+                urlWithParams = `${url}?${params}`; 
+            }
             
-              })
-              .catch(error => {
-                console.error("Ошибка:", error);
-                // transition(consts.homeSearch)
-              });
-    
-        } catch (error) {
-            console.error('Ошибка при авторизации пользователя:', error);
+            console.log(reqbody)
+            try {
+                const response = fetch(urlWithParams, {
+                    method: 'POST',
+                    headers: {
+                        "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
+                        "Content-Type": "application/json", // Указываем тип содержимого
+                    },
+                    body: JSON.stringify(reqbody)
+                }).then(response => {
+                    if (!response.ok) {
+                        console.log(response)
+                      throw new Error(`Ошибка: ${response.status}`);
+                    }
+                    return response.json();
+                  })
+                  .then(data => {
+                    console.log("Данные:", data);
+                    console.log(data.results)
+                    renderMoviesList(data.results)
+
+                
+                  })
+                  .catch(error => {
+                    console.error("Ошибка:", error);
+                    // transition(consts.homeSearch)
+                  });
+        
+            } catch (error) {
+                console.error('Ошибка при авторизации пользователя:', error);
+            }
         }
     })
 }
@@ -1038,10 +1110,9 @@ function showSearch() {
         dashboardHtml.renderDescHtml()
 
         const findByDescForm = document.getElementById('findByDescForm')
-        const loader = document.getElementById('loader2')
-        loader.style.display = 'none'
+        
         findByDescForm.addEventListener('submit', (event) => {
-        loader.style.display = 'block'
+
             event.preventDefault()
             console.log('жпт решает x2')
             const url = consts.BACKEND_URL + "/api/ai/search_desc"
@@ -1071,11 +1142,7 @@ function showSearch() {
                     return response.json(); // Парсим тело ответа как JSON
                 })
                 .then(data => {
-                    console.log(data.title); // Логируем данные
-                    const res = document.getElementById('res')
-                    res.textContent = `Result: ${data.title}`
-                    loader.style.display = 'none'
-
+                    console.log(data); // Логируем данные
                 })
                 .catch(error => {
                     console.error('Error:', error); // Логируем ошибки
@@ -1085,6 +1152,11 @@ function showSearch() {
             } catch (error) {
                 console.error('Ошибка при авторизации пользователя:', error);
             }
+
+
+
+
+
         })
     }
 
@@ -1092,7 +1164,51 @@ function showSearch() {
         showAddMovieModal(1, 'visible', 0.3)
         dashboardHtml.renderPhotoHtml()
 
-        findPhotoServer()
+        const findByPhotoForm = document.getElementById('findByPhotoForm')
+        const image_input = document.getElementById("image_input")
+        const loader = document.getElementById('loader2')
+        loader.style.display = 'none'
+        findByPhotoForm.addEventListener('submit', (event) => {
+
+            event.preventDefault()
+            const file = image_input.files[0];
+
+            console.log('жпт решает')
+
+            const formData = new FormData();
+            const url = consts.BACKEND_URL + '/api/ai/recognition'
+            formData.append('file', file);
+
+            try {
+                loader.style.display  = 'block'
+                const response = fetch(url, {
+                    method: 'POST',
+                    body: formData
+                }).then(response => {
+                    if (!response.ok) {
+                        console.log(response)
+                      throw new Error(`Ошибка: ${response.status}`);
+                    }
+                    return response.json();
+                  })
+                  .then(data => {
+                    console.log("Данные:", data);
+                    // Вернуть название фильма
+                    
+                    const res = document.getElementById('res')
+                    res.textContent = `Result: ${data}`
+                    loader.style.display = 'none'
+                
+                  })
+                  .catch(error => {
+                    console.error("Ошибка:", error);
+                    // transition(consts.homeSearch)
+                  });
+        
+            } catch (error) {
+                console.error('Ошибка при авторизации пользователя:', error);
+            }
+        })
     }
 
     const searchInGlobal = document.getElementById('searchInGlobalForm')
@@ -1134,7 +1250,7 @@ function showSearch() {
                     console.log("Данные:", data);
                     console.log(data.results)
                     // Отрендерить рещультаты глобального поиска
-                    renderMoviesList(data.results, 'add to dashboard', '')
+                    renderMoviesList(data.results, 'add to dashboard')
                     loader.style.display = 'none'
                     let moviesData = data.results
                     for (let i = 0; i < moviesData.length; i++){
