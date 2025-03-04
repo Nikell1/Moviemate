@@ -1,7 +1,6 @@
 from fastapi import APIRouter, HTTPException, status,Security
 
 from adapters.db_source import DatabaseAdapter
-from adapters.mail import send_invite
 from fastapi.security import HTTPBearer
 from utils.functions import get_user
 
@@ -51,8 +50,6 @@ async def add_friend(friend_login:str, token:str = Security(Bear)):
         "status": "pending"
     }
     db.insert('friends', request)
-
-    await send_invite(friend[0]['email'], user['login'])
 
     return {"ok": True, "detail": "Invitation Sent"}
 
