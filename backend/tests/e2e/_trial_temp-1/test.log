@@ -1,0 +1,2 @@
+2025-03-03 20:50:09+0300 [-] Log opened.
+2025-03-03 20:50:13+0300 [-] C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\case.py:580: builtins.RuntimeWarning: TestResult has no addDuration method
