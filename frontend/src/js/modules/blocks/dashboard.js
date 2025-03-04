@@ -624,11 +624,12 @@ function movieSearchRender() {
         const urlWithParams = `${url}?${params}`; 
             try {
                 const response = fetch(urlWithParams, {
-                    method: 'GET',
+                    method: 'POST',
                     headers: {
                         "Authorization": `Bearer ${token}`, // Добавляем токен в заголовок
                         "Content-Type": "application/json", // Указываем тип содержимого
-                    }
+                    },
+                    body: JSON.stringify({})
                 }).then(response => {
                     if (!response.ok) {
                         console.log(response)
