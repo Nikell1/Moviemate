@@ -425,9 +425,11 @@ function movieSearchRender() {
             year2.value = year1.value;
           }
     })
-
+    const loader = document.getElementById('loader3')
+    loader.style.display = 'none'
 
     filtesForm.addEventListener('submit', (event) => {
+        loader.style.display = 'block'
 
         event.preventDefault()
         try {
@@ -541,6 +543,7 @@ function movieSearchRender() {
                   .then(data => {
                     console.log("Данные:", data);
                     console.log(data.results)
+                    loader.style.display = 'none'
                     renderMoviesList(data)
 
                 

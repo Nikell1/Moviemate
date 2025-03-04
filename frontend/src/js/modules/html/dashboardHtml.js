@@ -87,6 +87,7 @@ export function showMoviesHtml() {
         <form id="searchInMoviesForm" class="dashboard__search"><input id="search_in_bookmarks" placeholder="Find movie in your bookmarks"></form>
         <div class="movies-block">
             <ul class="movies-list" id="moviesList"><div class="loader"></div></ul>
+            <div id="loader3" class="loader"></div>
             <form id="filtesForm" class="filter-form">
                 <div class="range-slider">
                     <input id="year3" type="range" min="1900" max="2026" value="1900" id="range-min">
@@ -292,6 +293,7 @@ export function searchPageHtml() {
         <div class="movies-block">
             <ul class="movies-search-list" id="moviesList">
             <div id="loader" class="loader"></div></ul>
+            <div id="loader3" class="loader"></div>
             <form id="filtesForm" class="filter-form">
                     <div class="range-slider">
                         <input id="year3" type="range" min="1900" max="2030" value="1900" id="range-min">
