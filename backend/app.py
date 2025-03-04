@@ -11,7 +11,6 @@ from fastapi_server.service import router as service_router
 from fastapi_server.ai import router as ai_router
 from fastapi import FastAPI
 from adapters.db_source import DatabaseAdapter
-from utils.functions import create_access_token
 import os
 import time
 import bcrypt
