@@ -426,7 +426,7 @@ function movieSearchRender() {
 
         console.log('нефильрованное пиво')
 
-
+        
 
         
 
@@ -790,10 +790,56 @@ function renderNewCollectionBtn() {
     }
 }
 
-function showFriends() {
-    clearColor()
-    const friendsBtn = document.getElementById('friends')
-    friendsBtn.style.color = consts.accentColor
+function renderFilters() {
+    const filtesForm = document.getElementById('filtesForm')
+    const year1 = document.getElementById('year1')
+    const year2 = document.getElementById('year2')
+    const year3 = document.getElementById('year3')
+    const year4 = document.getElementById('year4')
+    year1.addEventListener('input', () => {
+        year3.value = year1.value
+        if (parseInt(year1.value) > parseInt(year2.value)) {
+            year1.value = year2.value;
+          }
+          if (parseInt(year3.value) > parseInt(year4.value)) {
+              year3.value = year4.value;
+            }
+    })
+    year2.addEventListener('input', () => {
+        year4.value = year2.value
+        if (year2.value < year1.value) {
+            year2.value = year1.value
+        }
+        if (year4 > year3) {
+            year4 = year3
+        }
+    })
+    year3.addEventListener('input', () => {
+        year1.value = year3.value
+        if (parseInt(year3.value) > parseInt(year4.value)) {
+            year3.value = year4.value;
+          }
+          if (parseInt(year1.value) > parseInt(year2.value)) {
+            year1.value = year2.value;
+          }
+    })
+    year4.addEventListener('input', () => {
+        year2.value = year4.value
+        if (parseInt(year3.value) > parseInt(year4.value)) {
+            year4.value = year3.value;
+          }
+          if (parseInt(year1.value) > parseInt(year2.value)) {
+            year2.value = year1.value;
+          }
+    })
+
+
+    filtesForm.addEventListener('submit', (event) => {
+
+        event.preventDefault()
+
+        console.log('нефильрованное пив2')
+    })
 }
 
 function showSearch() {
@@ -801,6 +847,8 @@ function showSearch() {
     clearColor()
     const searchBtn = document.getElementById('search')
     searchBtn.style.color = consts.accentColor
+
+    renderFilters()
 
     const findPhotoBtn = document.getElementById('findPhotoBtn')
     const findDescBtn = document.getElementById('findDescBtn')
@@ -1032,7 +1080,6 @@ function updateHash(req) {
 function dashboardBtnOnclick() {
     const moviesBtn = document.getElementById('movies')
     const collectionsBtn = document.getElementById('collections')
-    const friendsBtn = document.getElementById('friends')
     const searchBtn = document.getElementById('search')
 
     moviesBtn.onclick = () => {
@@ -1042,11 +1089,6 @@ function dashboardBtnOnclick() {
 
     collectionsBtn.onclick = () => {
         updateHash(consts.collectionsHash)
-        showDashboardBlocks()
-    }
-
-    friendsBtn.onclick = () => {
-        updateHash(consts.friendsHash)
         showDashboardBlocks()
     }
 
@@ -1066,7 +1108,6 @@ function showDashboardBlocks() {
 
     if (url2.hash == `#${consts.moviesHash}`) {showMovies()}
     if (url2.hash == `#${consts.collectionsHash}`) {showCollections()}
-    if (url2.hash == `#${consts.friendsHash}`) {showFriends()}
     if (url2.hash == `#${consts.searchHash}`) {showSearch()}
 
     dashboardBtnOnclick()

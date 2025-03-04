@@ -81,7 +81,6 @@ export function showMoviesHtml() {
         <div class="dashboard__botBtns">
             <button id="movies">Your movies</button>
             <button id="collections">Collections</button>
-            <button id="friends">Friends</button>
             <button id="search">Search</button>
         </div>
         <form id="searchInMoviesForm" class="dashboard__search"><input id="search_in_bookmarks" placeholder="Find movie in your bookmarks"></form>
@@ -139,7 +138,6 @@ export function showCollectionsHtml() {
         <div class="dashboard__botBtns">
             <button id="movies">Your movies</button>
             <button id="collections">Collections</button>
-            <button id="friends">Friends</button>
             <button id="search">Search</button>
         </div>
         <ul class="collections-list" id="collectionsList"><div class="loader"></div></ul>
@@ -286,12 +284,49 @@ export function searchPageHtml() {
         <div class="dashboard__botBtns">
             <button id="movies">Your movies</button>
             <button id="collections">Collections</button>
-            <button id="friends">Friends</button>
             <button id="search">Search</button>
         </div>
-        <form class="dashboard__search" id="searchInGlobalForm"><input id="search_in_all" placeholder="Find movie in global"></form>
-        <ul class="movies-search-list" id="moviesList">
-        <div id="loader" class="loader"></div></ul>`  
+            <form class="dashboard__search" id="searchInGlobalForm"><input id="search_in_all" placeholder="Find movie in global"></form>
+        <div class="movies-block">
+            <ul class="movies-search-list" id="moviesList">
+            <div id="loader" class="loader"></div></ul>
+            <form id="filtesForm" class="filter-form">
+                    <div class="range-slider">
+                        <input id="year3" type="range" min="1900" max="2026" value="1900" id="range-min">
+                        <input id="year4" type="range" min="1900" max="2030" value="2030" id="range-max">
+                    </div>
+                    <div class="filter-form__years"><input value="1900" id="year1"><input id="year2" value="2030"></div>
+                    <div class="filter-form__block">
+                        <span>Genre:</span>
+                        <select class="select">
+                            <option>Any</option>
+                            <option>Action</option>
+                            <option>Adventure</option>
+                            <option>Animation</option>
+                            <option>Comedy</option>
+                            <option>Crime</option>
+                            <option>Documentary</option>
+                            <option>Drama</option>
+                            <option>Family</option>
+                            <option>Fantasy</option>
+                            <option>History</option>
+                            <option>Horror</option>
+                            <option>Music</option>
+                            <option>Mystery</option>
+                            <option>Romance</option>
+                            <option>Science Fiction</option>
+                            <option>TV Movie</option>
+                            <option>Thriller</option>
+                            <option>War</option>
+                            <option>Western</option>
+                            <option>Talk</option>
+                        </select>
+                    </div>
+                    <div class="filter-form__checkbox"><input type="checkbox"><span>Watched</span></div>
+                    <div class="filter-form__checkbox"><input type="checkbox"><span>Unwatched</span></div>
+                    <button>Search</button>
+                </form>
+        </div>`  
 }
 
 export function renderAddMovieHtml() {
