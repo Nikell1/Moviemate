@@ -49,10 +49,10 @@ if __name__ == "__main__":
     hash_password = bcrypt.hashpw(os.getenv("ADMIN_PASSWORD").encode('utf-8'), bcrypt.gensalt(rounds=7))
     hash_password = str(hash_password)[2:-1]
     try:
-        db.insert("users", {"email": "admin@example.com", "password": hash_password, "login": "admin"})
+        db.insert("users", {"email": "admin@example.com", "password": hash_password, "login": "admin", "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwiZXhwIjoxNzQxMDUwOTU1fQ.v-N50e06R55-dp__TcVLNNsqYCG2V7TIed7ZAkMWxKE"})
     except: pass
     try:
-        db.insert("users", {"email": "friend@example.com", "password": hash_password, "login": "friend"})
+        db.insert("users", {"email": "friend@example.com", "password": hash_password, "login": "friend", "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZyaWVuZEBleGFtcGxlLmNvbSIsImV4cCI6MTc0MTA1MDk1NX0.UCfCQRK4F-sl6uX5S4sahhe7z0l499383K7Ra6NLyQg"})
     except: pass
     uvicorn.run(app, host=host, port=int(port))
     
