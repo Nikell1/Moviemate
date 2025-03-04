@@ -299,7 +299,7 @@ export function searchPageHtml() {
                     <div class="filter-form__years"><input value="1900" id="year1"><input id="year2" value="2030"></div>
                     <div class="filter-form__block">
                         <span>Genre:</span>
-                        <select class="select">
+                        <select id="genre_filter" class="select">
                             <option>Any</option>
                             <option>Action</option>
                             <option>Adventure</option>
@@ -323,8 +323,8 @@ export function searchPageHtml() {
                             <option>Talk</option>
                         </select>
                     </div>
-                    <div class="filter-form__checkbox"><input type="checkbox" checked><span>Watched</span></div>
-                    <div class="filter-form__checkbox"><input type="checkbox" checked><span>Unwatched</span></div>
+                    <div class="filter-form__checkbox"><input id="watched_checkbox" type="checkbox" checked><span>Watched</span></div>
+                    <div class="filter-form__checkbox"><input id="unwatched_checkbox" type="checkbox" checked><span>Unwatched</span></div>
                     <button id="apply_filters_global">Apply filters</button>
                 </form>
         </div>`  
