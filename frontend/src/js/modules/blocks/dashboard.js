@@ -100,7 +100,11 @@ export function renderMoviesList(moviesData, a) {
         } else if (moviesData[i].watched == true){
             moviesData[i].watched = "Mark as unwatched"
         }
-        moviesList.insertAdjacentHTML('beforeend', renderMoviesHtml(moviesData[i], a, moviesData[i].id))
+        if (new URL(window.location.href).hash != `#${consts.searchHash}`) {
+            moviesList.insertAdjacentHTML('beforeend', renderMoviesHtml(moviesData[i], a, moviesData[i].id))
+        } else {
+            moviesList.insertAdjacentHTML('beforeend', renderMoviesHtml(moviesData[i], a, moviesData[i].id, ''))
+        }
     }
 
     if (moviesData.length == 0) {
