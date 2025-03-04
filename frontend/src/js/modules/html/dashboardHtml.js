@@ -470,7 +470,7 @@ export function addOwnHtml() {
             <p>Specify the name of the movie</p>
             <input id="title_input" required placeholder="Interstellar">
             <p>Specify the release year of the movie</p>
-            <input id="date_input" required placeholder="01-01-1999">
+            <input id="date_input" type="date" placeholder="1999-01-01">
             <p>Specify a description of the movie</p>
             <textarea id="description_input" required placeholder="Description"></textarea>
         </div>
