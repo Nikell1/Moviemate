@@ -49,15 +49,13 @@ export function renderMoviesHtml(element, a=element.watched, b=element.id, c='<d
     if (overview.length > 50) {
         overview = `${overview.slice(0, 50)}...`
     }
-    let d = c
-    if (c == '<div class="movies-element__delete">🗑</div>'){
-        d = `<div id="delete_${b}" class="movies-element__delete">🗑</div>`
-    }
+
+
 
     const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
     return `            
             <li class="movies-element">
-                ${d}
+                ${c}
                 <div class="movies-element__img" style="background-image: url('${urlWithParams}');"></div>
                 <div class="movies-element__block">
                     <span>${title}</span>
@@ -304,7 +302,7 @@ export function searchPageHtml() {
                     <div class="filter-form__years"><input value="1900" id="year1"><input id="year2" value="2030"></div>
                     <div class="filter-form__block">
                         <span>Genre:</span>
-                        <select id="genre_filter" class="select">
+                        <select class="select">
                             <option>Any</option>
                             <option>Action</option>
                             <option>Adventure</option>
@@ -328,8 +326,8 @@ export function searchPageHtml() {
                             <option>Talk</option>
                         </select>
                     </div>
-                    <div class="filter-form__checkbox"><input id="watched_checkbox" type="checkbox" checked><span>Watched</span></div>
-                    <div class="filter-form__checkbox"><input id="unwatched_checkbox" type="checkbox" checked><span>Unwatched</span></div>
+                    <div class="filter-form__checkbox"><input type="checkbox" checked><span>Watched</span></div>
+                    <div class="filter-form__checkbox"><input type="checkbox" checked><span>Unwatched</span></div>
                     <button id="apply_filters_global">Apply filters</button>
                 </form>
         </div>`  
