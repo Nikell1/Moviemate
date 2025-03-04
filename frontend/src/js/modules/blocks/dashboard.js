@@ -958,9 +958,12 @@ function renderFilters() {
           }
     })
 
+    const loader = document.getElementById('loader3')
+    loader.style.display = 'none'
+
 
     filtesForm.addEventListener('submit', (event) => {
-
+    loader.style.display = 'block'
         event.preventDefault()
 
         console.log('нефильрованное пив2')
@@ -1079,6 +1082,7 @@ function renderFilters() {
                     console.log("Данные:", data);
                     console.log(data.results)
                     renderMoviesList(data.results)
+                    loader.style.display = 'none'
 
                 
                   })
@@ -1121,9 +1125,6 @@ function showSearch() {
                 "description": input_desc.value,
             });
             let urlWithParams = `${url}?${params}`; 
-                
-
-            
         
             try {
                 const response = fetch(urlWithParams, {
