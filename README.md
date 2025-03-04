@@ -34,7 +34,7 @@ https://gitlab.prodcontest.ru/team-24/films/-/blob/master
 
 # 5. Спецификация
 
-Сссылка на swagger - https://prod-team-24-jhaklm26.final.prodcontest.ru/api/docs перед использованием запросов необходимо авторизоватся в сваггере ( логин - admin, пароль - lVqTVwClGZDFoKXPGGdv )
+Сссылка на swagger - https://prod-team-24-jhaklm26.final.prodcontest.ru/api/docs перед использованием запросов необходимо авторизоватся в сваггере ( Токены для двух пользователей далее в пункте 7)
 
 # 6. Тесты
 
@@ -46,6 +46,6 @@ E2e тесты покрывают основную часть функциона
 Ссылка на проект с репозиториями - https://gitlab.prodcontest.ru/team-24
 Ссылка на задеплоенное изображение - https://gitlab.prodcontest.ru/team-24
 
-Креды для юзера 1 - (Почта: admin@example.com, логин: admin, пароль: lVqTVwClGZDFoKXPGGdv)
-Креды для юзера 2 - (Почта: friend@example.com, логин: friend, пароль: lVqTVwClGZDFoKXPGGdv)
+Креды для юзера 1 - (Почта: admin@example.com, логин: admin, пароль: lVqTVwClGZDFoKXPGGdv, токен для свагера - eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwiZXhwIjoxNzQxMDUwOTU1fQ.v-N50e06R55-dp__TcVLNNsqYCG2V7TIed7ZAkMWxKE)
+Креды для юзера 2 - (Почта: friend@example.com, логин: friend, пароль: lVqTVwClGZDFoKXPGGdv, токен для свагера - eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZyaWVuZEBleGFtcGxlLmNvbSIsImV4cCI6MTc0MTA1MDk1NX0.UCfCQRK4F-sl6uX5S4sahhe7z0l499383K7Ra6NLyQg)
 

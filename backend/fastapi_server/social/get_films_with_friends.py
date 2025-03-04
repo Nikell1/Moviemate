@@ -10,7 +10,7 @@ Bear = HTTPBearer(auto_error=False)
 client = Client()
 
 
-@router.post("/get_film_with_friends", status_code=status.HTTP_200_OK)
+#@router.post("/get_film_with_friends", status_code=status.HTTP_200_OK)
 async def get_film_with_friends(friend_logins:str,token:str = Security(Bear)):
     friend_logins = [friend_logins]
     user = get_user(token.credentials)

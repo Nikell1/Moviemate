@@ -277,14 +277,74 @@ async def search_multi_short(query:str, include_adult:bool=False, language:str="
 
 async def get_tv_by_id(id:int):
     url = f"https://api.themoviedb.org/3/tv/{id}?language=ru-RU"
-    request = requests.get(url=url, headers=headers)
-    response = json.loads(request.text)
+
+    try:
+        async with httpx.AsyncClient(
+            proxy="http://user166198:dsolnu@154.16.68.39:5030",
+            timeout=timeout,
+            limits=limits,
+            verify=False,
+            follow_redirects=True
+        ) as client:
+            response = await fetch_with_retry(
+                client,
+                f'{url}',
+                headers
+            )
+            response = json.loads(response)
+
+    except httpx.TimeoutException:
+        raise HTTPException(
+            status_code=504,
+            detail="Request timed out after multiple retries"
+        )
+    except httpx.HTTPError as e:
+        raise HTTPException(
+            status_code=503,
+            detail=f"HTTP error occurred: {str(e)}"
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Internal error: {str(e)}"
+        )
+
     return response
 
 async def get_movie_by_id(id:int):
     url = f"https://api.themoviedb.org/3/movie/{id}?language=ru-RU"
-    request = requests.get(url=url, headers=headers)
-    response = json.loads(request.text)
+
+    try:
+        async with httpx.AsyncClient(
+            proxy="http://user166198:dsolnu@154.16.68.39:5030",
+            timeout=timeout,
+            limits=limits,
+            verify=False,
+            follow_redirects=True
+        ) as client:
+            response = await fetch_with_retry(
+                client,
+                f'{url}',
+                headers
+            )
+            response = json.loads(response)
+
+    except httpx.TimeoutException:
+        raise HTTPException(
+            status_code=504,
+            detail="Request timed out after multiple retries"
+        )
+    except httpx.HTTPError as e:
+        raise HTTPException(
+            status_code=503,
+            detail=f"HTTP error occurred: {str(e)}"
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Internal error: {str(e)}"
+        )
+
     return response
 
 async def get_by_id(id:int, media_type:str="movie", short:bool=True):
@@ -369,7 +429,7 @@ def filter(film, release_date_low, release_date_high, genre_ids, watched, email)
                 return False
     except Exception as e:
         print(c_res)
-        raise HTTPException(status_code=400, detail="incorrect date format")
+        return True
 
     if "genres" not in c_res:
         c_res["genres"] = []
