@@ -120,7 +120,7 @@ export function showMoviesHtml() {
                 </div>
                 <div class="filter-form__checkbox"><input type="checkbox" checked><span>Watched</span></div>
                 <div class="filter-form__checkbox"><input type="checkbox" checked><span>Unwatched</span></div>
-                <button id="apply_filters">Search</button>
+                <button id="apply_filters">Apply filters</button>
             </form>
         </div>
         <button class="fixBtn" id="getMovie">GET A MOVIE</button>`
@@ -292,7 +292,7 @@ export function searchPageHtml() {
             <div id="loader" class="loader"></div></ul>
             <form id="filtesForm" class="filter-form">
                     <div class="range-slider">
-                        <input id="year3" type="range" min="1900" max="2026" value="1900" id="range-min">
+                        <input id="year3" type="range" min="1900" max="2030" value="1900" id="range-min">
                         <input id="year4" type="range" min="1900" max="2030" value="2030" id="range-max">
                     </div>
                     <div class="filter-form__years"><input value="1900" id="year1"><input id="year2" value="2030"></div>
@@ -322,9 +322,9 @@ export function searchPageHtml() {
                             <option>Talk</option>
                         </select>
                     </div>
-                    <div class="filter-form__checkbox"><input type="checkbox"><span>Watched</span></div>
-                    <div class="filter-form__checkbox"><input type="checkbox"><span>Unwatched</span></div>
-                    <button>Search</button>
+                    <div class="filter-form__checkbox"><input type="checkbox" checked><span>Watched</span></div>
+                    <div class="filter-form__checkbox"><input type="checkbox" checked><span>Unwatched</span></div>
+                    <button id="apply_filters_global">Apply filters</button>
                 </form>
         </div>`  
 }
