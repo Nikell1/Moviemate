@@ -16,7 +16,7 @@ async def search_film(search: str, body: Search, token:str = Security(Bear)):
     if user == []:
         raise HTTPException(status_code=401, detail="Invalid token")
     user = user[0]
-    adapter = DatabaseAdapter() 
+    adapter = DatabaseAdapter()
     adapter.connect()
     adapter.initialize_tables()
     email_check = adapter.get_by_value('users', 'email', user["email"])
