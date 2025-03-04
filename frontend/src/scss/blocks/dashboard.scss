@@ -149,28 +149,33 @@
 
 .movies-list {
     margin:3vh 0 0 20px;
-    width:640px;    
+    width:1000px;    
     padding-bottom: 2vh;
     display:flex;
     flex-wrap: wrap;
-    justify-content: space-between;
     height: 38vh;
     overflow-y: scroll;
     p {
         font-size: 1rem;
     }
+    li {
+        margin-right:30px;
+    }
 }
 .movies-search-list {
     margin:3vh 0 0 20px;
-    max-width:640px;
+    width:1000px;    
     padding-bottom: 2vh;
     display:flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    
     height: 60vh;
     overflow-y: scroll;
     p {
         font-size: 1rem;
+    }
+    li {
+        margin-right: 30px;
     }
 }
 
