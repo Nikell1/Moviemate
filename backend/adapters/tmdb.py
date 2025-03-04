@@ -4,8 +4,11 @@ import asyncio
 import json
 import os
 import urllib.parse
+from io import BytesIO
+
 from dotenv import load_dotenv
 from fastapi import  HTTPException
+from starlette.responses import Response
 
 from adapters import db_source
 from models import TMDB
@@ -29,6 +32,9 @@ moods = {
     "Серьёзное": [18, 36, 10749, 99, 35],
     "Напряжённое": [28, 53, 27, 9648, 878, 18]
 }
+
+timeout = httpx.Timeout(30.0, connect=10.0)
+limits = httpx.Limits(max_keepalive_connections=5, max_connections=10)
 
 genres_ = {
         "28": 'Action',
@@ -55,11 +61,51 @@ genres_ = {
 
 requests = httpx.Client(proxy="socks5://77.81.138.114:6000", headers=headers)
 
+async def fetch_with_retry(client: httpx.AsyncClient, url: str, headers: dict, max_retries: int = 3):
+    for attempt in range(max_retries):
+        try:
+            response = await client.get(url, headers=headers)
+            response.raise_for_status()
+            return response.text
+        except (httpx.TimeoutException, httpx.HTTPError) as e:
+            if attempt == max_retries - 1:
+                raise
+            await asyncio.sleep(1 * (attempt + 1))  # Exponential backoff
+
 async def search_multi(query:str, genre_ids:list[int], release_date_low:str=None, release_date_high:str=None, include_adult:bool=False, watched:bool=None, email:str=None, language:str="ru-RU", page:int=1, limit=-1, short=True):
     encoded_query = urllib.parse.quote(query)
     url = f"https://api.themoviedb.org/3/search/multi?query={encoded_query}&include_adult={str(include_adult).lower()}&language={language}&page={page}"
-    request = requests.get(url=url, headers=headers)
-    response = json.loads(request.text)
+
+    try:
+        async with httpx.AsyncClient(
+            proxy="http://user166198:dsolnu@154.16.68.39:5030",
+            timeout=timeout,
+            limits=limits,
+            verify=False,
+            follow_redirects=True
+        ) as client:
+            response = await fetch_with_retry(
+                client,
+                f'{url}',
+                headers
+            )
+            response = json.loads(response)
+
+    except httpx.TimeoutException:
+        raise HTTPException(
+            status_code=504,
+            detail="Request timed out after multiple retries"
+        )
+    except httpx.HTTPError as e:
+        raise HTTPException(
+            status_code=503,
+            detail=f"HTTP error occurred: {str(e)}"
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Internal error: {str(e)}"
+        )
 
     if limit >= response["total_results"] or limit == -1:
         limit = response["total_results"]
@@ -156,8 +202,35 @@ async def search_multi(query:str, genre_ids:list[int], release_date_low:str=None
 async def search_multi_short(query:str, include_adult:bool=False, language:str="ru-RU", page:int=1, limit=-1):
     encoded_query = urllib.parse.quote(query)
     url = f"https://api.themoviedb.org/3/search/multi?query={encoded_query}&include_adult={str(include_adult).lower()}&language={language}&page={page}"
-    request = requests.get(url=url, headers=headers)
-    response = json.loads(request.text)
+
+    try:
+        async with httpx.AsyncClient(
+            proxy="http://user166198:dsolnu@154.16.68.39:5030",
+            timeout=timeout,
+            limits=limits,
+            verify=False,
+            follow_redirects=True
+        ) as client:
+            response = json.loads(await fetch_with_retry(
+                client,
+                f'{url}',
+                headers
+            ))
+    except httpx.TimeoutException:
+        raise HTTPException(
+            status_code=504,
+            detail="Request timed out after multiple retries"
+        )
+    except httpx.HTTPError as e:
+        raise HTTPException(
+            status_code=503,
+            detail=f"HTTP error occurred: {str(e)}"
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Internal error: {str(e)}"
+        )
 
     if limit >= response["total_results"] or limit == -1:
         limit = response["total_results"]
@@ -257,6 +330,10 @@ async def get_moods_by_genres(genre_ids):
 
 def filter(film, release_date_low, release_date_high, genre_ids, watched, email):
     c_res = film
+
+    db = db_source.DatabaseAdapter()
+    db.connect()
+    db.initialize_tables()
 
     if watched != None:
         name_l = "title"

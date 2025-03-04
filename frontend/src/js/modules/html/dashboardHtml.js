@@ -55,6 +55,7 @@ export function renderMoviesHtml(element, a=element.watched, b=element.id) {
     const urlWithParams = `${url}?${params}`; // Добавляем параметры к URL
     return `            
             <li class="movies-element">
+                <div class="movies-element__delete">🗑</div>
                 <div class="movies-element__img" style="background-image: url('${urlWithParams}');"></div>
                 <div class="movies-element__block">
                     <span>${title}</span>

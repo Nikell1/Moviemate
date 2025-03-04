@@ -14,7 +14,7 @@ Bear = HTTPBearer(auto_error=False)
 
 
 @router.post("/get_films_by_title", status_code=status.HTTP_200_OK)
-async def get_films_by_title(body:Search, search:str, token: str = Security(Bear)):
+async def get_films_by_title(body:Search, search:str=None, token: str = Security(Bear)):
     print(token)
     user = get_user(token.credentials)
     if user == []:
@@ -37,7 +37,7 @@ async def get_films_by_title(body:Search, search:str, token: str = Security(Bear
                 continue
             print(fuzz.partial_ratio(film.title, search))
 
-            if fuzz.partial_ratio(film.title, search) < 75:
+            if search != None and fuzz.partial_ratio(film.title, search) < 75:
                 continue
 
             new_film = Film_to_front(title=film.title, poster_path=film.poster_path, overview=film.overview,
@@ -49,7 +49,7 @@ async def get_films_by_title(body:Search, search:str, token: str = Security(Bear
                 continue
 
 
-            if fuzz.partial_ratio(film['title'], search) < 75:
+            if search != None and fuzz.partial_ratio(film['title'], search) < 75:
                 continue
 
             new_film = Film_to_front(title=film["title"], poster_path=film["image_url"], overview=film["description"],

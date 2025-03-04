@@ -391,6 +391,17 @@
         }
     }
 }
+.movies-element__delete {
+    font-size:3rem;
+    position:absolute;
+    top:0;
+    color: #fff;
+    right:0;
+    padding:10px;
+    border-radius: 0 10px 0 30px;
+    background: #000;
+    cursor:pointer;
+}
 
 .modalButtonsCont {
     display:flex;
